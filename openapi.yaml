@@ -1,0 +1,231 @@
+openapi: 3.1.0
+info:
+  title: Veyra Evidence Case API
+  version: 1.0.0
+  description: Fixture-first API. Test and live payment execution are disabled.
+servers:
+  - url: /api
+security:
+  - bearerAuth: []
+paths:
+  /healthz:
+    get:
+      security: []
+      summary: Public liveness
+      responses:
+        "200":
+          description: Liveness only. No provider reachability is asserted.
+  /v1/capabilities:
+    get:
+      security: []
+      summary: Read configured integration states
+      responses:
+        "200":
+          description: Mode, SERV configuration and verified provider/payment capabilities.
+  /v1/cases:
+    get:
+      summary: List cases for the authenticated workspace
+      parameters:
+        - in: query
+          name: scenario
+          schema:
+            $ref: "#/components/schemas/Scenario"
+        - in: query
+          name: state
+          schema:
+            type: string
+        - in: query
+          name: mode
+          schema:
+            const: fixture
+      responses:
+        "200":
+          description: Workspace-scoped cases.
+    post:
+      summary: Create a fixture case
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: false
+          schema:
+            type: string
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCase"
+      responses:
+        "201":
+          description: Case created.
+        "409":
+          description: Idempotency or external reference conflict.
+        "422":
+          description: Unsupported scenario, mode or input field.
+  /v1/cases/{id}:
+    get:
+      summary: Read a case in the authenticated workspace
+      parameters:
+        - $ref: "#/components/parameters/CaseId"
+      responses:
+        "200":
+          description: Redacted case details.
+        "404":
+          description: Case not found in this workspace.
+  /v1/cases/{id}/plan:
+    parameters:
+      - $ref: "#/components/parameters/CaseId"
+    get:
+      summary: Read the stored evidence plan
+      responses:
+        "200":
+          description: Plan state and actual SERV request identifier, if returned.
+    post:
+      summary: Create and validate an evidence plan
+      description: Uses configured SERV or deterministic simulated planning. Planning never authorizes a payment.
+      responses:
+        "200":
+          description: Validated plan.
+        "422":
+          description: Refused, truncated or invalid plan.
+        "503":
+          description: SERV unavailable or configuration incomplete.
+  /v1/cases/{id}/execute:
+    post:
+      summary: Run the synthetic fixture adapter
+      description: No external provider call or payment is possible in this build.
+      parameters:
+        - $ref: "#/components/parameters/CaseId"
+      responses:
+        "200":
+          description: Simulated evidence and payment state.
+        "409":
+          description: A plan is required.
+  /v1/cases/{id}/receipt:
+    get:
+      summary: Download a redacted receipt as JSON
+      parameters:
+        - $ref: "#/components/parameters/CaseId"
+      responses:
+        "200":
+          description: Receipt with source, operator, limitations and simulated payment state.
+  /v1/cases/{id}/review:
+    post:
+      summary: Record a human review action
+      parameters:
+        - $ref: "#/components/parameters/CaseId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Review"
+      responses:
+        "200":
+          description: Review recorded. This does not release an invoice.
+  /v1/cases/{id}/sessions:
+    post:
+      summary: Request a Passport session
+      description: Always fails closed while session-only execution is unverified.
+      parameters:
+        - $ref: "#/components/parameters/CaseId"
+      responses:
+        "503":
+          description: Live session controls are unavailable.
+  /v1/sessions/{id}:
+    get:
+      summary: Read session status
+      parameters:
+        - $ref: "#/components/parameters/GenericId"
+      responses:
+        "200":
+          description: Session is unavailable and no credentials are returned.
+  /v1/operations/{id}:
+    get:
+      summary: Read a simulated operation status
+      parameters:
+        - $ref: "#/components/parameters/GenericId"
+      responses:
+        "200":
+          description: Fixture state and simulated payment state.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Use the local workspace VYERA_API_KEY. This build provisions one workspace.
+  parameters:
+    CaseId:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        format: uuid
+    GenericId:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+  schemas:
+    Scenario:
+      type: string
+      enum: [supplier, shipment, registration]
+    CreateCase:
+      type: object
+      additionalProperties: false
+      required: [scenario, mode, input]
+      properties:
+        scenario:
+          $ref: "#/components/schemas/Scenario"
+        mode:
+          type: string
+          const: fixture
+        input:
+          oneOf:
+            - $ref: "#/components/schemas/SupplierInput"
+            - $ref: "#/components/schemas/ShipmentInput"
+            - $ref: "#/components/schemas/RegistrationInput"
+        externalRef:
+          type: string
+          maxLength: 128
+        idempotencyKey:
+          type: string
+          maxLength: 128
+    SupplierInput:
+      type: object
+      additionalProperties: false
+      required: [supplierName, registrationNumber, jurisdiction, changeDescription]
+      properties:
+        supplierName: { type: string, maxLength: 240 }
+        registrationNumber: { type: string, maxLength: 240 }
+        jurisdiction: { type: string, maxLength: 240 }
+        changeDescription: { type: string, maxLength: 240 }
+    ShipmentInput:
+      type: object
+      additionalProperties: false
+      required: [carrier, trackingReference, claimedStatus]
+      properties:
+        carrier: { type: string, maxLength: 240 }
+        trackingReference: { type: string, maxLength: 240 }
+        claimedStatus: { type: string, maxLength: 240 }
+    RegistrationInput:
+      type: object
+      additionalProperties: false
+      required: [registrationNumber, jurisdiction]
+      properties:
+        registrationNumber: { type: string, maxLength: 240 }
+        jurisdiction: { type: string, maxLength: 240 }
+    Review:
+      type: object
+      additionalProperties: false
+      required: [action]
+      properties:
+        action:
+          type: string
+          enum: [request_more_evidence, keep_on_hold, close_review]
+        note:
+          type: string
+          maxLength: 500
