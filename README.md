@@ -8,7 +8,7 @@ Veyra turns a business evidence gap into a narrow case, a validated SERV plan, a
 
 The SERV, Sirenic x402, EasyPost and Kite Passport adapters are implemented. The current local `.env` is real and ignored by Git, but external API credentials are blank. No authenticated SERV request, EasyPost request, Passport approval, or paid Sirenic call has been made here. A no-payment Sirenic quote preflight returned HTTP 402 and its Base USDC quote was inspected. Live company cases stay disabled until SERV and the Kite worker are configured and the explicit-session payment path has been verified. Shipment test and live modes use separate EasyPost test and production keys.
 
-The Vercel deployment is a fixture demo. It is not configured for live calls: the local Kite worker URL and local SQLite database are not suitable Vercel production services. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
+The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) is a fixture demo. It is not configured for live calls: the local Kite worker URL and local SQLite database are not suitable Vercel production services. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
 
 ## Run locally on S:
 

@@ -22,9 +22,9 @@ The repository includes SERV structured-output planning, Sirenic x402 company-pr
 
 **Limits.** Company registration is not bank-account ownership, and carrier status does not establish package contents or condition. Unknown payment settlement remains unknown. A person makes the final decision.
 
-**Repository.** https://github.com/dr4ken-soul/Veyra
+**Repository.** [github.com/dr4ken-soul/Veyra](https://github.com/dr4ken-soul/Veyra)
 
-**Demo.** Add the deployed Vercel fixture-demo URL or a demo video after confirming it loads publicly.
+**Demo.** [Veyra synthetic demo on Vercel](https://veyra-tau-mauve.vercel.app/demo). The route is public and returns HTTP 200; its page labels all data and actions as simulated.
 
 ## Demo outline
 
@@ -45,7 +45,11 @@ It turns a business evidence gap into a bounded case, a source-aware receipt and
 
 This demo uses simulated evidence. No payment was made.
 
-Add the public repository and demo link only after confirming both are accessible. This post has not been published.
+Repository: https://github.com/dr4ken-soul/Veyra
+
+Demo: https://veyra-tau-mauve.vercel.app/demo
+
+This post has not been published.
 
 ## Submission checklist
 
@@ -54,7 +58,7 @@ Add the public repository and demo link only after confirming both are accessibl
 - [ ] Run and capture a real SERV structured-output request with its request identifier.
 - [ ] Verify a real EasyPost test tracker and exact Sirenic response/provenance.
 - [ ] Verify separate-session approval, explicit session-ID execution and rejection of a mismatched or expired session; verify settlement independently before claiming a payment.
-- [ ] Confirm public GitHub repository and Vercel fixture demo URLs.
+- [x] Confirm public GitHub repository and Vercel fixture demo URLs.
 - [ ] Publish an accurate X post and copy its URL into the submission form.
 - [ ] Submit the write-up and links through the [official hackathon form](https://openserv.typeform.com/submissions02) before the stated deadline.
 
