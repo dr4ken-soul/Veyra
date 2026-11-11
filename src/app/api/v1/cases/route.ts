@@ -4,6 +4,7 @@ import { HttpError } from "@/lib/errors";
 import { createCaseRecord, listCaseRecords } from "@/lib/store";
 import { publicCase } from "@/lib/present";
 import { routePrincipal, verifyMutation } from "@/lib/route";
+import { liveModeReady, testModeReady } from "@/lib/runtime-config";
 
 export const runtime = "nodejs";
 
@@ -16,7 +17,7 @@ export async function GET(request: Request) {
     const state = url.searchParams.get("state") || undefined;
     const mode = url.searchParams.get("mode") || undefined;
     if (scenario && !validateScenario(scenario)) throw new HttpError(422, "INVALID_SCENARIO", "Choose a supported scenario.");
-    if (mode && mode !== "fixture") throw new HttpError(422, "INVALID_MODE", "Only fixture mode is available.");
+    if (mode && !["fixture", "test", "live"].includes(mode)) throw new HttpError(422, "INVALID_MODE", "Choose Fixture, Test or Live mode.");
     const allowedStates = new Set(["draft", "planned", "needs_review", "insufficient_evidence"]);
     if (state && !allowedStates.has(state)) throw new HttpError(422, "INVALID_STATE", "Choose a supported case state.");
     const items = listCaseRecords(principal.orgId, { scenario, state, mode });
@@ -38,8 +39,9 @@ export async function POST(request: Request) {
     }
     if (!validateScenario(body.scenario)) throw new HttpError(422, "INVALID_SCENARIO", "Choose a supported scenario.");
     const mode = body.mode === undefined ? "fixture" : body.mode;
-    if (!validateMode(mode)) throw new HttpError(422, "INVALID_MODE", "Choose Simulated mode.");
-    if (mode !== "fixture") throw new HttpError(403, "MODE_BLOCKED", "Test and live cases are disabled until their providers and payment controls are verified.");
+    if (!validateMode(mode)) throw new HttpError(422, "INVALID_MODE", "Choose Fixture or Live mode.");
+    if (mode === "test" && !testModeReady(body.scenario)) throw new HttpError(503, "TEST_MODE_NOT_CONFIGURED", "Test mode currently supports shipment cases after SERV and an EasyPost test key are configured.");
+    if (mode === "live" && !liveModeReady(body.scenario)) throw new HttpError(503, "LIVE_MODE_NOT_CONFIGURED", body.scenario === "shipment" ? "Configure SERV and the EasyPost production key for live shipment checks." : "Configure SERV and the Kite Passport worker, then verify the separate-session and explicit-session-ID flow before creating a Live company case.");
     const validated = validateScenarioInput(body.scenario, body.input);
     if (!validated.ok) throw new HttpError(422, "INVALID_INPUT", "Check the highlighted fields before continuing.");
     const externalRef = body.externalRef === undefined ? null : body.externalRef;
@@ -55,6 +57,7 @@ export async function POST(request: Request) {
     const result = createCaseRecord({
       orgId: principal.orgId,
       scenario: body.scenario,
+      mode,
       input: validated.input,
       question: caseQuestion(body.scenario, validated.input),
       externalRef,

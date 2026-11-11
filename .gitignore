@@ -5,6 +5,9 @@ node_modules/
 .npm-cache/
 .tmp/
 .cache/
+.kpass/
+.kite-passport/
+.kite-worker-data/
 data/*.sqlite
 data/*.sqlite-*
 data/*.db

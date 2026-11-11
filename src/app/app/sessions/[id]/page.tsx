@@ -13,7 +13,7 @@ export default async function SessionPage({ params }: { params: Promise<{ id: st
       </header>
       <section className="panel settings-stack">
         <h2>Live payments are disabled</h2>
-        <p className="body-copy">No Passport session was requested. The installed integration and provider path have not been verified for session-only execution without allowance fallback.</p>
+        <p className="body-copy">No Passport session was requested. The live integration stays gated until the separate-session and explicit-session-ID flow has been verified against your Passport account.</p>
         <p className="error-banner">No funds were spent. Do not treat this page as a Passport approval flow.</p>
         <Link className="text-link" href="/app/cases">Return to cases</Link>
       </section>

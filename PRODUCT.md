@@ -1,31 +1,31 @@
 # Veyra | Product
 
-Status: local hackathon application implemented in fixture mode. No live evidence source or payment capability is verified.
+Status: hackathon build with fixture, EasyPost test/live shipment adapters, Sirenic company-record adapter, SERV planning and a Kite Passport worker. External credentials and end-to-end provider checks remain outstanding. See [integration status](docs/INTEGRATION_STATUS.md).
 
 ## What Veyra does
 
-Veyra helps an existing workflow obtain evidence for a specific decision. A user creates a case, asks for a narrow evidence plan, reviews a synthetic or configured SERV plan, and sees a receipt with the source, operator, payment state and limitations. A human records the final review.
+Veyra helps a workflow identify missing evidence for a specific decision. A case has one narrow scenario, a validated evidence plan, a source-aware receipt and a human review. Shipment tracking can run through EasyPost in test or production mode. Company profiles can run through Sirenic after a fresh x402 quote and a task-specific Passport session.
 
-The local build uses a SQLite database and simulated evidence fixtures. A server-side SERV adapter is available when a user configures credentials and a confirmed model. The current local .env has no SERV credentials, so it uses the simulated planner.
+The company record does not prove ownership of a bank account. Veyra does not approve or release invoices, transfer invoice funds or claim fraud prevention.
 
 ## Three scenarios
 
-1. **Supplier change:** a supplier requests changed payment details. A company record alone cannot establish bank-account ownership. The invoice remains on hold pending independent verification.
-2. **Shipment status:** a synthetic carrier event can demonstrate the workflow. A carrier status does not prove package contents or condition.
-3. **Business registration:** a synthetic registry-style record can demonstrate the workflow. It is not an official registry result, identity verification, sanctions clearance or guarantee of solvency.
+1. **Supplier change:** a Sirenic company profile identifies the legal entity. It cannot establish bank-account ownership or authority over payment details; a human keeps the invoice on hold.
+2. **Shipment status:** an EasyPost tracker reports carrier status and timestamps. It does not prove package contents, condition or the intended recipient.
+3. **Business registration:** a Sirenic profile for supported Great Britain or France identifiers reports registry-style company evidence. It is not identity verification, sanctions clearance or a guarantee of solvency.
 
 ## Modes
 
-- **Fixture:** supported in this app. Uses synthetic evidence and simulated payment state. No real payment occurs.
-- **Test:** disabled until the non-production provider, facilitator, asset, network and transaction path are verified.
-- **Live:** disabled until an eligible provider and task-bound Passport session are verified, including no allowance fallback and quote integrity.
+- **Fixture:** uses synthetic evidence and a simulated payment label. No external request or payment occurs.
+- **Test:** currently supports EasyPost shipment tracking with an EasyPost test key. No Kite session is used.
+- **Live:** uses EasyPost production for shipments, or Sirenic x402 through Kite Passport for company profiles. Live company mode remains disabled until credentials are present and the separate-session, explicit-session-ID flow is verified.
 
-The UI labels the mode and never displays a simulated receipt as a payment receipt. Unknown settlement is not displayed as paid.
+The UI labels each mode. Unknown settlement is not displayed as paid. EasyPost production account billing is shown separately from Passport payment.
 
 ## Kite Passport
 
-Kite Passport supports paid API flows under user-approved spending sessions. Its current documentation also describes allowance fallback when a session is absent or expired. The local build cannot prove that the integration is always session-bound, so no session is requested and no paid API call is attempted.
+Veyra requests a fresh separately approved spending session with a per-call and total cap matching Sirenic's preflight quote. The isolated worker checks the exact request/session pair immediately before execution, passes the approved session ID explicitly, and permits only fixed company-profile GET endpoints. Live company calls stay disabled until this path has been verified against a signed-in Passport account.
 
 ## Intended customers and revenue
 
-The intended users are procurement, finance, ecommerce and agent-platform teams that need an evidence step inside existing software. Proposed subscription pricing in planning documents is unvalidated. Veyra does not custody invoice funds or claim payment-fee revenue in this build.
+The intended users are procurement, finance, ecommerce and agent-platform teams that need an evidence step inside existing software. Proposed subscription pricing is unvalidated. Veyra does not custody invoice funds or claim payment-fee revenue.

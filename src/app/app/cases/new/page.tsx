@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import CaseForm from "@/components/case-form";
+import { liveModeReady, testModeReady } from "@/lib/runtime-config";
+import { SCENARIOS } from "@/lib/domain";
 
 export const metadata: Metadata = { title: "New case" };
 
@@ -15,7 +17,10 @@ export default function NewCasePage() {
         </div>
         <Link className="button button-secondary" href="/app/cases">Back to cases</Link>
       </header>
-      <CaseForm />
+      <CaseForm
+        liveScenarios={SCENARIOS.filter((scenario) => liveModeReady(scenario))}
+        testShipmentEnabled={testModeReady("shipment")}
+      />
     </>
   );
 }

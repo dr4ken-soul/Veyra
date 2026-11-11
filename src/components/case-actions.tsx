@@ -5,14 +5,29 @@ import { useEffect, useRef, useState } from "react";
 
 export default function CaseActions({
   caseId,
+  scenario,
+  mode,
   hasPlan,
   hasEvidence,
-  hasReview
+  hasReview,
+  passportSession
 }: {
   caseId: string;
+  scenario: "supplier" | "shipment" | "registration";
+  mode: "fixture" | "test" | "live";
   hasPlan: boolean;
   hasEvidence: boolean;
   hasReview: boolean;
+  passportSession: {
+    requestId: string;
+    sessionId: string | null;
+    approvalUrl: string | null;
+    state: "approval_required" | "active" | "expired" | "rejected" | "unknown";
+    maxPerTransaction: string;
+    maxTotal: string;
+    expiresAt: string | null;
+    quote: { amount: string; asset: string; network: string; recipient: string | null };
+  } | null;
 }) {
   const router = useRouter();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -21,6 +36,7 @@ export default function CaseActions({
   const [reviewOpen, setReviewOpen] = useState(false);
   const [action, setAction] = useState("keep_on_hold");
   const [note, setNote] = useState("");
+  const passportRequired = scenario !== "shipment";
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -59,6 +75,21 @@ export default function CaseActions({
     }
   }
 
+  async function checkSession() {
+    setPending("session-status");
+    setError("");
+    try {
+      const response = await fetch("/api/v1/cases/" + caseId + "/sessions", { cache: "no-store" });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result?.error?.message || "Passport session status could not be checked.");
+      router.refresh();
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Passport session status could not be checked.");
+    } finally {
+      setPending("");
+    }
+  }
+
   return (
     <div className="case-actions">
       {!hasPlan && (
@@ -72,7 +103,7 @@ export default function CaseActions({
           >{pending === "plan" ? "Preparing the evidence plan" : "Create evidence plan"}</button>
         </div>
       )}
-      {hasPlan && !hasEvidence && (
+      {mode === "fixture" && hasPlan && !hasEvidence && (
         <div>
           <p className="field-help">This action reads local synthetic data only. It does not call a provider or make a payment.</p>
           <button
@@ -81,6 +112,49 @@ export default function CaseActions({
             disabled={Boolean(pending)}
             onClick={() => send("/api/v1/cases/" + caseId + "/execute", "evidence")}
           >{pending === "evidence" ? "Preparing simulated evidence" : "Run simulated evidence check"}</button>
+        </div>
+      )}
+      {mode === "test" && scenario === "shipment" && hasPlan && !hasEvidence && (
+        <div>
+          <p className="field-help">This sends the tracking reference to EasyPost's test API. It does not use Kite Passport.</p>
+          <button className="button button-primary" type="button" disabled={Boolean(pending)} onClick={() => send("/api/v1/cases/" + caseId + "/execute", "evidence")}>
+            {pending === "evidence" ? "Checking test tracking data" : "Run test shipment check"}
+          </button>
+        </div>
+      )}
+      {mode === "live" && scenario === "shipment" && hasPlan && !hasEvidence && (
+        <div>
+          <p className="field-help">This sends the tracking reference to EasyPost production and may incur account billing. It does not use Kite Passport.</p>
+          <button className="button button-primary" type="button" disabled={Boolean(pending)} onClick={() => send("/api/v1/cases/" + caseId + "/execute", "evidence")}>
+            {pending === "evidence" ? "Checking live tracking data" : "Run live shipment check"}
+          </button>
+        </div>
+      )}
+      {mode === "live" && passportRequired && hasPlan && !hasEvidence && !passportSession && (
+        <div>
+          <p className="field-help">Veyra checks the current Sirenic quote first. The Passport approval page shows a per-transaction and total cap; no registry call runs until you approve a session and click Execute.</p>
+          <button className="button button-primary" type="button" disabled={Boolean(pending)} onClick={() => send("/api/v1/cases/" + caseId + "/sessions", "session")}>
+            {pending === "session" ? "Checking quote and requesting approval" : "Check quote and request Passport approval"}
+          </button>
+        </div>
+      )}
+      {mode === "live" && passportRequired && hasPlan && !hasEvidence && passportSession && (
+        <div className="session-action-panel">
+          <p className="field-help">Sirenic quote: {passportSession.quote.amount} {passportSession.quote.asset} · {passportSession.quote.network}. Session maximum: {passportSession.maxTotal}. The quote is checked again before the provider call.</p>
+          {passportSession.state === "approval_required" && (
+            <>
+              {passportSession.approvalUrl && <a className="button button-secondary" href={passportSession.approvalUrl} target="_blank" rel="noreferrer">Review and approve on Kite Passport</a>}
+              <button className="button button-primary" type="button" disabled={Boolean(pending)} onClick={checkSession}>
+                {pending === "session-status" ? "Checking session" : "Check Passport approval"}
+              </button>
+            </>
+          )}
+          {passportSession.state === "active" && (
+            <button className="button button-primary" type="button" disabled={Boolean(pending)} onClick={() => send("/api/v1/cases/" + caseId + "/execute", "evidence")}>
+              {pending === "evidence" ? "Running one approved query" : "Execute one approved registry check"}
+            </button>
+          )}
+          {["expired", "rejected", "unknown"].includes(passportSession.state) && <p className="field-help">This session is {passportSession.state}. Request a fresh session before an evidence query.</p>}
         </div>
       )}
       {hasEvidence && (

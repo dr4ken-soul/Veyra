@@ -22,13 +22,14 @@ const fields: Record<Scenario, { key: string; label: string; help?: string }[]> 
   ]
 };
 
-export default function CaseForm() {
+export default function CaseForm({ liveScenarios, testShipmentEnabled }: { liveScenarios: Scenario[]; testShipmentEnabled: boolean }) {
   const router = useRouter();
   const [scenario, setScenario] = useState<Scenario>("supplier");
   const [values, setValues] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState("");
   const [pending, setPending] = useState(false);
+  const [mode, setMode] = useState<"fixture" | "test" | "live">("fixture");
   const requestKey = useRef<string | null>(null);
 
   function choose(value: Scenario) {
@@ -37,6 +38,8 @@ export default function CaseForm() {
     setValues({});
     setErrors({});
     setFormError("");
+    if (mode === "test" && value !== "shipment") setMode("fixture");
+    if (mode === "live" && !liveScenarios.includes(value)) setMode("fixture");
   }
 
   function update(key: string, value: string) {
@@ -65,7 +68,7 @@ export default function CaseForm() {
       const response = await fetch("/api/v1/cases", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Idempotency-Key": requestKey.current },
-        body: JSON.stringify({ scenario, mode: "fixture", input: values })
+        body: JSON.stringify({ scenario, mode, input: values })
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result?.error?.message || "The case was not created. Check the fields and try again.");
@@ -129,16 +132,16 @@ export default function CaseForm() {
 
         <div className="form-field mode-field">
           <label className="field-label" htmlFor="mode">Environment</label>
-          <select className="text-input" id="mode" value="fixture" disabled>
+          <select className="text-input" id="mode" value={mode} onChange={(event) => setMode(event.target.value === "live" ? "live" : event.target.value === "test" ? "test" : "fixture")}>
             <option value="fixture">Simulated</option>
-            <option value="test" disabled>Test, unavailable</option>
-            <option value="live" disabled>Live, unavailable</option>
+            <option value="test" disabled={!testShipmentEnabled || scenario !== "shipment"}>Test — EasyPost shipment only</option>
+            <option value="live" disabled={!liveScenarios.includes(scenario)}>{scenario === "shipment" ? "Live — EasyPost production" : "Live — SERV + Kite Passport"}</option>
           </select>
-          <p className="field-help">Test and Live stay disabled until a permitted provider and session-only payment path are verified.</p>
+          <p className="field-help">{mode === "fixture" ? "Simulated mode uses local data only." : mode === "test" ? "Test mode uses the EasyPost test account. No Kite session is involved." : scenario === "shipment" ? "Live shipment mode sends the tracking code to EasyPost production and may incur account billing." : "Live company mode sends case fields to SERV and requests a user-approved Passport session for one Sirenic registry call."}</p>
         </div>
 
         <div className="notice-box" role="note">
-          This local workspace stores case details in the project folder. Creating a case does not contact a provider. If SERV is configured, requesting a plan sends the fields shown here to SERV.
+          {mode === "fixture" ? "This workspace stores case details in the project folder. Creating a simulated case does not contact a provider." : mode === "test" ? "Test shipment tracking sends the provided tracking code and carrier to EasyPost's test API." : scenario === "shipment" ? "Live tracking sends the tracking code and carrier to the EasyPost production API; any provider billing is separate from Kite." : "Live mode sends the fields shown here to SERV. A Sirenic registry request requires a separate Passport session approval and a fresh quote check."}
         </div>
         {formError && <p className="field-error" role="alert">{formError}</p>}
         <button className="button button-primary" type="submit" disabled={pending}>
@@ -153,9 +156,9 @@ export default function CaseForm() {
         <div className="guidance-divider" />
         <h3>What happens next</h3>
         <ol>
-          <li>Create a case in simulated mode.</li>
-          <li>Request an evidence plan. The local planner is simulated unless SERV is configured.</li>
-          <li>Run a synthetic fixture and record a human review.</li>
+          <li>{mode === "fixture" ? "Create a case in simulated mode." : `Create a ${mode} case and get a validated SERV plan.`}</li>
+          <li>{mode === "fixture" ? "Request a simulated plan or a SERV plan if configured." : scenario === "shipment" ? "Review the carrier status returned by EasyPost." : "Review the Sirenic quote and approve its task-specific Passport session."}</li>
+          <li>{mode === "fixture" ? "Run a synthetic fixture and record a human review." : "Inspect the evidence receipt and record a human review."}</li>
         </ol>
         <p className="caption">No invoice is approved or paid by Veyra.</p>
       </aside>

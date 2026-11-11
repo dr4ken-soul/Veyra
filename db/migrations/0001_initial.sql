@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS cases (
   id TEXT PRIMARY KEY,
   org_id TEXT NOT NULL,
   scenario TEXT NOT NULL CHECK(scenario IN ('supplier','shipment','registration')),
-  mode TEXT NOT NULL CHECK(mode = 'fixture'),
+  mode TEXT NOT NULL CHECK(mode IN ('fixture','test','live')),
   state TEXT NOT NULL,
   question TEXT NOT NULL,
   input_json TEXT NOT NULL,
@@ -46,15 +46,15 @@ CREATE TABLE IF NOT EXISTS operations (
   id TEXT PRIMARY KEY,
   case_id TEXT NOT NULL UNIQUE REFERENCES cases(id) ON DELETE CASCADE,
   state TEXT NOT NULL,
-  mode TEXT NOT NULL CHECK(mode = 'fixture'),
-  payment_state TEXT NOT NULL CHECK(payment_state = 'simulated'),
+  mode TEXT NOT NULL CHECK(mode IN ('fixture','test','live')),
+  payment_state TEXT NOT NULL,
   evidence_state TEXT NOT NULL,
   created_at TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS receipts (
   case_id TEXT PRIMARY KEY REFERENCES cases(id) ON DELETE CASCADE,
-  payment_state TEXT NOT NULL CHECK(payment_state = 'simulated'),
+  payment_state TEXT NOT NULL,
   amount_minor TEXT,
   asset TEXT,
   network TEXT,
@@ -69,6 +69,19 @@ CREATE TABLE IF NOT EXISTS reviews (
   note TEXT,
   reviewed_at TEXT NOT NULL,
   reviewer_id TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS passport_sessions (
+  case_id TEXT PRIMARY KEY REFERENCES cases(id) ON DELETE CASCADE,
+  request_id TEXT NOT NULL UNIQUE,
+  session_id TEXT,
+  approval_url TEXT,
+  state TEXT NOT NULL,
+  max_per_tx TEXT NOT NULL,
+  max_total TEXT NOT NULL,
+  expires_at TEXT,
+  quote_json TEXT NOT NULL,
+  updated_at TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS events (

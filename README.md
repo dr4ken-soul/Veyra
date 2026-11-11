@@ -2,77 +2,94 @@
 
 **Buy the proof before you decide.**
 
-Veyra is a small evidence workflow for business decisions. It accepts three narrow case types, plans an evidence question, records source and payment status separately, and routes unresolved decisions to a person.
+Veyra turns a business evidence gap into a narrow case, a validated SERV plan, a source-aware receipt and a human review. It supports company registration lookups through Sirenic and carrier tracking through EasyPost. A company registry record never proves bank-account ownership, and Veyra never releases an invoice.
 
-## Current build status
+## Integration status
 
-This repository contains a runnable hackathon edition in fixture mode. The public demo and local workspace use synthetic data. The workspace can create cases, create a deterministic simulated plan or an optional SERV plan, run a synthetic evidence fixture, export a redacted JSON receipt, and record a human review.
+The SERV, Sirenic x402, EasyPost and Kite Passport adapters are implemented. The current local `.env` is real and ignored by Git, but external API credentials are blank. No authenticated SERV request, EasyPost request, Passport approval, or paid Sirenic call has been made here. A no-payment Sirenic quote preflight returned HTTP 402 and its Base USDC quote was inspected. Live company cases stay disabled until SERV and the Kite worker are configured and the explicit-session payment path has been verified. Shipment test and live modes use separate EasyPost test and production keys.
 
-No external evidence provider is configured or verified. Kite Passport session creation and live payments are disabled. A simulated receipt is not a payment receipt, and no transaction is made. The supplier scenario never treats a company record as proof of bank-account ownership.
+The Vercel deployment is a fixture demo. It is not configured for live calls: the local Kite worker URL and local SQLite database are not suitable Vercel production services. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
 
-## Run locally
+## Run locally on S:
 
-Use Node.js 24 or another supported Node version at least 20.9. npm dependencies and build output are kept inside this project folder when following these steps.
+The project, npm cache, dependencies, Kite CLI and local database are kept under `S:\Hackathon\Veyra`. Node.js, npm and Git were already available on the machine; this build did not install tools or project files on `C:`.
 
-1. Open a terminal in S:\Hackathon\Veyra.
-2. Install dependencies with npm install.
-3. Start the app with npm run dev.
-4. Open http://localhost:3000 for the landing page or http://localhost:3000/demo for the public synthetic demo.
-5. Choose Open the local workspace and sign in with APP_LOGIN_PASSWORD from the private .env file in this folder.
+1. Open a terminal in `S:\Hackathon\Veyra`.
+2. Install JavaScript dependencies with `npm install` if needed.
+3. In one terminal, run `npm run kite:worker`.
+4. In another terminal, run `npm run dev`.
+5. Open `http://localhost:3000` or the synthetic public demo at `http://localhost:3000/demo`.
+6. Sign into the local workspace with `APP_LOGIN_PASSWORD` from the private `.env` file.
 
-The project includes a real local .env file on the build machine. It is ignored by Git and contains generated local credentials. It is not included in this repository. On a clean clone, create .env in the project root with the following settings, then generate fresh values for AUTH_SECRET, APP_LOGIN_PASSWORD and VYERA_API_KEY:
+The Kite CLI is installed at `.kpass\bin\kpass.exe`, on `S:`. It is not added to the global Windows PATH. The CLI is not signed into a Passport account. To configure a real account, sign in from this project directory using the official Kite installation and login instructions; keep its `.kite-passport` state under this project.
 
-    APP_MODE=fixture
-    APP_ORG_ID=veyra-local-workspace
-    APP_LOGIN_PASSWORD=<generate-a-long-random-value>
-    AUTH_SECRET=<at-least-32-random-characters>
-    VYERA_API_KEY=<generate-a-long-random-value>
-    DATABASE_PATH=./data/veyra.sqlite
-    SERV_BASE_URL=https://inference-api.openserv.ai/v1
-    SERV_REASONING_API_KEY=
-    SERV_API_KEY=
-    SERV_MODEL=
-    PASSPORT_LIVE_ENABLED=false
-    PUBLIC_APP_URL=http://localhost:3000
+## Environment values
 
-To add SERV planning, put an eligible key in SERV_REASONING_API_KEY, set SERV_MODEL to a model available to that account, and restart the app. The older SERV_API_KEY variable is accepted as a fallback. A user who requests a plan sends the case fields to the configured SERV endpoint. Without those settings, Veyra uses the local simulated planner. No credentials are provided in this repository, and no live SERV request has been confirmed.
+The private `.env` already exists in the project root. It has locally generated app credentials and a worker token; do not paste it into chat, screenshots, GitHub or a demo recording. External provider fields are left blank until you obtain your own credentials.
 
-## Workspace access and data
+| Variable | What it is | How to get or set it |
+|---|---|---|
+| `APP_LOGIN_PASSWORD` | Password for this single-user local workspace | Set a long private password of your own. It is not a provider credential. |
+| `AUTH_SECRET` | Random key used to sign the local session cookie | Keep the generated value, or generate a new random value of 32+ characters. |
+| `VYERA_API_KEY` | Local API bearer key | Keep the generated value or generate a new random value. |
+| `DATABASE_PATH` | SQLite filename under `data\` | Local path only; the current value avoids the older smoke-test database. |
+| `SERV_REASONING_API_KEY` | OpenServ SERV API key used for evidence planning | [Create an OpenServ account](https://console.openserv.ai/signup), then create an API key in the [SERV console](https://console.openserv.ai/). The official guide is [Add credits and create an API key](https://docs.openserv.ai/serv-reasoning/tutorials/credits-and-api-keys). |
+| `SERV_MODEL` | SERV model ID, not a key | Choose one available to your account from the [model catalog](https://docs.openserv.ai/serv-reasoning/models). Do not guess a model name. |
+| `SERV_BASE_URL` | SERV API base URL | Leave as `https://inference-api.openserv.ai/v1`; see the official [API overview](https://docs.openserv.ai/serv-reasoning/api). |
+| `EASYPOST_TEST_API_KEY` | EasyPost test API key for shipment tracking checks | Create/copy a **Test** key from the [EasyPost dashboard](https://app.easypost.com), under API Keys. EasyPost requires an account wallet and a ship-from address before key access. See [EasyPost authentication](https://docs.easypost.com/docs/authentication). |
+| `EASYPOST_PRODUCTION_API_KEY` | EasyPost production API key for live tracking | Copy the **Production** key from the same [EasyPost dashboard](https://app.easypost.com). Live tracker creation is billed by EasyPost. Keep blank until you intend to run a real lookup. |
+| `KITE_WORKER_URL` | Private server-to-server URL for the Passport worker | Local default is `http://127.0.0.1:8787`. A hosted app needs a deployed HTTPS worker URL. |
+| `KITE_WORKER_TOKEN` | Shared secret between Veyra and the Kite worker | A strong local random token is already generated. Keep the same value on both services. |
+| `KITE_CLI_PATH` | Path to the Kite `kpass` executable | Already points to `.kpass\bin\kpass.exe` under this project. |
+| `KITE_WORKER_HOST`, `KITE_WORKER_PORT` | Local worker bind address and port | Defaults are loopback-only and `8787`; keep the worker off public interfaces. |
+| `KITE_WORKER_DATA_DIR` | Local idempotency result cache | Keep the default `.kite-worker-data` folder; it is ignored by Git. |
+| `KITE_SESSION_TTL` | Maximum lifetime requested for a Passport session | Defaults to `20m`; the user approves the actual session in Passport. |
+| `PASSPORT_SESSION_ONLY_VERIFIED` | Operator gate for enabling paid Sirenic queries | Keep `false` until a live approval and explicitly selected session have been verified, including wrong/expired session rejection. Veyra requests a separate session with `--separate --no-reuse` and always passes the approved `--session-id` to execution. |
+| `PASSPORT_LIVE_ENABLED` | Master switch for live Sirenic x402 requests | Leave `false` until the worker is signed in, funded, and the session-only checks have passed. Then set `true`. |
+| `PUBLIC_APP_URL` | Public or local URL shown in links | Local default is `http://localhost:3000`; set a deployed HTTPS address when needed. |
 
-The local workspace uses a single owner password and an HTTP-only, signed session cookie. The API also accepts the one workspace bearer key in VYERA_API_KEY. This is a local hackathon access layer, not a production identity provider or a multi-tenant organisation system.
+The legacy `SERV_API_KEY` is accepted as a fallback for `SERV_REASONING_API_KEY`. Do not use `SIRENIC_API_KEY`: the live company adapter intentionally uses x402 through Kite Passport, not Sirenic account-credit billing.
 
-Cases are stored in data/veyra.sqlite under the project folder. This local persistence uses Node.js built-in node:sqlite, which emits an experimental-feature warning in the bundled Node release; use a managed database before deployment. Only the scenario fields needed by the selected workflow are accepted. Full bank account numbers, arbitrary URLs and payment destinations are not accepted as case fields. Use synthetic data in this build.
+Passport setup links: [install and sign in to the official CLI](https://docs.gokite.ai/passport/install), [review session and allowance behavior](https://docs.gokite.ai/passport/payments/allowance), [fund the wallet](https://docs.gokite.ai/passport/payments/funding), and [open the Passport dashboard](https://agentpassport.ai/overview). The application requires a fresh separate session approval and an explicit session ID before it can pay. Fund only what you intend to spend. Sirenic's x402 path does not need a Sirenic API key; its unpaid 402 quote is fetched before the user approves the requested spend.
+
+## Scenario coverage
+
+- **Supplier change:** Sirenic company identity evidence. It cannot verify bank-account ownership or authorise a payment-detail change; the invoice remains for human review.
+- **Business registration:** Sirenic company profile for supported Great Britain or France identifiers. Confirm the exact register, coverage, freshness and licence shown by the provider.
+- **Shipment:** EasyPost tracker in test or production mode. Carrier status does not prove package contents, condition or the intended recipient.
+- **Fixture:** synthetic data and a simulated payment label only. No external call or payment occurs.
+
+SERV must return a schema-valid plan before any provider request. A failed or malformed plan blocks execution. Paid and account-billed operations are claimed before the request and are not automatically retried after an uncertain outcome.
 
 ## API overview
 
-All API paths below are under /api.
+All paths below are under `/api`.
 
-- GET /healthz is public liveness only.
-- GET /v1/capabilities shows the configured mode and verified integration state.
-- POST /v1/cases creates a fixture case. The request contains scenario, mode and scenario-specific input. Unknown fields are rejected.
-- GET /v1/cases and GET /v1/cases/{id} return cases scoped to the local workspace.
-- POST /v1/cases/{id}/plan validates a SERV or simulated plan. GET the same path to read it.
-- POST /v1/cases/{id}/execute runs only the synthetic fixture adapter.
-- GET /v1/cases/{id}/receipt downloads a redacted JSON receipt.
-- POST /v1/cases/{id}/review records a human review action. It never pays an invoice.
-- POST /v1/cases/{id}/sessions always fails closed while live session controls are unverified.
-- GET /v1/sessions/{id} and GET /v1/operations/{id} return status without credentials.
+- `GET /healthz` is public liveness only.
+- `GET /v1/capabilities` reports configuration without exposing secret values.
+- `POST /v1/cases` creates a fixture, test shipment, or configured live case. Unknown fields and arbitrary URLs are rejected.
+- `GET /v1/cases` and `GET /v1/cases/{id}` return workspace-scoped cases.
+- `POST /v1/cases/{id}/plan` creates a SERV plan for test/live, or a simulated or SERV plan for a fixture.
+- `POST /v1/cases/{id}/sessions` preflights the Sirenic quote and requests a Passport session for live company cases.
+- `GET /v1/cases/{id}/sessions` refreshes Passport session state.
+- `POST /v1/cases/{id}/execute` runs a synthetic fixture, EasyPost shipment lookup, or approved Sirenic query according to the case mode.
+- `GET /v1/cases/{id}/receipt` downloads a redacted JSON receipt.
+- `POST /v1/cases/{id}/review` records a human review. It never pays an invoice.
 
-Authenticated API requests use Authorization: Bearer followed by the workspace API key. Browser mutations use the signed session cookie and same-origin checks. The OpenAPI contract is in openapi.yaml.
+API-key requests use `Authorization: Bearer <VYERA_API_KEY>`. Browser mutations use the signed session cookie and same-origin checks. The OpenAPI contract is in `openapi.yaml`.
 
-## Checks
+## Deployment
 
-- npm run typecheck performs the TypeScript check.
-- npm run build creates the production build.
-- npm run start serves the built application.
+Vercel serves the public fixture demo. Keep live providers disabled there until a durable database and an HTTPS-hosted Kite worker are deployed and the Passport session-only behavior is verified. Vercel serverless local files under `/tmp` are not durable storage. For now, use the local app and worker for provider integration testing.
 
-There is no automated test suite in this edition. Do not treat a passing build as evidence of a verified payment integration or provider source.
+## Build checks
 
-## Build and submission notes
+- `npm run typecheck`
+- `npm run build`
+- `npm run start`
 
-- docs/INTEGRATION_STATUS.md records what is and is not verified.
-- docs/SECURITY.md describes the current security boundary and release limitations.
-- SUBMISSION.md contains an accurate write-up, demo outline and draft X post.
-- APP_BLUEPRINT.md, FRONTEND_SPEC.md, PRODUCT.md, BUILD_GUIDE.md, CLAUDE.md and MARKETING.md preserve the supplied requirements and current implementation status.
+There is no automated test suite in this edition. A successful build does not prove provider credentials, Passport account settings, or payment settlement.
 
-Before public deployment, configure a proper identity provider and durable database, run a real SERV schema request, verify source terms and a real provider, prove session-only Passport execution without allowance fallback, and complete security and privacy review. No live controls should be enabled until those checks pass.
+## Submission materials
+
+[SUBMISSION.md](SUBMISSION.md) and [MARKETING.md](MARKETING.md) are drafts. Do not state a live request or payment happened until you have evidence from the real provider and Passport activity. The X post and hackathon form have not been published or submitted.

@@ -67,7 +67,10 @@ function validatePlan(value: unknown, scenario: Scenario): EvidencePlan {
 
 export async function createPlan(record: VeyraCase) {
   const key = process.env.SERV_REASONING_API_KEY || process.env.SERV_API_KEY || "";
-  if (!key) return { plan: fixedPlan(record.scenario), reasoningMode: "simulated" as const, requestId: null, model: null };
+  if (!key) {
+    if (record.mode !== "fixture") throw new HttpError(503, "SERV_KEY_REQUIRED", "Live cases require a SERV_REASONING_API_KEY. No evidence query was run.");
+    return { plan: fixedPlan(record.scenario), reasoningMode: "simulated" as const, requestId: null, model: null };
+  }
 
   const model = process.env.SERV_MODEL?.trim() || "";
   if (!model) throw new HttpError(503, "SERV_MODEL_REQUIRED", "Set SERV_MODEL to a model confirmed for your SERV account. No evidence query was run.");

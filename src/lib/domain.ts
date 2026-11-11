@@ -18,7 +18,7 @@ export const SCENARIO_QUESTIONS: Record<Scenario, string> = {
 export const SCENARIO_LIMITATIONS: Record<Scenario, string[]> = {
   supplier: ["A company record does not establish who owns a bank account.", "Veyra does not approve or release invoices."],
   shipment: ["A carrier status does not prove package contents or condition.", "Conflicting or stale events require human review."],
-  registration: ["A registry entry is not identity verification, sanctions clearance or a guarantee of solvency.", "No live registry provider is configured in this build."]
+  registration: ["A registry entry is not identity verification, sanctions clearance or a guarantee of solvency.", "Registry data can be incomplete or delayed; confirm important decisions with the official register."]
 };
 
 export type InputResult =

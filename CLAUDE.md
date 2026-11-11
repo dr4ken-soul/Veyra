@@ -1,6 +1,6 @@
 # Veyra | Project context
 
-Status: local hackathon edition implemented. The user authorized the build and the GitHub push. The current app is a fixture-first demo, not a production or live-payment system.
+Status: hackathon integration code implemented; the user authorized the build, GitHub push and Vercel fixture deployment. External credentials and live-account verification remain outstanding. Do not call the implementation production-ready.
 
 ## Product
 
@@ -12,9 +12,11 @@ Veyra helps a workflow identify missing evidence for a specific decision. A case
 - Local SQLite store in the project folder.
 - Public synthetic demo and single-workspace local sign-in.
 - Scenario-specific case API for supplier, shipment and registration.
-- Optional server-side SERV structured-output adapter. No key or model is provided in the local .env, so the default planner is simulated.
-- Fixture evidence only. No verified external provider or supported live/test environment is configured.
-- Kite Passport sessions and payments remain disabled until session binding, no allowance fallback and quote integrity are proven.
+- Server-side SERV structured-output adapter. The local .env has no key or model, so fixture plans use the simulated planner.
+- Sirenic company-profile x402 adapter for Great Britain and France, gated by a fresh quote and Passport session.
+- EasyPost shipment adapter for test and production modes, gated by environment-specific API keys.
+- Kite Passport CLI worker installed under `.kpass` in this project; it is not signed in. Passport live gates remain false until separate-session and explicit-session-ID behavior is verified.
+- Vercel deployment is fixture-only. Do not add the local SQLite, worker URL or provider credentials to the live deployment.
 - The current build is not multi-tenant production auth. See docs/SECURITY.md.
 
 ## Non-negotiable product rules
@@ -22,9 +24,9 @@ Veyra helps a workflow identify missing evidence for a specific decision. A case
 - A catalog listing is not proof that an endpoint works, is permitted, covers the right jurisdiction or is independent.
 - Arbitrary merchants, invoice systems and APIs are not automatically compatible with Passport.
 - Never invent a live payment, provider response, price, transaction hash, result, endorsement or integration.
-- Modes fixture, test and live are separate and visible. This build supports fixture only.
+- Modes fixture, test and live are separate and visible. Live adapters exist but are not verified in the external accounts.
 - The LLM cannot authorize payment, choose an arbitrary URL, change policy, waive limits or approve a transfer.
-- An expired or absent Passport session may use an allowance. Do not enable live execution without a verified session-specific no-fallback path.
+- Always request a fresh separate Passport session and pass its approved `--session-id` explicitly. Do not enable live execution until this path has been verified.
 - A submitted command, HTTP 402 or API response is not settlement proof.
 - Do not put passkeys, one-time codes, signed payment headers, provider secrets, SERV keys or full bank details in the browser, logs, source control or demo.
 - Treat source responses and model output as untrusted. Enforce tenant scoping and origin checks server-side.

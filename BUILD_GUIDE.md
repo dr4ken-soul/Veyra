@@ -1,56 +1,61 @@
 # Veyra | Build and release guide
 
-Status: runnable local hackathon edition implemented in fixture mode. See docs/INTEGRATION_STATUS.md for verified integrations and blockers. The local build is not a production release.
+Status: local integration code is implemented. External credentials and end-to-end provider verification are outstanding. Vercel is fixture-only because its SQLite storage is ephemeral and the Passport worker is not hosted there.
 
-## Implemented in this repository
+## Implemented
 
-- Next.js App Router application with the approved landing page, public simulated demo and local workspace screens.
-- Supplier-change, shipment-status and business-registration case schemas, each limited to its scenario-specific fields.
-- Local SQLite case store, scoped API reads, idempotent case creation, event history, redacted JSON receipt and human review record.
-- SERV structured-output adapter behind server configuration, with local schema validation, refusal/truncation handling and no request when the user has not configured a key/model.
-- Synthetic fixture adapter. Source, operator, mode, payment status and limitations are explicit.
-- Session-only Passport controls are unavailable and fail closed. No live payment code or verified provider is enabled.
-- TypeScript type check and production build are the required local validation commands.
+- Next.js application, public synthetic demo and local single-workspace screens.
+- Scenario-specific supplier-change, shipment-status and business-registration schemas.
+- SQLite case store, operation lock, event history, redacted JSON receipt and human-review record.
+- SERV structured-output adapter with local schema validation and refusal/truncation handling.
+- Sirenic company profile quote preflight for GB/FR, policy checks and a Kite Passport session execution route.
+- EasyPost tracker adapter for test and production modes, with response matching, bounded tracking data and conservative payment/billing states.
+- Separate loopback-first Kite worker with bearer authentication, official CLI commands, session refresh, fixed endpoint allowlist and idempotency cache.
+- `.env` created locally, ignored by Git, with generated app and worker secrets. Provider credentials are intentionally blank.
+- Kite CLI installed locally under `.kpass` on `S:` without adding it to the Windows user PATH.
 
-## Release blockers
+## Remaining before a live evidence result
 
-1. **SERV proof:** configure an eligible SERV key and model, make a real schema-constrained request, retain the true request identifier and confirm refusal/truncation behaviour. No request has been run in the current environment.
-2. **Evidence source:** inspect and test an exact endpoint, source licence, jurisdiction, query/matching semantics, price and Passport compatibility. No registry, shipment or bank-account ownership source is verified.
-3. **Passport session binding:** prove the actual installed integration uses the task-specific session for each query and cannot pay from a shared allowance when the session is absent or expired. The app keeps live execution disabled.
-4. **Quote integrity:** verify price, receiver, asset, network, host, path and method before execution. If the integration cannot bind these values to settlement, do not enable live calls.
-5. **Real test path:** verify the provider, token, facilitator, network and independent transaction record end to end. A local 402 or fixture does not count.
-6. **Deployment:** choose a Node.js host and durable database, configure HTTPS, identity, secrets, backups and observability. The current SQLite store is local.
-7. **Submission proof:** produce a demo video or deploy an HTTPS demo; publish an accurate short write-up and X post; submit their URLs through the hackathon form. The drafts are in SUBMISSION.md.
-8. **Production review:** replace single-workspace local auth, add a durable tenant model and retention/deletion controls, then complete security, privacy and source-licence review.
+1. Add an eligible SERV key and account-supported model, then make a real schema request and record its actual request ID.
+2. Add an EasyPost test key; verify a test tracker. Use a production key only after reviewing account billing and intentionally choosing a real tracking operation.
+3. Sign into Passport from the local worker environment, set up a passkey and fund only a chosen amount.
+4. Approve a Passport separate session and verify Veyra rejects a mismatched or expired session before execution. Only then set `PASSPORT_SESSION_ONLY_VERIFIED=true` and `PASSPORT_LIVE_ENABLED=true`.
+5. Verify Sirenic's current result shape, provenance, licensing for the intended use and any payment transaction in Passport activity.
+6. Do not enable Vercel live mode until a durable database and HTTPS-hosted worker are available; the deployed demo remains fixture-only.
 
-## Local installation
+## Local commands
 
-Run these commands from S:\Hackathon\Veyra:
+Run from `S:\Hackathon\Veyra`:
 
     npm install
+    npm run kite:worker
+
+In a second terminal:
+
     npm run dev
 
-The private .env file is already present in the local build folder and is ignored by Git. It defaults to APP_MODE=fixture. For a fresh clone, create .env as described in README.md. Keep npm cache, temporary files and build output inside this project directory.
+The local `.env` sets the worker URL to `http://127.0.0.1:8787`, the app URL to `http://localhost:3000`, and both Passport live gates off. Keep project dependencies, `.kpass`, local data, npm cache, and build output under this project.
 
-## Local verification
+## Verification commands
 
     npm run typecheck
     npm run build
     npm run start
 
-The current implementation has no automated test suite. A build does not verify external service access, provider eligibility, Passport session binding or settlement.
+There is no automated test suite in this edition. Type checking and building do not verify account credentials, provider terms, session binding or settlement.
 
-## Implementation safety invariants
+## Safety invariants
 
-- Case input is scenario-specific. Model output cannot choose a URL, provider or payment destination.
-- No full bank details are collected for a company registry lookup.
-- No data source is called in fixture mode; fixture evidence and payment are always labelled simulated.
-- Test and live modes are rejected by the API and disabled in the interface.
-- No missing-session or expired-session allowance fallback is allowed.
-- A SERV request failure, refusal, truncation or invalid schema prevents evidence execution.
-- The supplier decision remains open when bank-account ownership is not established.
-- Veyra does not release invoices, move funds or claim fraud prevention.
+- The model cannot authorize a payment or choose an arbitrary provider or URL.
+- No full bank details are accepted for a registry lookup.
+- Fixture results remain synthetic and label payment as simulated.
+- EasyPost test, production and fixture modes remain visibly distinct.
+- Passport live execution stays off until the exact active request/session pair is verified and an explicit session ID is passed to execute.
+- A SERV failure, refusal, truncation or invalid schema prevents evidence execution.
+- An uncertain provider operation is blocked against automatic retry.
+- Company registration is not treated as bank-account ownership.
+- Veyra does not release invoices, move invoice funds or claim fraud prevention.
 
 ## Submission calendar
 
-The supplied deadline is 15 November 2026, 23:59 UTC, or 16 November at 00:59 in Lagos. Confirm the official rules and deadline before submitting.
+The supplied Hackathon Edition 02 deadline is 15 November 2026 at 23:59 UTC (16 November at 00:59 in Lagos). Check the official [hackathon page](https://www.openserv.ai/hackathon-2) before submitting.

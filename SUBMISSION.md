@@ -1,36 +1,41 @@
 # Veyra | Submission materials
 
-## Verified project description
+These materials are drafts. Describe only the path that has actually run by the time you publish.
 
-Veyra is an evidence procurement workflow for business decisions. A user submits one of three narrow scenarios, reviews a structured evidence plan, sees the source operator and limitations in a receipt, then records a human review. The supplier-change path explicitly keeps the invoice on hold because company registration does not establish bank-account ownership.
+## Project description
 
-The current public demo is synthetic and labelled Simulated. The local workspace stores cases in SQLite and can use a configured SERV key for planning. No SERV request has been run in this environment, no evidence provider has been verified, and no Kite Passport session or payment has been made. The repository does not claim a live source or settlement.
+Veyra is an evidence procurement workflow for business decisions. A user submits one of three bounded scenarios, reviews a structured evidence plan, receives a source-aware receipt and records a human review. The supplier-change path keeps the invoice on hold because a company record does not establish bank-account ownership.
+
+The repository includes SERV structured-output planning, Sirenic x402 company-profile routes, EasyPost shipment tracking in test and production modes, and an isolated Kite Passport CLI worker. These adapters are implemented but have not completed an authenticated provider call or payment in this workspace. The deployed Vercel app is a fixture demo. The local `.env` contains generated app and worker secrets, but SERV and EasyPost credentials are blank; Passport live mode remains gated.
 
 ## Short write-up draft
 
 **Problem.** Business workflows often reach a decision with a specific evidence gap. Teams need to know what the source can establish, what it cannot establish, and whether a payment actually settled.
 
-**Product.** Veyra models a case as a narrow question, an evidence plan, a source-aware receipt and a human review. It includes supplier-change, shipment-status and business-registration scenario packs. The supplier case cannot be cleared by a registry record alone, and Veyra never releases an invoice.
+**Product.** Veyra turns a case into a narrow evidence question, a validated plan, a source-aware receipt and a human review. It includes supplier-change, shipment-status and business-registration scenarios. A registry record cannot establish bank-account ownership, and Veyra never releases an invoice.
 
-**SERV Reasoning.** The server has an OpenAI-compatible SERV adapter that requests a strict JSON schema for a bounded evidence plan, checks the returned structure locally, and records the real request identifier when SERV returns one. The submitted demo currently uses the local simulated planner because no SERV key or confirmed model is configured. Replace this sentence only after an actual SERV request succeeds.
+**SERV Reasoning.** The server requests a strict JSON-schema plan and validates it locally before a provider call. The live code is present, but this environment has not sent an authenticated SERV request. Insert the actual model and SERV request ID after the request succeeds.
 
-**Kite Passport.** The app marks live payments unavailable. The documented allowance fallback means an expired or absent session can pay without another prompt, so this build does not execute any paid call until session binding, no-fallback behaviour, quote integrity and provider eligibility are proven. No transaction is shown.
+**Kite Passport.** A separate worker requests a fresh approved session and passes its ID explicitly to the paid request, restricted locally to fixed Sirenic company-profile endpoints. The account is not signed in here, and the live session flow has not been tested. No transaction is claimed.
 
-**Evidence and limits.** The public walk-through uses synthetic fixtures. Each receipt labels the Veyra operator, synthetic upstream data, simulated payment state and scenario limitations. A synthetic result is not a real registry or carrier record.
+**Evidence.** Sirenic is wired for company profiles in Great Britain and France; EasyPost is wired for shipment tracking. No authenticated provider result has been returned here. Public demo receipts are synthetic and explicitly labelled Simulated.
+
+**Limits.** Company registration is not bank-account ownership, and carrier status does not establish package contents or condition. Unknown payment settlement remains unknown. A person makes the final decision.
 
 **Repository.** https://github.com/dr4ken-soul/Veyra
 
-## Demo video outline
+**Demo.** Add the deployed Vercel fixture-demo URL or a demo video after confirming it loads publicly.
 
-1. Open the landing page and state the product boundary: buy evidence before deciding, and keep the final action with a person.
-2. Open the public demo and select Supplier change.
-3. Show the evidence plan, then the explicitly simulated result and receipt.
-4. Explain that a registry record cannot establish who owns a bank account, and the invoice remains on hold.
-5. Show the shipment and registration scenario labels and their respective limitations.
-6. If showing the private workspace, create a synthetic case, request a simulated plan, run a fixture, export its JSON receipt and record a review.
-7. State clearly that no provider call or payment occurred in this build.
+## Demo outline
 
-Do not record the local access code, API key, full .env file, real customer records or an unverified SERV response. If a real SERV plan is configured before recording, show its returned request identifier and identify the actual model.
+1. Open the public simulated demo and state the boundary: Veyra buys evidence before a decision; a person makes the final decision.
+2. Show a supplier-change evidence gap and the synthetic plan and receipt.
+3. Explain that a registry record cannot establish who owns a bank account, and the invoice remains on hold.
+4. Show shipment and registration as simulated scenarios.
+5. If an authenticated SERV plan succeeds before recording, state the real model and request ID. If a provider query succeeds, identify the provider and mode shown on its receipt.
+6. Do not present code, a quote, an approval link or an HTTP response as a completed payment.
+
+Do not record the local access password, API key, `.env`, real customer records, passkeys or unverified payment activity.
 
 ## X post draft
 
@@ -40,18 +45,17 @@ It turns a business evidence gap into a bounded case, a source-aware receipt and
 
 This demo uses simulated evidence. No payment was made.
 
-Add the public repository and demo link only after confirming both are accessible.
+Add the public repository and demo link only after confirming both are accessible. This post has not been published.
 
 ## Submission checklist
 
-- [x] Local app, public illustrative demo and three scenario packs are implemented.
-- [x] A real .env exists on the build machine and is excluded from Git.
+- [x] Local app, three scenario packs, integration adapters and a simulated demo are implemented.
+- [x] Real local `.env` exists and is excluded from Git.
 - [ ] Run and capture a real SERV structured-output request with its request identifier.
-- [ ] Verify an eligible evidence provider, its terms, endpoint, jurisdiction and payment compatibility.
-- [ ] Prove session-only Kite execution with no allowance fallback, then confirm any transaction independently before claiming a payment.
-- [ ] Publish the public repository and confirm the push.
-- [ ] Deploy an HTTPS demo or record a demo video.
-- [ ] Publish the X post and copy its URL into the submission form.
-- [ ] Submit the write-up and links through the official hackathon form before the deadline.
+- [ ] Verify a real EasyPost test tracker and exact Sirenic response/provenance.
+- [ ] Verify separate-session approval, explicit session-ID execution and rejection of a mismatched or expired session; verify settlement independently before claiming a payment.
+- [ ] Confirm public GitHub repository and Vercel fixture demo URLs.
+- [ ] Publish an accurate X post and copy its URL into the submission form.
+- [ ] Submit the write-up and links through the [official hackathon form](https://openserv.typeform.com/submissions02) before the stated deadline.
 
-The X post and hackathon submission are drafts only. They have not been published or submitted.
+The X post and hackathon form have not been published or submitted.

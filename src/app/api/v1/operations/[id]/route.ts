@@ -17,10 +17,10 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
     return responseJson(requestId, {
       operation: {
         id,
-        state: "evidence_received",
-        mode: "fixture",
-        paymentState: "simulated",
-        evidenceState: current?.evidence ? "received" : "unavailable"
+        state: current?.state || "unknown",
+        mode: current?.mode || "unknown",
+        paymentState: current?.payment?.state || "unknown",
+        evidenceState: current?.evidence ? "received" : current?.state === "blocked" ? "unknown" : "pending"
       }
     });
   } catch (error) {

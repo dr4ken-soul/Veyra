@@ -1,12 +1,21 @@
 export const runtime = "nodejs";
+import { easyPostConfigured, kiteWorkerConfigured, liveModeReady, servConfigured, testModeReady } from "@/lib/runtime-config";
 
 export function GET() {
-  const servConfigured = Boolean((process.env.SERV_REASONING_API_KEY || process.env.SERV_API_KEY) && process.env.SERV_MODEL);
+  const serv = servConfigured();
+  const passport = liveModeReady("registration");
+  const shipmentTest = testModeReady("shipment");
+  const shipmentLive = liveModeReady("shipment");
   return Response.json({
-    mode: "fixture",
-    serv: { configured: servConfigured, state: servConfigured ? "configured" : "simulated" },
-    evidenceProviders: { live: false, verified: [] },
-    passport: { available: false, livePaymentsEnabled: false, reason: "Session binding, no-allowance-fallback behaviour and quote integrity have not been verified." },
+    mode: process.env.APP_MODE || "fixture",
+    serv: { configured: serv, state: serv ? "configured" : "simulated" },
+    evidenceProviders: {
+      verified: [],
+      configured: { sirenic: passport, easypostTest: easyPostConfigured("test"), easypostProduction: easyPostConfigured("live") },
+      availableModes: { sirenicLive: passport, shipmentTest, shipmentLive },
+      supported: ["Sirenic company profiles (GB, FR); provider terms and live response still require verification", "EasyPost tracking (test and production API modes)"]
+    },
+    passport: { workerConfigured: kiteWorkerConfigured(), available: passport, livePaymentsEnabled: passport, reason: passport ? "The separate-session worker and explicit session ID are configured; verify approval and settlement independently." : "Configure SERV and the Kite CLI worker, then verify a fresh approved session and explicit-session execution before enabling live mode." },
     updatedAt: new Date().toISOString()
   }, { headers: { "Cache-Control": "no-store" } });
 }
