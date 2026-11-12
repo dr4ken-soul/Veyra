@@ -18,7 +18,7 @@
 
 This is a hackathon build and has not had an independent security or privacy audit. It uses one local workspace password and API key, process-local rate limits, SQLite via Node.js `node:sqlite`, no tenant membership system, no durable distributed queue, no webhook delivery, and no formal retention/deletion control, monitoring or incident response.
 
-The external adapters are not verified by a live provider transaction in this workspace. SERV credentials/model are blank. No EasyPost key or tracking request was used. No Passport account is signed into the CLI. The free Sirenic quote probe was unpaid; no paid response or signature was validated. Do not treat code presence or an HTTP 402 as proof of provider terms, accuracy, authorization, session binding or settlement.
+An authenticated SERV structured-output request and an EasyPost test-mode tracker both succeeded locally. No EasyPost production tracker, paid Sirenic response or signature, Passport session approval, or settlement was verified. Do not treat code presence, test-mode evidence, or an HTTP 402 as proof of provider terms, production accuracy, authorization, session binding, or settlement.
 
 Kite Passport documents allowance use when no usable session is selected. The worker therefore creates a fresh separate session and requires an explicit approved session ID for execution; it also checks that the ID belongs to the exact active request. The private `.env` keeps both live gates false until this behavior is verified against a signed-in account. `PASSPORT_SESSION_ONLY_VERIFIED` is an operator assertion, not proof by itself. The worker's fixed Sirenic URL allowlist remains enforced locally even though Passport does not enforce URL scope for paid calls.
 

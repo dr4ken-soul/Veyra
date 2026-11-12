@@ -2,11 +2,13 @@
 
 These materials are drafts. Describe only the path that has actually run by the time you publish.
 
+**Timing:** The [official OpenServ Hackathon Edition 01 page](https://www.openserv.ai/hackathon) lists submissions for 14–28 September 2026. That window has passed as of 12 November 2026; check for a new edition before submitting these materials.
+
 ## Project description
 
 Veyra is an evidence procurement workflow for business decisions. A user submits one of three bounded scenarios, reviews a structured evidence plan, receives a source-aware receipt and records a human review. The supplier-change path keeps the invoice on hold because a company record does not establish bank-account ownership.
 
-The repository includes SERV structured-output planning, Sirenic x402 company-profile routes, EasyPost shipment tracking in test and production modes, and an isolated Kite Passport CLI worker. These adapters are implemented but have not completed an authenticated provider call or payment in this workspace. The deployed Vercel app is a fixture demo. The local `.env` contains generated app and worker secrets, but SERV and EasyPost credentials are blank; Passport live mode remains gated.
+The repository includes SERV structured-output planning, Sirenic x402 company-profile routes, EasyPost shipment tracking in test and production modes, and an isolated Kite Passport CLI worker. A live SERV structured-output request and an EasyPost test-mode USPS tracker both completed through Veyra locally. The deployed Vercel app remains a fixture demo because its SQLite state is ephemeral and its Passport worker is local. The Sirenic paid call and Passport session flow remain unverified; live Passport mode stays gated.
 
 ## Short write-up draft
 
@@ -14,11 +16,11 @@ The repository includes SERV structured-output planning, Sirenic x402 company-pr
 
 **Product.** Veyra turns a case into a narrow evidence question, a validated plan, a source-aware receipt and a human review. It includes supplier-change, shipment-status and business-registration scenarios. A registry record cannot establish bank-account ownership, and Veyra never releases an invoice.
 
-**SERV Reasoning.** The server requests a strict JSON-schema plan and validates it locally before a provider call. The live code is present, but this environment has not sent an authenticated SERV request. Insert the actual model and SERV request ID after the request succeeds.
+**SERV Reasoning.** The server requests a strict JSON-schema plan and validates it locally before saving it. A real authenticated `gpt-6-luna` structured-output request and the full local plan flow succeeded.
 
 **Kite Passport.** A separate worker requests a fresh approved session and passes its ID explicitly to the paid request, restricted locally to fixed Sirenic company-profile endpoints. The account is not signed in here, and the live session flow has not been tested. No transaction is claimed.
 
-**Evidence.** Sirenic is wired for company profiles in Great Britain and France; EasyPost is wired for shipment tracking. No authenticated provider result has been returned here. Public demo receipts are synthetic and explicitly labelled Simulated.
+**Evidence.** Sirenic is wired for company profiles in Great Britain and France, but its paid result is unverified. EasyPost returned a test-mode USPS fixture with status `delivered`; this is synthetic carrier test data, not a live shipment. Public demo receipts are synthetic and explicitly labelled Simulated.
 
 **Limits.** Company registration is not bank-account ownership, and carrier status does not establish package contents or condition. Unknown payment settlement remains unknown. A person makes the final decision.
 
@@ -55,11 +57,12 @@ This post has not been published.
 
 - [x] Local app, three scenario packs, integration adapters and a simulated demo are implemented.
 - [x] Real local `.env` exists and is excluded from Git.
-- [ ] Run and capture a real SERV structured-output request with its request identifier.
-- [ ] Verify a real EasyPost test tracker and exact Sirenic response/provenance.
+- [x] Run and capture a real SERV structured-output request with its request identifier.
+- [x] Verify a real EasyPost test tracker in test mode.
+- [ ] Verify the exact Sirenic response and provenance.
 - [ ] Verify separate-session approval, explicit session-ID execution and rejection of a mismatched or expired session; verify settlement independently before claiming a payment.
 - [x] Confirm public GitHub repository and Vercel fixture demo URLs.
 - [ ] Publish an accurate X post and copy its URL into the submission form.
-- [ ] Submit the write-up and links through the [official hackathon form](https://openserv.typeform.com/submissions02) before the stated deadline.
+- [ ] Submit the write-up and links through the [official hackathon form](https://openserv.typeform.com/submissions02) if a current submission window is open.
 
 The X post and hackathon form have not been published or submitted.

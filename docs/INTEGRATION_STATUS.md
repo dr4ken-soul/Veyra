@@ -1,21 +1,21 @@
 # Integration status
 
-Last updated: 11 November 2026.
+Last updated: 12 November 2026.
 
 | Capability | Implemented | Verified in this workspace | Current gate |
 |---|---|---|---|
-| SERV Reasoning | OpenAI-compatible JSON-schema request and local validation for plans | Official endpoint and request shape checked against current docs; no key/model configured and no authenticated request sent | Add an eligible key and model, then capture a real request ID |
+| SERV Reasoning | OpenAI-compatible JSON-schema request and local validation for plans | Authenticated structured-output request succeeded locally with `gpt-6-luna`; the Veyra case route validated and saved the plan. The request omits `temperature: 0`, which this model rejects. | Local credentials are set. Vercel remains fixture-only pending durable storage. |
 | Sirenic company evidence | Fixed GB/FR company profile URLs, unpaid quote preflight, quote policy, subject matching and constrained Passport execution | A free no-payment GET to the public French profile returned HTTP 402; its Base USDC quote format was inspected. No paid call, response or provider signature was verified | Configure Passport and prove x402 compatibility and session-only behavior |
-| EasyPost shipment evidence | Test/production tracker adapter with fixed endpoint, key server-side, response matching and no automatic retry after uncertainty | No API key or tracker request supplied | Add the correct test or production key; verify a test tracker first |
-| Kite Passport worker | Separate authenticated Node worker, Kite CLI 6.13.2 session/delegation commands, separate-session request, approval link validation, active-session check, fixed Sirenic allowlist, explicit `--session-id`, and idempotency cache | CLI help and installed Passport skill bundle were inspected. No Passport login/session/paid request attempted | Sign in on the worker, fund only a chosen amount, approve the session, then verify the explicit-session flow and rejection of a wrong or expired session before setting `PASSPORT_SESSION_ONLY_VERIFIED=true` |
+| EasyPost shipment evidence | Test/production tracker adapter with fixed endpoint, key server-side, response matching and no automatic retry after uncertainty | Veyra retrieved the official USPS test fixture `EZ4000000004`; EasyPost returned mode `test`, status `delivered`, and no payment was required. | Test key is configured locally. Production tracking requires a production key and is not needed for the test demo. |
+| Kite Passport worker | Separate authenticated Node worker, Kite CLI session/delegation commands, separate-session request, approval link validation, active-session check, fixed Sirenic allowlist, explicit `--session-id`, and idempotency cache | No Passport account login, session approval, or paid request verified. The installed bootstrap check did not recognize the Windows CLI from its WSL shell and stopped because `jq` is unavailable there. | Complete Passport sign-in/passkey setup, approve a separate session, then verify explicit-session execution and rejection of a wrong or expired session before setting `PASSPORT_SESSION_ONLY_VERIFIED=true` |
 | Payments | Receipt states distinguish simulated, test/no payment, account billing, pending, confirmed and unknown | No transaction or EasyPost production billing occurred | Only Passport worker-reported status is saved; independently inspect Passport activity before claiming settlement |
 | Fixtures | Synthetic supplier, shipment and registration evidence | Fixture demo builds locally; no live source is represented by fixtures | Always label as Simulated |
-| Vercel | Git-connected fixture demo deployment | Existing connected Vercel account and team were identified; project deployment proceeds after Git push | Vercel uses fixture mode; SQLite `/tmp` and a localhost worker are not production persistence/compute |
+| Vercel | Public fixture demo deployment | `https://veyra-tau-mauve.vercel.app/demo` was confirmed live and clearly simulated. Provider secrets have not been added. | Add a durable database and HTTPS-hosted worker before enabling hosted provider flows. |
 | Webhooks | Not implemented | No callback or retry endpoint exists | Not available |
 
 ## SERV setup
 
-The adapter uses `https://inference-api.openserv.ai/v1`, an eligible `SERV_REASONING_API_KEY`, and `SERV_MODEL`. It sends the case fields to SERV only when the user requests an evidence plan. The local validator rejects refusal, truncation, invalid JSON, wrong capability and incomplete fields. Select a model from the [official model catalog](https://docs.openserv.ai/serv-reasoning/models) that is enabled for your account; no model should be guessed. No SERV request ID exists in this workspace yet.
+The adapter uses `https://inference-api.openserv.ai/v1`, `SERV_REASONING_API_KEY` (with `SERV_API_KEY` as a legacy fallback), and `SERV_MODEL`. It sends the case fields to SERV only when the user requests an evidence plan. The local validator rejects refusal, truncation, invalid JSON, wrong capability and incomplete fields. A real structured-output request and full local case flow succeeded with `gpt-6-luna`; the request uses current SERV chat-completions parameters. Select a model from the [official model catalog](https://docs.openserv.ai/serv-reasoning/models) that is enabled for your account.
 
 ## Sirenic setup and payment boundary
 
@@ -31,7 +31,7 @@ The worker serializes `use --session-id` and execution, checks the request ID an
 
 ## EasyPost gate
 
-Test mode uses `EASYPOST_TEST_API_KEY`; live shipment mode uses `EASYPOST_PRODUCTION_API_KEY`. The keys are separate variables and the API response mode must match the requested mode. The response is reduced to status and a bounded set of tracking details. EasyPost production account billing is separate from Kite. This adapter does not prove contents, condition, intended recipient or delivery claim truth.
+Test mode uses `EASYPOST_TEST_API_KEY`; live shipment mode uses `EASYPOST_PRODUCTION_API_KEY`. The keys are separate variables and the API response mode must match the requested mode. The response is reduced to status and a bounded set of tracking details. The test flow used EasyPost's official `EZ4000000004` USPS fixture and returned `delivered`; it made no production shipment or payment. EasyPost production account billing is separate from Kite. This adapter does not prove contents, condition, intended recipient or delivery claim truth.
 
 ## Vercel deployment mode
 

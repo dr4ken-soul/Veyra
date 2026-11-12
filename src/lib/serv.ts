@@ -86,8 +86,7 @@ export async function createPlan(record: VeyraCase) {
     headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
     body: JSON.stringify({
       model,
-      temperature: 0,
-      max_tokens: 900,
+      max_completion_tokens: 900,
       messages: [
         {
           role: "system",
