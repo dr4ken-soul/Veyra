@@ -12,6 +12,7 @@ const HOST = process.env.KITE_WORKER_HOST || "127.0.0.1";
 const TOKEN = process.env.KITE_WORKER_TOKEN || "";
 const CLI = process.env.KITE_CLI_PATH || "kpass";
 const DATA_DIR = path.resolve(process.env.KITE_WORKER_DATA_DIR || ".kite-worker-data");
+const REQUEST_ID_PATTERN = /^(?:req_|agent_session_req_)[A-Za-z0-9._:-]{1,196}$/;
 let serial = Promise.resolve();
 
 await mkdir(DATA_DIR, { recursive: true });
@@ -182,7 +183,7 @@ async function handle(request, response) {
         const raw = await runCli(["session", "create", "--delegation", JSON.stringify(delegation), "--separate", "--no-reuse", "--no-browser"]);
         const info = sessionInfo(raw);
         const requestId = info.requestId;
-        if (!requestId || !/^req_[A-Za-z0-9._:-]{1,196}$/.test(requestId) || !info.approvalUrl) throw new Error("Passport did not return a session request identifier and approval URL.");
+        if (!requestId || !REQUEST_ID_PATTERN.test(requestId) || !info.approvalUrl) throw new Error("Passport did not return a session request identifier and approval URL.");
         let approval;
         try { approval = new URL(info.approvalUrl); } catch { throw new Error("Passport returned an invalid approval URL."); }
         if (approval.protocol !== "https:" || !["agentpassport.ai", "www.agentpassport.ai"].includes(approval.hostname)) throw new Error("Passport returned a non-official approval URL.");
@@ -194,7 +195,7 @@ async function handle(request, response) {
 
     if (request.method === "GET" && url.pathname === "/v1/sessions/status") {
       const requestId = url.searchParams.get("requestId") || "";
-      if (!/^req_[A-Za-z0-9._:-]{1,196}$/.test(requestId)) throw new Error("Invalid session request identifier.");
+      if (!REQUEST_ID_PATTERN.test(requestId)) throw new Error("Invalid session request identifier.");
       const raw = await runCli(["session", "status", "--request-id", requestId]);
       const info = sessionInfo(raw);
       if ((info.requestId && info.requestId !== requestId) || (!info.requestId && !info.sessionId)) throw new Error("Passport did not return status for this request identifier.");
@@ -209,7 +210,7 @@ async function handle(request, response) {
       const target = providerUrl(body.url);
       const requestId = typeof body.requestId === "string" ? body.requestId : "";
       const sessionId = typeof body.sessionId === "string" ? body.sessionId : "";
-      if (!/^req_[A-Za-z0-9._:-]{1,196}$/.test(requestId) || !/^session_[A-Za-z0-9._:-]{1,191}$/.test(sessionId) || body.method !== "GET") throw new Error("The approved Passport session or request method is invalid.");
+      if (!REQUEST_ID_PATTERN.test(requestId) || !/^session_[A-Za-z0-9._:-]{1,191}$/.test(sessionId) || body.method !== "GET") throw new Error("The approved Passport session or request method is invalid.");
       return serialized(async () => {
         const cached = await cachedResult("execute-" + key);
         if (cached) return json(response, 200, cached);
