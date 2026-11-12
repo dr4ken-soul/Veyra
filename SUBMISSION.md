@@ -8,7 +8,7 @@ These materials are drafts. Describe only the path that has actually run by the 
 
 Veyra is an evidence procurement workflow for business decisions. A user submits one of three bounded scenarios, reviews a structured evidence plan, receives a source-aware receipt and records a human review. The supplier-change path keeps the invoice on hold because a company record does not establish bank-account ownership.
 
-The repository includes SERV structured-output planning, Sirenic x402 company-profile routes, EasyPost shipment tracking in test and production modes, and an isolated Kite Passport CLI worker. A live SERV structured-output request and an EasyPost test-mode USPS tracker both completed through Veyra locally. The deployed Vercel app remains a fixture demo because its SQLite state is ephemeral and its Passport worker is local. The Sirenic paid call and Passport session flow remain unverified; live Passport mode stays gated.
+The repository includes SERV structured-output planning, Sirenic x402 company-profile routes, EasyPost shipment tracking in test and production modes, an isolated Kite Passport CLI worker, and a Supabase Postgres case store with server-role-only access. A live SERV structured-output request and an EasyPost test-mode USPS tracker both completed through Veyra locally. The Supabase project and schema are ready and the adapter is deployed, but the server secret has not been set in Vercel, so the public site remains a fixture demo and case storage fails closed. The Passport worker is still local. The Sirenic paid call and Passport session flow remain unverified; live Passport mode stays gated.
 
 ## Short write-up draft
 
@@ -59,6 +59,8 @@ This post has not been published.
 - [x] Real local `.env` exists and is excluded from Git.
 - [x] Run and capture a real SERV structured-output request with its request identifier.
 - [x] Verify a real EasyPost test tracker in test mode.
+- [x] Create the separate Veyra Supabase project and apply its RLS-protected schema; deploy the case-store adapter.
+- [ ] Add `SUPABASE_SECRET_KEY` to local `.env` and Vercel and verify hosted case persistence.
 - [ ] Verify the exact Sirenic response and provenance.
 - [ ] Verify separate-session approval, explicit session-ID execution and rejection of a mismatched or expired session; verify settlement independently before claiming a payment.
 - [x] Confirm public GitHub repository and Vercel fixture demo URLs.
