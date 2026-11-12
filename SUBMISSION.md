@@ -18,7 +18,7 @@ The repository includes SERV structured-output planning, Sirenic x402 company-pr
 
 **SERV Reasoning.** The server requests a strict JSON-schema plan and validates it locally before saving it. A real authenticated `gpt-6-luna` structured-output request and the full local plan flow succeeded.
 
-**Kite Passport.** A separate worker requests a fresh approved session and passes its ID explicitly to the paid request, restricted locally to fixed Sirenic company-profile endpoints. The account is not signed in here, and the live session flow has not been tested. No transaction is claimed.
+**Kite Passport.** A separate worker requests a fresh session and passes its ID explicitly to the paid request, restricted locally to fixed Sirenic company-profile endpoints. The local account is signed in and the Veyra buyer agent is registered; separate-session approval and paid execution are still pending. No transaction is claimed.
 
 **Evidence.** Sirenic is wired for company profiles in Great Britain and France, but its paid result is unverified. EasyPost returned a test-mode USPS fixture with status `delivered`; this is synthetic carrier test data, not a live shipment. Public demo receipts are synthetic and explicitly labelled Simulated.
 

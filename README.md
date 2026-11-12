@@ -21,7 +21,7 @@ The project, npm cache, dependencies, Kite CLI and local database are kept under
 5. Open `http://localhost:3000` or the synthetic public demo at `http://localhost:3000/demo`.
 6. Sign into the local workspace with `APP_LOGIN_PASSWORD` from the private `.env` file.
 
-The Kite CLI is installed at `.kpass\bin\kpass.exe`, on `S:`. It is not added to the global Windows PATH. The CLI is not signed into a Passport account. To configure a real account, sign in from this project directory using the official Kite installation and login instructions; keep its `.kite-passport` state under this project.
+The Kite CLI is installed at `.kpass\bin\kpass.exe`, on `S:`. It is not added to the global Windows PATH. The local Passport account is signed in and the Veyra buyer agent is registered. No separate session has been approved and no paid call has been made. Keep the CLI's local auth state private and out of Git.
 
 ## Environment values
 

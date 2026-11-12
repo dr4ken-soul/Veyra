@@ -1,6 +1,6 @@
 # Veyra | Build and release guide
 
-Status: local integration code is implemented. External credentials and end-to-end provider verification are outstanding. Vercel is fixture-only because its SQLite storage is ephemeral and the Passport worker is not hosted there.
+Status as of 12 November 2026: the Vercel app and Supabase case store are deployed and verified. SERV and EasyPost test credentials are configured; local SERV and EasyPost test calls succeeded. Kite Passport is signed in locally with a registered Veyra buyer agent. One paid Sirenic session approval and call remain outstanding. Vercel's Passport gate stays closed because the Kite worker is local rather than HTTPS-hosted.
 
 ## Implemented
 
@@ -11,17 +11,16 @@ Status: local integration code is implemented. External credentials and end-to-e
 - Sirenic company profile quote preflight for GB/FR, policy checks and a Kite Passport session execution route.
 - EasyPost tracker adapter for test and production modes, with response matching, bounded tracking data and conservative payment/billing states.
 - Separate loopback-first Kite worker with bearer authentication, official CLI commands, session refresh, fixed endpoint allowlist and idempotency cache.
-- `.env` created locally, ignored by Git, with generated app and worker secrets. Provider credentials are intentionally blank.
-- Kite CLI installed locally under `.kpass` on `S:` without adding it to the Windows user PATH.
+- `.env` is created locally and ignored by Git. Provider and app secrets remain server-side; never copy their values into source or documentation.
+- Kite CLI is installed under `.kpass` on `S:` without adding it to the Windows user PATH. The local account and buyer agent are set up; the Passport session and paid provider call are not yet verified.
 
 ## Remaining before a live evidence result
 
-1. Add an eligible SERV key and account-supported model, then make a real schema request and record its actual request ID.
-2. Add an EasyPost test key; verify a test tracker. Use a production key only after reviewing account billing and intentionally choosing a real tracking operation.
-3. Sign into Passport from the local worker environment, set up a passkey and fund only a chosen amount.
-4. Approve a Passport separate session and verify Veyra rejects a mismatched or expired session before execution. Only then set `PASSPORT_SESSION_ONLY_VERIFIED=true` and `PASSPORT_LIVE_ENABLED=true`.
-5. Verify Sirenic's current result shape, provenance, licensing for the intended use and any payment transaction in Passport activity.
-6. Do not enable Vercel live mode until a durable database and HTTPS-hosted worker are available; the deployed demo remains fixture-only.
+1. SERV credentials and model are configured; re-run a real hosted request before claiming hosted SERV verification.
+2. EasyPost test credentials are configured and the official test tracker succeeded. Use a production key only after reviewing account billing and intentionally choosing a real tracking operation.
+3. The local Passport account and Veyra buyer agent are registered. Approve a separate Base USDC session capped to the fresh provider quote; the current unpaid quote was `$0.005` for one French registry lookup.
+4. With the local worker, verify rejection of a mismatched session ID, then make one correctly scoped request and confirm Passport activity. Only then set local `PASSPORT_SESSION_ONLY_VERIFIED=true`.
+5. Keep Passport payments disabled on Vercel until an HTTPS-hosted worker is available. Verify Sirenic's result shape and provenance, review source licensing, and independently confirm any payment in Passport activity.
 
 ## Local commands
 
