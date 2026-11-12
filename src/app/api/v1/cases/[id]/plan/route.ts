@@ -13,7 +13,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
   try {
     const principal = routePrincipal(request);
     const { id } = await context.params;
-    const record = getCaseRecord(id, principal.orgId);
+    const record = await getCaseRecord(id, principal.orgId);
     if (!record) throw new HttpError(404, "CASE_NOT_FOUND", "The case was not found.");
     return responseJson(requestId, {
       plan: record.plan,
@@ -31,11 +31,11 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     const principal = routePrincipal(request, 20);
     verifyMutation(request, principal);
     const { id } = await context.params;
-    const record = getCaseRecord(id, principal.orgId);
+    const record = await getCaseRecord(id, principal.orgId);
     if (!record) throw new HttpError(404, "CASE_NOT_FOUND", "The case was not found.");
     if (record.evidence) throw new HttpError(409, "CASE_HAS_EVIDENCE", "This case already has evidence. No additional query was run.");
     const planned = await createPlan(record);
-    const saved = saveEvidencePlan({
+    const saved = await saveEvidencePlan({
       orgId: principal.orgId,
       caseId: id,
       plan: planned.plan,

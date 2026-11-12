@@ -16,13 +16,13 @@
 
 ## Important limitations
 
-This is a hackathon build and has not had an independent security or privacy audit. It uses one local workspace password and API key, process-local rate limits, SQLite via Node.js `node:sqlite`, no tenant membership system, no durable distributed queue, no webhook delivery, and no formal retention/deletion control, monitoring or incident response.
+This is a hackathon build and has not had an independent security or privacy audit. It uses one workspace password and API key, process-local rate limits, SQLite locally, and Supabase Postgres with server-role-only access when deployed credentials are configured. It has no tenant membership system, durable distributed queue, webhook delivery, formal retention/deletion control, monitoring or incident response.
 
 An authenticated SERV structured-output request and an EasyPost test-mode tracker both succeeded locally. No EasyPost production tracker, paid Sirenic response or signature, Passport session approval, or settlement was verified. Do not treat code presence, test-mode evidence, or an HTTP 402 as proof of provider terms, production accuracy, authorization, session binding, or settlement.
 
 Kite Passport documents allowance use when no usable session is selected. The worker therefore creates a fresh separate session and requires an explicit approved session ID for execution; it also checks that the ID belongs to the exact active request. The private `.env` keeps both live gates false until this behavior is verified against a signed-in account. `PASSPORT_SESSION_ONLY_VERIFIED` is an operator assertion, not proof by itself. The worker's fixed Sirenic URL allowlist remains enforced locally even though Passport does not enforce URL scope for paid calls.
 
-Vercel deployment is fixture-only. The Vercel runtime's `/tmp` database is ephemeral and cannot reach the local worker. Do not add provider credentials or enable live variables in Vercel until a durable database, HTTPS-hosted worker and account-specific checks are in place.
+Vercel deployment remains fixture-only until the persistence changes are deployed and `SUPABASE_SECRET_KEY` is set. Provider credentials are stored as encrypted, server-only Vercel variables; the app does not receive the Supabase secret yet. The local worker cannot be reached from Vercel. Keep paid Passport flows disabled until an HTTPS-hosted worker and account-specific session checks are in place.
 
 ## Secret handling
 

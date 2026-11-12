@@ -18,7 +18,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       throw new HttpError(422, "UNKNOWN_FIELD", "The review contains a field this endpoint does not accept.");
     }
     if (typeof body.action !== "string") throw new HttpError(422, "INVALID_REVIEW_ACTION", "Choose a review action.");
-    const record = recordHumanReview({
+    const record = await recordHumanReview({
       orgId: principal.orgId,
       caseId: id,
       action: body.action,

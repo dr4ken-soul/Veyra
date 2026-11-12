@@ -19,7 +19,7 @@ function eventLabel(value: string) {
 export default async function ActivityPage() {
   const session = await requirePageSession();
   if (!session) return null;
-  const events = listActivity(session.orgId);
+  const events = await listActivity(session.orgId);
   return (
     <>
       <header className="page-heading">

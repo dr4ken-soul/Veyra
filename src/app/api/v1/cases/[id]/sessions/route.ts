@@ -14,11 +14,11 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
   try {
     const principal = routePrincipal(request);
     const { id } = await context.params;
-    const record = getCaseRecord(id, principal.orgId);
+    const record = await getCaseRecord(id, principal.orgId);
     if (!record) throw new HttpError(404, "CASE_NOT_FOUND", "The case was not found.");
     if (!record.passportSession) return responseJson(requestId, { session: null });
     const status = await readPassportSession(record.passportSession.requestId);
-    const updated = updatePassportSession({ orgId: principal.orgId, caseId: id, session: status });
+    const updated = await updatePassportSession({ orgId: principal.orgId, caseId: id, session: status });
     return responseJson(requestId, { session: updated?.passportSession || null });
   } catch (error) {
     return errorResponse(error, requestId);
@@ -31,7 +31,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     const principal = routePrincipal(request, 10);
     verifyMutation(request, principal);
     const { id } = await context.params;
-    const record = getCaseRecord(id, principal.orgId);
+    const record = await getCaseRecord(id, principal.orgId);
     if (!record) throw new HttpError(404, "CASE_NOT_FOUND", "The case was not found.");
     if (record.mode !== "live") throw new HttpError(409, "LIVE_MODE_REQUIRED", "Create a Live case before requesting a Passport session.");
     if (!record.plan || record.planMode !== "serv") throw new HttpError(409, "SERV_PLAN_REQUIRED", "Create a real SERV plan before requesting a paid evidence check.");
@@ -46,7 +46,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       taskSummary: `One Sirenic registry lookup for ${record.input.jurisdiction} company ${record.input.registrationNumber}`,
       quote
     });
-    const saved = savePassportSession({ orgId: principal.orgId, caseId: id, session });
+    const saved = await savePassportSession({ orgId: principal.orgId, caseId: id, session });
     return responseJson(requestId, { session: saved?.passportSession || session, quote }, 201);
   } catch (error) {
     return errorResponse(error, requestId);

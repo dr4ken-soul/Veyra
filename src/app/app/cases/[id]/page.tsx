@@ -27,7 +27,7 @@ export default async function CaseDetailPage({ params }: { params: Promise<{ id:
   const session = await requirePageSession();
   if (!session) return null;
   const { id } = await params;
-  const record = getCaseRecord(id, session.orgId);
+  const record = await getCaseRecord(id, session.orgId);
   if (!record) notFound();
   const evidence = record.evidence;
   const outcome = record.state === "needs_review" ? "Review required" :

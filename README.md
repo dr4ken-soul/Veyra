@@ -6,9 +6,9 @@ Veyra turns a business evidence gap into a narrow case, a validated SERV plan, a
 
 ## Integration status
 
-The SERV, Sirenic x402, EasyPost and Kite Passport adapters are implemented. The current local `.env` is real and ignored by Git, but external API credentials are blank. No authenticated SERV request, EasyPost request, Passport approval, or paid Sirenic call has been made here. A no-payment Sirenic quote preflight returned HTTP 402 and its Base USDC quote was inspected. Live company cases stay disabled until SERV and the Kite worker are configured and the explicit-session payment path has been verified. Shipment test and live modes use separate EasyPost test and production keys.
+The local `.env` is real and ignored by Git. SERV reasoning and an EasyPost **test** tracker request have both succeeded locally; the EasyPost test fixture returned `delivered` without payment. The dedicated Veyra Supabase project and schema are ready, and the app now uses Postgres when its server secret is configured. Passport signup still needs email verification and passkey setup. No Passport approval or paid Sirenic call has been verified, so the live payment gate remains closed.
 
-The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) is a fixture demo. It is not configured for live calls: the local Kite worker URL and local SQLite database are not suitable Vercel production services. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
+The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) is a fixture demo. Its app/provider settings and Supabase URL are in Vercel's encrypted environment; the Supabase server secret still needs to be added, and the local Kite worker URL cannot be reached from Vercel. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
 
 ## Run locally on S:
 
@@ -25,7 +25,7 @@ The Kite CLI is installed at `.kpass\bin\kpass.exe`, on `S:`. It is not added to
 
 ## Environment values
 
-The private `.env` already exists in the project root. It has locally generated app credentials and a worker token; do not paste it into chat, screenshots, GitHub or a demo recording. External provider fields are left blank until you obtain your own credentials.
+The private `.env` already exists in the project root. It has locally generated app credentials, the SERV reasoning key/model, the EasyPost test key, and a worker token; do not paste it into chat, screenshots, GitHub or a demo recording. The EasyPost production key and Supabase server secret are not configured.
 
 | Variable | What it is | How to get or set it |
 |---|---|---|
@@ -33,10 +33,11 @@ The private `.env` already exists in the project root. It has locally generated 
 | `AUTH_SECRET` | Random key used to sign the local session cookie | Keep the generated value, or generate a new random value of 32+ characters. |
 | `VYERA_API_KEY` | Local API bearer key | Keep the generated value or generate a new random value. |
 | `DATABASE_PATH` | SQLite filename under `data\` | Local path only; the current value avoids the older smoke-test database. |
-| `SERV_REASONING_API_KEY` | OpenServ SERV API key used for evidence planning | [Create an OpenServ account](https://console.openserv.ai/signup), then create an API key in the [SERV console](https://console.openserv.ai/). The official guide is [Add credits and create an API key](https://docs.openserv.ai/serv-reasoning/tutorials/credits-and-api-keys). |
-| `SERV_MODEL` | SERV model ID, not a key | Choose one available to your account from the [model catalog](https://docs.openserv.ai/serv-reasoning/models). Do not guess a model name. |
+| `SUPABASE_URL` | Veyra Postgres API URL | `https://jxwbvxropvzhfjgfilim.supabase.co` for the dedicated project. |
+| `SUPABASE_SECRET_KEY` | Private server key for Postgres access | Copy the `sb_secret_...` value from [Veyra's Supabase API Keys settings](https://supabase.com/dashboard/project/jxwbvxropvzhfjgfilim/settings/api-keys). A legacy `service_role` key also works. Do not use a publishable or anon key, and never expose this variable to the browser. |
+| `SERV_MODEL` | SERV model ID, not a key | Configured locally and verified with `gpt-6-luna`. See the [model catalog](https://docs.openserv.ai/serv-reasoning/models). |
 | `SERV_BASE_URL` | SERV API base URL | Leave as `https://inference-api.openserv.ai/v1`; see the official [API overview](https://docs.openserv.ai/serv-reasoning/api). |
-| `EASYPOST_TEST_API_KEY` | EasyPost test API key for shipment tracking checks | Create/copy a **Test** key from the [EasyPost dashboard](https://app.easypost.com), under API Keys. EasyPost requires an account wallet and a ship-from address before key access. See [EasyPost authentication](https://docs.easypost.com/docs/authentication). |
+| `EASYPOST_TEST_API_KEY` | EasyPost test API key for shipment tracking checks | Configured locally and verified using EasyPost's USPS test fixture. To rotate it, copy a **Test** key from the [EasyPost dashboard](https://app.easypost.com), under API Keys. See [EasyPost authentication](https://docs.easypost.com/docs/authentication). |
 | `EASYPOST_PRODUCTION_API_KEY` | EasyPost production API key for live tracking | Copy the **Production** key from the same [EasyPost dashboard](https://app.easypost.com). Live tracker creation is billed by EasyPost. Keep blank until you intend to run a real lookup. |
 | `KITE_WORKER_URL` | Private server-to-server URL for the Passport worker | Local default is `http://127.0.0.1:8787`. A hosted app needs a deployed HTTPS worker URL. |
 | `KITE_WORKER_TOKEN` | Shared secret between Veyra and the Kite worker | A strong local random token is already generated. Keep the same value on both services. |
@@ -80,7 +81,7 @@ API-key requests use `Authorization: Bearer <VYERA_API_KEY>`. Browser mutations 
 
 ## Deployment
 
-Vercel serves the public fixture demo. Keep live providers disabled there until a durable database and an HTTPS-hosted Kite worker are deployed and the Passport session-only behavior is verified. Vercel serverless local files under `/tmp` are not durable storage. For now, use the local app and worker for provider integration testing.
+Vercel serves the public fixture demo. Its Supabase project URL and requested app/provider settings are configured, but the database secret is missing. Add it to enable durable cases there. Keep paid Passport flows disabled until an HTTPS-hosted Kite worker is deployed and session-only behavior is verified. Vercel serverless files under `/tmp` are not durable storage.
 
 ## Build checks
 

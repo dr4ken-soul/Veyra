@@ -9,11 +9,11 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
   try {
     const principal = routePrincipal(request);
     const { id } = await context.params;
-    const record = listCaseRecords(principal.orgId).find((item) => item.operationId === id);
+    const record = (await listCaseRecords(principal.orgId)).find((item) => item.operationId === id);
     if (!record) return responseJson(requestId, {
       error: { code: "OPERATION_NOT_FOUND", message: "No operation was found.", retryable: false }
     }, 404);
-    const current = getCaseRecord(record.id, principal.orgId);
+    const current = await getCaseRecord(record.id, principal.orgId);
     return responseJson(requestId, {
       operation: {
         id,

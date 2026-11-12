@@ -25,7 +25,7 @@ export default async function CasesPage({ searchParams }: { searchParams: Promis
   const scenario = params.scenario && validateScenario(params.scenario) ? params.scenario : undefined;
   const state = params.state || undefined;
   const mode = params.mode === "fixture" ? "fixture" : undefined;
-  const records = listCaseRecords(session.orgId, { scenario, state, mode });
+  const records = await listCaseRecords(session.orgId, { scenario, state, mode });
 
   return (
     <>

@@ -12,7 +12,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
     const principal = routePrincipal(request);
     const { id } = await context.params;
     if (!/^[0-9a-f-]{36}$/i.test(id)) throw new HttpError(404, "CASE_NOT_FOUND", "The case was not found.");
-    const record = getCaseRecord(id, principal.orgId);
+    const record = await getCaseRecord(id, principal.orgId);
     if (!record) throw new HttpError(404, "CASE_NOT_FOUND", "The case was not found.");
     return responseJson(requestId, { case: publicCase(record) });
   } catch (error) {

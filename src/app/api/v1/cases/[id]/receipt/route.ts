@@ -9,7 +9,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
   try {
     const principal = routePrincipal(request);
     const { id } = await context.params;
-    const receipt = getReceipt(principal.orgId, id);
+    const receipt = await getReceipt(principal.orgId, id);
     return responseJson(requestId, { receipt }, 200, { "Content-Disposition": "attachment; filename=veyra-receipt-" + id + ".json" });
   } catch (error) {
     return errorResponse(error, requestId);

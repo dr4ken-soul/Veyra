@@ -38,10 +38,10 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     const principal = routePrincipal(request, 10);
     verifyMutation(request, principal);
     const { id } = await context.params;
-    const record = getCaseRecord(id, principal.orgId);
+    const record = await getCaseRecord(id, principal.orgId);
     if (!record) throw new HttpError(404, "CASE_NOT_FOUND", "The case was not found.");
     if (record.mode === "fixture") {
-      const result = runFixtureEvidence(principal.orgId, id);
+      const result = await runFixtureEvidence(principal.orgId, id);
       if (!result) throw new HttpError(500, "EVIDENCE_UNAVAILABLE", "The simulated evidence could not be loaded.");
       return responseJson(requestId, { case: publicCase(result), operationId: result.operationId, mode: "fixture", paymentState: "simulated" });
     }
@@ -53,14 +53,14 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     if (record.scenario === "shipment") {
       const mode = record.mode;
       if (mode !== "test" && mode !== "live") throw new HttpError(403, "MODE_BLOCKED", "Choose a configured shipment mode.");
-      const operation = claimProviderOperation(principal.orgId, id, mode);
+      const operation = await claimProviderOperation(principal.orgId, id, mode);
       if (!operation.operationId || !operation.claimed) {
         if (operation.record?.evidence) return responseJson(requestId, { case: publicCase(operation.record), operationId: operation.operationId, mode, paymentState: operation.record.payment?.state || "unknown", replayed: true });
         throw new HttpError(409, "OPERATION_ALREADY_STARTED", "A provider request already started for this case. Check its status; do not retry it.");
       }
       claimed = { orgId: principal.orgId, caseId: id, operationId: operation.operationId, mode };
       const tracker = await retrieveEasyPostTracker(record, mode);
-      const completed = completeProviderOperation({
+      const completed = await completeProviderOperation({
         orgId: principal.orgId, caseId: id, operationId: operation.operationId, mode,
         sourceName: "EasyPost tracking record",
         operatorName: "EasyPost API",
@@ -82,7 +82,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     }
     const quote = await preflightSirenic(record);
     if (!sameQuote(quote, record.passportSession.quote)) throw new HttpError(409, "QUOTE_CHANGED", "Sirenic's payment quote changed since approval. Request a fresh Passport session; no payment was attempted.");
-    const operation = claimProviderOperation(principal.orgId, id, "live");
+    const operation = await claimProviderOperation(principal.orgId, id, "live");
     if (!operation.operationId || !operation.claimed) {
       if (operation.record?.evidence) return responseJson(requestId, { case: publicCase(operation.record), operationId: operation.operationId, mode: "live", paymentState: operation.record.payment?.state || "unknown", replayed: true });
       throw new HttpError(409, "OPERATION_ALREADY_STARTED", "A live provider call was already started for this case. Check its status; do not retry it.");
@@ -98,7 +98,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     const subject = validateSirenicResult(record.scenario, record.input.registrationNumber, providerResponse);
     const payment = paymentRecord(result.payment, quote);
     const upstream = record.input.jurisdiction.toUpperCase().startsWith("F") ? "INSEE / INPI French company registers" : "Companies House (United Kingdom)";
-    const completed = completeProviderOperation({
+    const completed = await completeProviderOperation({
       orgId: principal.orgId, caseId: id, operationId: operation.operationId, mode: "live",
       sourceName: "Sirenic European company profile",
       operatorName: "Sirenic API via Kite Passport",
@@ -113,7 +113,13 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     if (!completed) throw new HttpError(500, "STORE_ERROR", "The live evidence result could not be saved. Check the Passport activity before any further action.");
     return responseJson(requestId, { case: publicCase(completed), operationId: operation.operationId, mode: "live", paymentState: payment.state });
   } catch (error) {
-    if (claimed) markProviderOperationUnknown(claimed.orgId, claimed.caseId, claimed.operationId, claimed.mode);
+    if (claimed) {
+      try {
+        await markProviderOperationUnknown(claimed.orgId, claimed.caseId, claimed.operationId, claimed.mode);
+      } catch (storeError) {
+        return errorResponse(storeError, requestId);
+      }
+    }
     return errorResponse(error, requestId);
   }
 }

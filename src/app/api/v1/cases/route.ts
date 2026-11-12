@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     if (mode && !["fixture", "test", "live"].includes(mode)) throw new HttpError(422, "INVALID_MODE", "Choose Fixture, Test or Live mode.");
     const allowedStates = new Set(["draft", "planned", "needs_review", "insufficient_evidence"]);
     if (state && !allowedStates.has(state)) throw new HttpError(422, "INVALID_STATE", "Choose a supported case state.");
-    const items = listCaseRecords(principal.orgId, { scenario, state, mode });
+    const items = await listCaseRecords(principal.orgId, { scenario, state, mode });
     return responseJson(requestId, { items: items.map(publicCase), nextCursor: null });
   } catch (error) {
     return errorResponse(error, requestId);
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     if (idempotencyKey && (idempotencyKey.length > 128 || !/^[A-Za-z0-9._:-]+$/.test(idempotencyKey))) {
       throw new HttpError(422, "INVALID_IDEMPOTENCY_KEY", "The idempotency key contains unsupported characters.");
     }
-    const result = createCaseRecord({
+    const result = await createCaseRecord({
       orgId: principal.orgId,
       scenario: body.scenario,
       mode,
