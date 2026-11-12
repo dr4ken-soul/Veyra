@@ -22,7 +22,7 @@ An authenticated SERV structured-output request and an EasyPost test-mode tracke
 
 Kite Passport documents allowance use when no usable session is selected. The worker therefore creates a fresh separate session and requires an explicit approved session ID for execution; it also checks that the ID belongs to the exact active request. The private `.env` keeps both live gates false until this behavior is verified against a signed-in account. `PASSPORT_SESSION_ONLY_VERIFIED` is an operator assertion, not proof by itself. The worker's fixed Sirenic URL allowlist remains enforced locally even though Passport does not enforce URL scope for paid calls.
 
-Vercel deployment remains fixture-only until the persistence changes are deployed and `SUPABASE_SECRET_KEY` is set. Provider credentials are stored as encrypted, server-only Vercel variables; the app does not receive the Supabase secret yet. The local worker cannot be reached from Vercel. Keep paid Passport flows disabled until an HTTPS-hosted worker and account-specific session checks are in place.
+Vercel production uses the dedicated Supabase project, and the authenticated fixture-mode case API passed create, idempotent replay, fetch, and list after deployment. The public demo remains synthetic. Provider credentials are stored as encrypted, server-only Vercel variables. The local worker cannot be reached from Vercel. Keep paid Passport flows disabled until an HTTPS-hosted worker and account-specific session checks are in place.
 
 ## Secret handling
 
@@ -30,4 +30,4 @@ The real local `.env`, `.kpass` CLI installation, `.kite-passport` login state a
 
 ## Release requirements
 
-Before public-user production use, replace local sign-in, move case/session state to durable tenant-scoped storage, define retention and deletion, validate source terms and current pricing, verify the actual provider response and signed evidence where supported, prove Passport session-only execution with allowance disabled, and complete independent security and privacy review. Keep live actions disabled until the Passport and quote-integrity checks pass.
+Before public-user production use, replace local sign-in with tenant-scoped authentication, make session and operation state durable and tenant-scoped, define retention and deletion, validate source terms and current pricing, verify the actual provider response and signed evidence where supported, prove Passport session-only execution with allowance disabled, and complete independent security and privacy review. Keep live actions disabled until the Passport and quote-integrity checks pass.
