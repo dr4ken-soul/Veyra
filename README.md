@@ -8,7 +8,7 @@ Veyra turns a business evidence gap into a narrow case, a validated SERV plan, a
 
 The private local `.env` is real and ignored by Git. SERV reasoning and an EasyPost **test** tracker request have succeeded locally; the EasyPost test fixture returned `delivered` without payment. The dedicated Veyra Supabase project is configured. One local and one hosted $0.005 Sirenic registry lookup completed through Kite Passport with separately approved sessions; a mismatched session was rejected before any request, and Passport activity plus Base receipts confirmed settlement. The Vercel Production Passport gates are enabled after the hosted case UI/API path was verified.
 
-The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) is a fixture demo, and its authenticated case API uses the dedicated Supabase project. Vercel runs the Kite CLI in a private, persistent Vercel Sandbox; it never tries to reach the local loopback worker. One hosted live case completed SERV planning, task-specific approval, explicit-session execution and confirmed receipt; each future payment still needs its own approval. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
+The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) starts with a live French company profile lookup. Each visitor connects an injected Base wallet, reviews Sirenic's x402 quote and approves an exact payment capped at $0.005 USDC. This path pays Sirenic from that visitor's wallet; it does not use SERV or the operator's Passport balance, and Veyra never receives the visitor's key. The browser verifies the signed Sirenic response before showing it. Other scenario cards are synthetic examples. The authenticated case API uses the dedicated Supabase project; Vercel runs the Kite CLI in a private, persistent Sandbox. One hosted operator case completed SERV planning, task-specific Passport approval, explicit-session execution and confirmed receipt; each future operator-paid query needs its own approval. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
 
 ## Run locally on S:
 
@@ -18,7 +18,7 @@ The project, npm cache, dependencies, Kite CLI and local database are kept under
 2. Install JavaScript dependencies with `npm install` if needed.
 3. In one terminal, run `npm run kite:worker`.
 4. In another terminal, run `npm run dev`.
-5. Open `http://localhost:3000` or the synthetic public demo at `http://localhost:3000/demo`.
+5. Open `http://localhost:3000` or the demo at `http://localhost:3000/demo`. Local development enables the visitor-wallet widget; use a wallet and Base USDC you control if you choose to make a real payment.
 6. Sign into the local workspace with `APP_LOGIN_PASSWORD` from the private `.env` file.
 
 The Kite CLI is installed at `.kpass\bin\kpass.exe`, on `S:`. It is not added to the global Windows PATH. The local Passport account is signed in, funded, and the Veyra buyer agent is registered. One approved session was used for the verified paid lookup; every new paid operation still needs its own fresh approval. Keep the CLI's local auth state private and out of Git.
@@ -52,7 +52,7 @@ The private `.env` already exists in the project root. It has locally generated 
 
 The legacy `SERV_API_KEY` is accepted as a fallback for `SERV_REASONING_API_KEY`. Do not use `SIRENIC_API_KEY`: the live company adapter intentionally uses x402 through Kite Passport, not Sirenic account-credit billing.
 
-Passport setup links: [install and sign in to the official CLI](https://docs.gokite.ai/passport/install), [review session and allowance behavior](https://docs.gokite.ai/passport/payments/allowance), [fund the wallet](https://docs.gokite.ai/passport/payments/funding), and [open the Passport dashboard](https://agentpassport.ai/overview). The application requires a fresh separate session approval and an explicit session ID before it can pay. Fund only what you intend to spend. Sirenic's x402 path does not need a Sirenic API key; its unpaid 402 quote is fetched before the user approves the requested spend.
+Passport setup links: [install and sign in to the official CLI](https://docs.gokite.ai/passport/install), [review session and allowance behavior](https://docs.gokite.ai/passport/payments/allowance), [fund the wallet](https://docs.gokite.ai/passport/payments/funding), and [open the Passport dashboard](https://agentpassport.ai/overview). The private operator workspace requires a fresh separate Passport session approval and explicit session ID before each paid query. The public visitor-wallet path is separate: visitors need an injected EVM wallet with Base Mainnet USDC, and sign a one-time x402 payment themselves. No new `.env` value or Sirenic API key is needed for that public flow. Base testnet tokens do not pay Sirenic's live quote.
 
 ## Scenario coverage
 
@@ -82,7 +82,7 @@ API-key requests use `Authorization: Bearer <VYERA_API_KEY>`. Browser mutations 
 
 ## Deployment
 
-Vercel serves the public fixture demo and the authenticated case API uses the dedicated Supabase project for durable storage. In Production the server-side API invokes the Kite CLI inside the named persistent Vercel Sandbox. The sandbox has no public ingress; each operation uses a new, narrowly capped Passport session and passes its approved session ID explicitly. The Production payment gate is enabled after the hosted case UI/API flow and confirmed receipt were verified. The public demo stays simulated, and each future live operation needs its own passkey approval.
+Vercel Production enables the public visitor-funded wallet lookup and the authenticated case API, which uses the dedicated Supabase project for durable storage. The public x402 request goes from the visitor's browser to Sirenic and does not invoke the Kite worker. The private operator API invokes the Kite CLI inside the named persistent Vercel Sandbox; it has no public ingress, and each operator-paid query uses a new narrowly capped Passport session with its approved session ID. Vercel Preview disables both live payment paths.
 
 ## Build checks
 

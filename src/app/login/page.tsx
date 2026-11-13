@@ -24,7 +24,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <h1>Sign in</h1>
         <p className="body-copy">Use the access code configured for this local Veyra workspace.</p>
         <LoginForm nextPath={nextPath} />
-        <p className="login-demo-link"><Link href="/demo">View the public simulated demo</Link></p>
+        <p className="login-demo-link"><Link href="/demo">View the public demo</Link></p>
         <p className="caption">This single-workspace sign-in is for the local hackathon demo. It is not a production identity provider.</p>
       </div>
     </main>

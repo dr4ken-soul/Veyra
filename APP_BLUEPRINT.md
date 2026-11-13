@@ -203,7 +203,7 @@ Payment and evidence have separate state: `payment: not_started | pending | conf
 
 ## 11. Frontend and demo
 
-Frontend decisions and full screen-level states are in `FRONTEND_SPEC.md`. Core screens: cases, case detail, spending session, activity and settings. Landing demo receipt is labelled illustrative. Use synthetic or publicly permissible data. The demo must show a real SERV request ID; a real Passport payment and provider result only if independently confirmed, otherwise explicitly label the result as fixture or test. No fake live counters or implied sponsorship logos.
+Frontend decisions and full screen-level states are in `FRONTEND_SPEC.md`. Core screens: cases, case detail, spending session, activity and settings. The public demo has a visitor-funded French Sirenic profile lookup; the quote must be reviewed before signing, the payment cap must remain $0.005, and the response must pass Sirenic Ed25519 signature verification before display. That route pays from the visitor's own Base wallet and does not use the Veyra operator's Passport or SERV balance. Other demo scenarios stay clearly marked as fixtures. The private operator flow shows a real SERV request ID and Passport receipt only when independently confirmed. No fake live counters or implied sponsorship logos.
 
 Suggested demonstration:
 1. Show a supplier bank-detail change with a missing account-ownership proof.

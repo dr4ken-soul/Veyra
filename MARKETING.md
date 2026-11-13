@@ -11,14 +11,14 @@ Draft positioning only. Update it with verified outcomes before publication.
 
 ## Current demonstration
 
-The public Vercel app is a clearly labelled synthetic demo for supplier change, shipment status and business registration. The project includes verified local SERV planning, EasyPost test tracking, and separate local and hosted Passport payments. The hosted Vercel Sandbox runs the authenticated, registered Veyra buyer agent; a live hosted case completed SERV planning, fresh session approval, one Sirenic request and a confirmed Base receipt. The public demo remains simulated, and every future live query needs its own one-call approval.
+The public Vercel app leads with a live, visitor-funded Sirenic x402 lookup for French company profiles. Each visitor connects their own injected Base wallet, reviews the exact quote, and approves a one-time payment capped at $0.005; Veyra never uses the operator's Passport funds for that route. The response is checked against Sirenic's published Ed25519 signing key. Other scenario cards remain clearly labelled synthetic examples. The authenticated Production workspace includes SERV planning, EasyPost test tracking, and a hosted Passport flow; each operator-paid query still requires fresh approval. The public route's first visitor-funded settlement and browser signature check need one live confirmation after deployment.
 
 ## Suggested demo narrative
 
-1. Show a supplier requesting a payment-detail change and the evidence gap.
-2. Explain that company registration cannot establish bank-account ownership.
-3. Show the simulated receipt and keep the invoice on hold.
-4. Show shipment and registration as simulated scenario packs.
+1. Connect a visitor-owned Base wallet and request a French SIREN quote. Show the $0.005 cap and quote recipient before approving.
+2. Show the paid response only after the browser verifies Sirenic's Ed25519 signature.
+3. Explain that company registration cannot establish bank-account ownership; the invoice remains on hold.
+4. Show shipment and registration as clearly labelled synthetic examples.
 5. If real SERV/provider requests have been tested before recording, identify the actual model, request ID and provider mode. Never mix a live response with synthetic data without labelling each.
 
 ## Suggested short write-up
@@ -35,8 +35,12 @@ The public Vercel app is a clearly labelled synthetic demo for supplier change, 
 - [ ] Public repository with accurate setup and security limits.
 - [ ] Public fixture demo or video that labels all synthetic results.
 - [ ] Short write-up matching only verified SERV and Kite behavior.
-- [ ] X post with project name, concept, images/links and the OpenServ tag.
+- [ ] One final X post with project name, concept, link and the OpenServ tag. Progress posts are optional.
 - [ ] Submit the links through the [official form](https://openserv.typeform.com/submissions02) by 15 November 2026, 23:59 UTC (16 November 00:59 in Lagos).
 - [ ] Do not claim sponsorship, verified bank ownership, fraud prevention, completed payment integration or live settlement without evidence.
 
-The X post and hackathon form are drafts only. They have not been published or submitted.
+## Single post draft
+
+Veyra for @openservai Hackathon 02 (Kite): SERV plans checks; operators use Passport. Visitors pay Sirenic from their own Base wallet, max $0.005 per French lookup. Veyra checks the signed record; registries can't prove bank ownership. https://veyra-tau-mauve.vercel.app/demo
+
+The X post and hackathon form are drafts only. They have not been published or submitted. Confirm one visitor-funded lookup after deployment before publishing the signature-verification claim. Edition 02 requires one final X post by the deadline; progress posts are optional.

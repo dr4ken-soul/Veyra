@@ -1,14 +1,15 @@
 # Veyra | Build and release guide
 
-Status as of 13 November 2026: the Vercel app and Supabase case store are deployed and verified. SERV and EasyPost test calls succeeded locally. Local and hosted Veyra flows each completed one $0.005 Sirenic request through a separately approved Passport session; both were confirmed in Passport activity and Base receipts, and a mismatched session ID was rejected before a provider request. Production Vercel's named Sandbox is signed in as the registered Veyra buyer agent; the Production live gates are enabled after the full hosted UI/API case flow succeeded. The public demo remains synthetic. Edition 02 is the target.
+Status as of 13 November 2026: the Vercel app and Supabase case store are deployed and verified. SERV and EasyPost test calls succeeded locally. Local and hosted Veyra flows each completed one $0.005 Sirenic request through a separately approved Passport session; both were confirmed in Passport activity and Base receipts, and a mismatched session ID was rejected before a provider request. Production Vercel's named Sandbox is signed in as the registered Veyra buyer agent; the Production operator live gates are enabled after the full hosted UI/API case flow succeeded. The public `/demo` page now includes a visitor-funded French company lookup using each visitor's Base wallet; its first paid browser run remains to be confirmed. Edition 02 is the target.
 
 ## Implemented
 
-- Next.js application, public synthetic demo and local single-workspace screens.
+- Next.js application, public visitor-funded French registry lookup, clearly labelled synthetic scenario examples and local single-workspace screens.
 - Scenario-specific supplier-change, shipment-status and business-registration schemas.
 - SQLite case store, operation lock, event history, redacted JSON receipt and human-review record.
 - SERV structured-output adapter with local schema validation and refusal/truncation handling.
 - Sirenic company profile quote preflight for GB/FR, policy checks and a Kite Passport session execution route.
+- Production-only direct browser x402 client for French SIREN lookups, capped at $0.005 USDC per visitor payment, with exact quote binding and Sirenic Ed25519 response verification.
 - EasyPost tracker adapter for test and production modes, with response matching, bounded tracking data and conservative payment/billing states.
 - Separate loopback-first Kite worker with bearer authentication, official CLI commands, session refresh, fixed endpoint allowlist and idempotency cache.
 - `.env` is created locally and ignored by Git. Provider and app secrets remain server-side; never copy their values into source or documentation.
@@ -49,6 +50,7 @@ There is no automated test suite in this edition. Type checking and building do 
 - Fixture results remain synthetic and label payment as simulated.
 - EasyPost test, production and fixture modes remain visibly distinct.
 - Production Passport execution is enabled only with the private named Sandbox, quote checks, exact active request/session verification and explicit approved session ID. Every new paid operation still requires a fresh user approval.
+- Public visitor payments use the visitor's own wallet and never spend the operator's Passport balance. Vercel Preview disables the visitor wallet flow; Production only.
 - A SERV failure, refusal, truncation or invalid schema prevents evidence execution.
 - An uncertain provider operation is blocked against automatic retry.
 - Company registration is not treated as bank-account ownership.

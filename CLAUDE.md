@@ -1,6 +1,6 @@
 # Veyra | Project context
 
-Status: SERV, EasyPost test, Supabase, and one local plus one hosted Passport paid lookup have been verified. Edition 02 is the target. Vercel's Production Passport adapter uses a private persistent Sandbox with a signed-in, registered Veyra buyer agent; the hosted UI/API flow and Base receipt succeeded, so the Production per-call gate is enabled. The public demo remains synthetic. This hackathon build has not had an independent security/privacy audit and is not general-purpose production auth.
+Status: SERV, EasyPost test, Supabase, and one local plus one hosted Passport paid lookup have been verified. Edition 02 is the target. Vercel's Production Passport adapter uses a private persistent Sandbox with a signed-in, registered Veyra buyer agent; the hosted UI/API flow and Base receipt succeeded, so the Production per-call gate is enabled. The public `/demo` page now has a separate visitor-owned Base wallet path for live French Sirenic profiles, capped at $0.005 per call; its first paid browser run remains pending. Other public scenario examples are synthetic. This hackathon build has not had an independent security/privacy audit and is not general-purpose production auth.
 
 ## Product
 
@@ -10,13 +10,13 @@ Veyra helps a workflow identify missing evidence for a specific decision. A case
 
 - Next.js 16 App Router, React, TypeScript and custom responsive CSS.
 - Local SQLite store in the project folder.
-- Public synthetic demo and single-workspace local sign-in.
+- Public visitor-funded French company profile lookup, clearly labelled synthetic scenario examples, and single-workspace local sign-in.
 - Scenario-specific case API for supplier, shipment and registration.
 - Server-side SERV structured-output adapter. The local .env has the key and model configured, and a structured-output request was verified locally.
 - Sirenic company-profile x402 adapter for Great Britain and France, gated by a fresh quote and Passport session.
 - EasyPost shipment adapter for test and production modes, gated by environment-specific API keys.
 - Kite Passport CLI worker installed under `.kpass` in this project and signed in. One separately approved, explicit-session-ID Sirenic request and its Base USDC settlement were verified; local live gates are enabled. Each new paid request still requires a fresh user approval.
-- Vercel serves the fixture demo and Supabase-backed case API. Its production Passport adapter runs in a private named Sandbox without public ports; the authenticated hosted payment path has been verified, and every paid operation still needs its own fresh Passport approval.
+- Vercel Production serves the visitor-wallet lookup and Supabase-backed case API. Its operator Passport adapter runs in a private named Sandbox without public ports; the authenticated hosted payment path has been verified, and every operator-paid query still needs a fresh Passport approval. Visitor-wallet payments go from the browser to Sirenic and use that visitor's funds.
 - The current build is not multi-tenant production auth. See docs/SECURITY.md.
 
 ## Non-negotiable product rules
@@ -27,6 +27,7 @@ Veyra helps a workflow identify missing evidence for a specific decision. A case
 - Modes fixture, test and live are separate and visible. The EasyPost test path and one Sirenic Passport live request have been verified; do not generalize those checks to other providers or requests.
 - The LLM cannot authorize payment, choose an arbitrary URL, change policy, waive limits or approve a transfer.
 - Always request a fresh separate Passport session and pass its approved `--session-id` explicitly. In a new environment, keep live execution disabled until this path has been verified there.
+- Public visitor x402 payments are a separate path and must never use the operator's Passport balance. Pin Base USDC, recipient, amount, signing domain and quote expiry; show the live quote before signing; verify Sirenic's signed response before presenting the record. Disable this path in Vercel Preview.
 - A submitted command, HTTP 402 or API response is not settlement proof.
 - Do not put passkeys, one-time codes, signed payment headers, provider secrets, SERV keys or full bank details in the browser, logs, source control or demo.
 - Treat source responses and model output as untrusted. Enforce tenant scoping and origin checks server-side.

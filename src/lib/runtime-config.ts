@@ -7,6 +7,11 @@ export function kiteWorkerConfigured() {
   return Boolean(process.env.KITE_WORKER_URL && process.env.KITE_WORKER_TOKEN);
 }
 
+export function publicWalletPaymentsEnabled() {
+  if (process.env.VERCEL) return process.env.VERCEL_ENV === "production";
+  return process.env.NODE_ENV === "development";
+}
+
 export function easyPostConfigured(mode: "test" | "live") {
   const key = mode === "test" ? process.env.EASYPOST_TEST_API_KEY : process.env.EASYPOST_PRODUCTION_API_KEY;
   return Boolean(key?.trim());

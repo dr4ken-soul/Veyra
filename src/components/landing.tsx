@@ -45,7 +45,7 @@ function MobileDialog({ open, onClose }: { open: boolean; onClose: () => void })
         <a href="#journey" onClick={onClose}>How it works</a>
         <a href="#integration" onClick={onClose}>Integration</a>
         <a href="#safety" onClick={onClose}>Safety</a>
-        <Link className="button button-primary" href="/demo" onClick={onClose}>Explore the demo</Link>
+        <Link className="button button-primary" href="/demo" onClick={onClose}>Try the live lookup</Link>
       </nav>
     </dialog>
   );
@@ -70,7 +70,7 @@ function SiteNav() {
             <a href="#integration">Integration</a>
             <a href="#safety">Safety</a>
           </nav>
-          <Link className="button button-primary nav-cta" href="/demo">Explore the demo</Link>
+          <Link className="button button-primary nav-cta" href="/demo">Try the live lookup</Link>
           <button
             className="menu-trigger"
             type="button"
@@ -177,7 +177,7 @@ export default function Landing() {
               <h1 className="hero-title reveal">Buy the proof<br className="desktop-break" /> before you decide</h1>
               <p className="hero-subtitle reveal">Veyra finds missing evidence and pays for supported checks within a budget you approve.</p>
               <div className="hero-actions reveal">
-                <Link className="button button-primary" href="/demo">Explore the demo <span aria-hidden="true">↗</span></Link>
+                <Link className="button button-primary" href="/demo">Try the live lookup <span aria-hidden="true">↗</span></Link>
               </div>
             </div>
             <div className="hero-receipt-wrap reveal">
@@ -274,7 +274,7 @@ export default function Landing() {
               <p className="eyebrow">See the evidence boundary</p>
               <h2 className="section-title">See how Veyra finds the missing proof</h2>
               <p className="body-copy">Explore an illustrative case, then connect a supported spending session when you are ready.</p>
-              <Link className="button button-primary" href="/demo">Explore the demo <span aria-hidden="true">↗</span></Link>
+              <Link className="button button-primary" href="/demo">Try the live lookup <span aria-hidden="true">↗</span></Link>
             </div>
           </div>
         </section>

@@ -1,6 +1,6 @@
 # Veyra | Frontend Specification
 
-Status: design source of truth. The local application code has been built to this specification; no production deployment or live integration is implied.
+Status: design source of truth. The public demo now has a production-gated visitor-owned wallet flow for live French company profiles, alongside clearly labelled synthetic scenario examples. The authenticated operator workspace retains its separately approved Passport flow. A visitor-funded paid run remains to be confirmed after deployment.
 
 ## 0. Identity and confirmed decisions
 
@@ -88,7 +88,7 @@ Named global levels: page background `z-0`; section texture `z-[1]`; section vis
 - Compact shell after 80px scroll: `mx-auto flex min-h-12 max-w-[780px] items-center justify-between gap-3 rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-2`. Transform-based 240ms morph per section 1.5; no fragile hover-only links.
 - Brand text: `font-sans text-lg font-bold tracking-[-0.04em] text-[var(--text-primary)]`. Label: `Veyra`.
 - Desktop links: `hidden items-center gap-6 md:flex`; each `inline-flex min-h-11 items-center font-sans text-sm font-medium text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]`. Labels: `How it works`, `Integration`, `Safety`.
-- Primary action: shared button class, label `Explore the demo`. Route to the case demo. If access is not ready, show a truthful recovery state, not a dead link.
+- Primary action: shared button class, label `Try the live lookup`. Route to `/demo`; Preview and other unavailable states must be stated plainly, not presented as a live route.
 - Mobile trigger: `inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-[var(--border-default)] text-[var(--text-primary)] md:hidden`; accessible label `Open navigation`, `aria-expanded`, `aria-controls`. The compact scroll state must still expose this trigger.
 - Mobile menu: portal/dialog, `fixed inset-x-4 top-20 z-[400] rounded-xl border border-[var(--border-default)] bg-[var(--bg-elevated)] p-5`; scrim `fixed inset-0 z-[300] bg-[var(--scrim)]`. Open state `{opacity:0,y:-8,filter:'blur(4px)'} -> {opacity:1,y:0,filter:'blur(0px)'}`, 200ms, easing `[0.16,1,0.3,1]`, delay 0. Close 130ms, reverse. Focus trap, Escape, close button and focus return are mandatory.
 
@@ -101,7 +101,7 @@ Named global levels: page background `z-0`; section texture `z-[1]`; section vis
 - Copy group: `flex flex-col items-start lg:col-span-7 lg:max-w-[760px]`.
 - Headline: global hero class, max two desktop lines; text `Buy the proof before you decide`.
 - Subheading: `mt-5 max-w-[45ch] font-sans text-base leading-7 text-[var(--text-secondary)] sm:text-lg sm:leading-8`; text `Veyra finds missing evidence and pays for supported checks within a budget you approve.`
-- CTA: primary button after `mt-7`; text `Explore the demo`. Gap from preceding copy is 28px, not more than 40px.
+- CTA: primary button after `mt-7`; text `Try the live lookup`. Gap from preceding copy is 28px, not more than 40px.
 - Receipt zone: `relative w-full lg:col-span-5 lg:self-end`; receipt shell `w-full rounded-xl border border-[var(--border-strong)] bg-[var(--bg-surface)] p-5 sm:p-6`.
 - Receipt header: `flex items-start justify-between gap-4 border-b border-[var(--border-default)] pb-4`; title `font-sans text-base font-semibold text-[var(--text-primary)]`, text `Evidence receipt`; mode `rounded-md border border-[var(--border-default)] px-2 py-1 font-mono text-xs text-[var(--text-secondary)]`, text `Illustrative`.
 - Receipt rows: `grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-4 border-b border-[var(--border-default)] py-3 last:border-0`. Labels `font-sans text-sm text-[var(--text-secondary)]`; values `font-mono text-sm leading-6 text-[var(--text-primary)]`.
@@ -173,8 +173,8 @@ Named global levels: page background `z-0`; section texture `z-[1]`; section vis
 - Section `relative w-full bg-[var(--bg-primary)] py-24 md:py-32`; inner standard container.
 - Content `relative z-10 flex max-w-[760px] flex-col items-start`.
 - Heading global section class: `See how Veyra finds the missing proof`.
-- Copy `mt-5 max-w-[48ch] font-sans text-base leading-7 text-[var(--text-secondary)]`: `Explore an illustrative case, then connect a supported spending session when you are ready.`
-- Primary button shared style with `mt-7`, label `Explore the demo`. Base reveal delays heading 0s, body 0.05s, action 0.10s; replay.
+- Copy `mt-5 max-w-[48ch] font-sans text-base leading-7 text-[var(--text-secondary)]`: `Run a live French company lookup from your own wallet, then review the evidence limits.`
+- Primary button shared style with `mt-7`, label `Try the live lookup`. The linked demo has a public wallet path and separately labelled synthetic examples. Base reveal delays heading 0s, body 0.05s, action 0.10s; replay.
 
 **Footer stack:** background `z-0`, content `z-10`, nav `z-[200]`.
 - Section `relative w-full border-t border-[var(--border-default)] bg-[var(--bg-surface)] py-10`.
@@ -186,7 +186,7 @@ Named global levels: page background `z-0`; section texture `z-[1]`; section vis
 
 Use actual verified user authentication for private app data. A public illustrated demo can be accessed without auth only when it contains no real tenant or financial data. Do not gate the whole app on a generic EVM wallet: Passport passkey authorisation and application login are different concepts.
 
-- Public routes: `/` and `/demo` (illustrative or user-selected labelled fixture). Private routes: `/app/cases`, `/app/cases/new`, `/app/cases/[id]`, `/app/activity`, `/app/settings`, `/app/sessions/[id]`. Every route has a meaningful direct URL and clear recovery state.
+- Public routes: `/` and `/demo` (visitor-funded live French SIREN lookup in Production, with clearly labelled synthetic examples below). Private routes: `/app/cases`, `/app/cases/new`, `/app/cases/[id]`, `/app/activity`, `/app/settings`, `/app/sessions/[id]`. Every route has a meaningful direct URL and clear recovery state.
 - App root `min-h-[100dvh] bg-[var(--bg-primary)] text-[var(--text-primary)]`.
 - Desktop sidebar `fixed inset-y-0 left-0 z-[200] hidden w-60 flex-col border-r border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-6 lg:flex`. Main content `min-w-0 lg:pl-60`.
 - Sidebar brand `px-3 font-sans text-lg font-bold tracking-[-0.04em]`; nav group `mt-10 flex flex-col gap-1`; nav item `flex min-h-11 items-center rounded-lg px-3 font-sans text-sm font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--focus)]`; active `bg-[var(--bg-secondary)] font-semibold text-[var(--text-primary)]`, plus `aria-current=page`. Labels `Cases`, `Activity`, `Settings`.
@@ -263,8 +263,8 @@ All app screens use the global button, label, input, panel and motion classes fr
 - Motion: scroll reveals replay in both directions; pinned timeline reverses; reduced motion shows static content. No animation blocks payment, input or access to errors.
 - Session safety: clearly distinguish app sign-in from Passport passkey approval. Never expose real transaction identifiers unless independently verified. Expired sessions, allowance fallback, wrong token, unknown settlement and rejected passkey have visible safe outcomes.
 - Deep links: test direct access and refresh of `/app/cases/[id]` with authenticated, unauthenticated, hydrating and auth-error states. Test deployed host, back navigation and mobile. Show error boundary recovery, never platform 404 or raw exception.
-- Production gating: all live controls remain disabled until provider eligibility, source terms, actual session binding, no allowance fallback and quote integrity are verified. Screens must show current mode and test/demo limitations.
-- The reference material contains a wallet dropdown pattern, but this project uses Passport rather than automatically assuming wagmi or wallet auth. If a separate wallet connection is later added, specify its modal states, network/address menu, copy and explorer actions, Escape/outside dismissal, disconnect behaviour and refresh tests before building it.
+- Passport controls remain gated on actual session binding, no allowance fallback and quote integrity. The public wallet control is a separate x402 payer path: it only selects exact Base USDC, pins the quoted receiver and domain, enforces the per-call maximum, shows the quote before signing, and verifies the provider's signed response.
+- The public demo uses an injected EIP-1193 wallet. It shows connect state, account address, Base network, the exact quote and receiver, the wallet's own approval prompt, provider-signature status, the official registry link and any exposed settlement receipt. It never treats wallet connection as Passport approval. Vercel Preview shows the disabled state; Production enables the visitor-funded route.
 
 ## 12. Asset inventory and self-check
 
@@ -282,7 +282,7 @@ These separate generated images are loose layout references only, not approved c
 
 | Asset | Need | Status and brief |
 |---|---|---|
-| Product evidence receipt | Hero and demo | Coded semantic UI. Clearly marked illustrative until backed by real data. |
+| Product evidence receipt | Hero and demo | Hero and scenario fixtures are illustrative; the French lookup shows a real provider response only after its signature verifies. |
 | Integration visual | Integration explorer | Coded, static contract diagram. No executable code, logo or fake response. |
 | Texture | Landing only | Subtle inline noise, non-semantic. |
 | Brand logo/favicon | None required | No hardcoded or generated brand mark. Ask the user before introducing one. |
