@@ -1,6 +1,6 @@
 # Veyra | Product
 
-Status: hackathon build with fixture, EasyPost test/live shipment adapters, Sirenic company-record adapter, SERV planning and a Kite Passport worker. External credentials and end-to-end provider checks remain outstanding. See [integration status](docs/INTEGRATION_STATUS.md).
+Status: hackathon build with fixture, EasyPost test/live shipment adapters, Sirenic company-record adapter, SERV planning and a Kite Passport worker. SERV, EasyPost test, and one Passport-approved Sirenic worker request have been verified locally; the full Veyra case UI/API live flow and hosted Vercel Passport path remain unverified. See [integration status](docs/INTEGRATION_STATUS.md).
 
 ## What Veyra does
 

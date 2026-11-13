@@ -1,6 +1,6 @@
 # Veyra | Build and release guide
 
-Status as of 12 November 2026: the Vercel app and Supabase case store are deployed and verified. SERV and EasyPost test credentials are configured; local SERV and EasyPost test calls succeeded. Kite Passport is signed in locally with a registered Veyra buyer agent. One paid Sirenic session approval and call remain outstanding. Vercel's Passport gate stays closed because the Kite worker is local rather than HTTPS-hosted.
+Status as of 13 November 2026: the Vercel app and Supabase case store are deployed and verified. SERV and EasyPost test calls succeeded locally. One $0.005 Sirenic request completed through a separately approved Passport session; a mismatched session ID was rejected, Kite activity recorded completion, and a Base receipt confirmed settlement. Local Passport live mode is enabled. Vercel's Passport gate stays closed because the Kite worker is local rather than HTTPS-hosted.
 
 ## Implemented
 
@@ -12,15 +12,16 @@ Status as of 12 November 2026: the Vercel app and Supabase case store are deploy
 - EasyPost tracker adapter for test and production modes, with response matching, bounded tracking data and conservative payment/billing states.
 - Separate loopback-first Kite worker with bearer authentication, official CLI commands, session refresh, fixed endpoint allowlist and idempotency cache.
 - `.env` is created locally and ignored by Git. Provider and app secrets remain server-side; never copy their values into source or documentation.
-- Kite CLI is installed under `.kpass` on `S:` without adding it to the Windows user PATH. The local account and buyer agent are set up; the Passport session and paid provider call are not yet verified.
+- Kite CLI is installed under `.kpass` on `S:` without adding it to the Windows user PATH. The local account and buyer agent are set up; one approved explicit-session paid provider call is verified. A fresh approval is required for every future paid operation.
+- The worker returns a confirmed payment reference when Kite activity reports a completed x402 payment tied to the same session. Rejected asynchronous operations return a bounded error and leave the worker available.
 
-## Remaining before a live evidence result
+## Remaining release work
 
-1. SERV credentials and model are configured; re-run a real hosted request before claiming hosted SERV verification.
-2. EasyPost test credentials are configured and the official test tracker succeeded. Use a production key only after reviewing account billing and intentionally choosing a real tracking operation.
-3. The local Passport account and Veyra buyer agent are registered. Approve a separate Base USDC session capped to the fresh provider quote; the current unpaid quote was `$0.005` for one French registry lookup.
-4. With the local worker, verify rejection of a mismatched session ID, then make one correctly scoped request and confirm Passport activity. Only then set local `PASSPORT_SESSION_ONLY_VERIFIED=true`.
-5. Keep Passport payments disabled on Vercel until an HTTPS-hosted worker is available. Verify Sirenic's result shape and provenance, review source licensing, and independently confirm any payment in Passport activity.
+1. Exercise the full Veyra case UI/API flow through planning, session approval, execution and receipt. The verified paid request in this build was run through the worker, and its one-call session is consumed.
+2. A further paid end-to-end test needs a fresh task-specific Passport approval capped to Sirenic's current quote; do not reuse the consumed session.
+3. Keep Passport payments disabled on Vercel until an authenticated HTTPS worker is deployed and configured. The loopback worker cannot serve Vercel functions.
+4. Review source licensing and run an independent security/privacy review before any production claim. No EasyPost production tracker was run.
+5. OpenServ Hackathon Edition 01 ended on 28 September 2026. Check the official page for a new edition before publishing a submission.
 
 ## Local commands
 

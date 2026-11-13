@@ -13,6 +13,7 @@ const TOKEN = process.env.KITE_WORKER_TOKEN || "";
 const CLI = process.env.KITE_CLI_PATH || "kpass";
 const DATA_DIR = path.resolve(process.env.KITE_WORKER_DATA_DIR || ".kite-worker-data");
 const REQUEST_ID_PATTERN = /^(?:req_|agent_session_req_)[A-Za-z0-9._:-]{1,196}$/;
+const SESSION_ID_PATTERN = /^(?:session_|agent_session_)[A-Za-z0-9._:-]{1,191}$/;
 let serial = Promise.resolve();
 
 await mkdir(DATA_DIR, { recursive: true });
@@ -152,6 +153,29 @@ function paymentInfo(result) {
   };
 }
 
+async function paymentInfoForSession(result, sessionId) {
+  const payment = paymentInfo(result);
+  try {
+    const activity = await runCli(["activity", "--kind", "x402_payment", "--limit", "50"]);
+    const event = Array.isArray(activity?.events) ? activity.events.find((item) =>
+      item?.kind === "x402_payment" && item?.status === "completed" &&
+      item?.details?.transaction?.session_id === sessionId
+    ) : null;
+    const transaction = event?.details?.transaction;
+    const tx = typeof transaction?.tx_hash === "string" ? transaction.tx_hash : "";
+    if (!event || !/^0x[a-fA-F0-9]{64}$/.test(tx)) return payment;
+    return {
+      ...payment,
+      state: "confirmed",
+      transactionRef: tx,
+      confirmationRef: tx,
+      confirmedAt: typeof event.occurred_at === "string" ? event.occurred_at : new Date().toISOString()
+    };
+  } catch {
+    return payment;
+  }
+}
+
 function json(response, status, body) {
   response.writeHead(status, { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" });
   response.end(JSON.stringify(body));
@@ -167,7 +191,7 @@ async function handle(request, response) {
     if (request.method === "POST" && url.pathname === "/v1/sessions") {
       const body = await readBody(request);
       const key = idKey(body.idempotencyKey);
-      return serialized(async () => {
+      return await serialized(async () => {
         const prior = await cachedResult("session-" + key);
         if (prior) return json(response, 200, prior);
         const target = providerUrl(body.url);
@@ -210,8 +234,8 @@ async function handle(request, response) {
       const target = providerUrl(body.url);
       const requestId = typeof body.requestId === "string" ? body.requestId : "";
       const sessionId = typeof body.sessionId === "string" ? body.sessionId : "";
-      if (!REQUEST_ID_PATTERN.test(requestId) || !/^session_[A-Za-z0-9._:-]{1,191}$/.test(sessionId) || body.method !== "GET") throw new Error("The approved Passport session or request method is invalid.");
-      return serialized(async () => {
+      if (!REQUEST_ID_PATTERN.test(requestId) || !SESSION_ID_PATTERN.test(sessionId) || body.method !== "GET") throw new Error("The approved Passport session or request method is invalid.");
+      return await serialized(async () => {
         const cached = await cachedResult("execute-" + key);
         if (cached) return json(response, 200, cached);
         const statusRaw = await runCli(["session", "status", "--request-id", requestId]);
@@ -222,7 +246,7 @@ async function handle(request, response) {
         if (raw?.status !== "success" || !Number.isInteger(httpStatus) || httpStatus < 200 || httpStatus >= 300) throw new Error("Passport did not confirm a successful Sirenic response. Check Passport activity before taking further action.");
         const providerResponse = providerBody(raw);
         if (!providerResponse) throw new Error("The Passport response did not contain a JSON provider result. Check Passport activity before taking any further action.");
-        const result = { ok: true, state: "complete", providerResponse, payment: paymentInfo(raw) };
+        const result = { ok: true, state: "complete", providerResponse, payment: await paymentInfoForSession(raw, sessionId) };
         await storeResult("execute-" + key, result);
         return json(response, 200, result);
       });

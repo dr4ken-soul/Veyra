@@ -6,9 +6,9 @@ Veyra turns a business evidence gap into a narrow case, a validated SERV plan, a
 
 ## Integration status
 
-The local `.env` is real and ignored by Git. SERV reasoning and an EasyPost **test** tracker request have both succeeded locally; the EasyPost test fixture returned `delivered` without payment. The dedicated Veyra Supabase project and schema are ready, and the app now uses Postgres when its server secret is configured. Passport signup still needs email verification and passkey setup. No Passport approval or paid Sirenic call has been verified, so the live payment gate remains closed.
+The private local `.env` is real and ignored by Git. SERV reasoning and an EasyPost **test** tracker request have succeeded locally; the EasyPost test fixture returned `delivered` without payment. The dedicated Veyra Supabase project is configured. One $0.005 Sirenic registry lookup completed through the Kite worker with a separately approved Passport session; a mismatched session was rejected before any request, and Kite activity plus the Base receipt confirmed settlement. Local Passport live mode is enabled after these checks.
 
-The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) is a fixture demo. Its app/provider settings and Supabase URL are in Vercel's encrypted environment; the Supabase server secret still needs to be added, and the local Kite worker URL cannot be reached from Vercel. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
+The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) is a fixture demo, and its authenticated case API uses the dedicated Supabase project. Vercel cannot reach the local Kite worker, so Passport live payments remain disabled there until an authenticated HTTPS worker is deployed. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
 
 ## Run locally on S:
 
@@ -21,11 +21,11 @@ The project, npm cache, dependencies, Kite CLI and local database are kept under
 5. Open `http://localhost:3000` or the synthetic public demo at `http://localhost:3000/demo`.
 6. Sign into the local workspace with `APP_LOGIN_PASSWORD` from the private `.env` file.
 
-The Kite CLI is installed at `.kpass\bin\kpass.exe`, on `S:`. It is not added to the global Windows PATH. The local Passport account is signed in and the Veyra buyer agent is registered. No separate session has been approved and no paid call has been made. Keep the CLI's local auth state private and out of Git.
+The Kite CLI is installed at `.kpass\bin\kpass.exe`, on `S:`. It is not added to the global Windows PATH. The local Passport account is signed in, funded, and the Veyra buyer agent is registered. One approved session was used for the verified paid lookup; every new paid operation still needs its own fresh approval. Keep the CLI's local auth state private and out of Git.
 
 ## Environment values
 
-The private `.env` already exists in the project root. It has locally generated app credentials, the SERV reasoning key/model, the EasyPost test key, and a worker token; do not paste it into chat, screenshots, GitHub or a demo recording. The EasyPost production key and Supabase server secret are not configured.
+The private `.env` already exists in the project root. It has locally generated app credentials, the SERV reasoning key/model, the EasyPost test key, the Supabase server secret and a worker token; do not paste it into chat, screenshots, GitHub or a demo recording. The EasyPost production key is not configured.
 
 | Variable | What it is | How to get or set it |
 |---|---|---|
@@ -45,8 +45,8 @@ The private `.env` already exists in the project root. It has locally generated 
 | `KITE_WORKER_HOST`, `KITE_WORKER_PORT` | Local worker bind address and port | Defaults are loopback-only and `8787`; keep the worker off public interfaces. |
 | `KITE_WORKER_DATA_DIR` | Local idempotency result cache | Keep the default `.kite-worker-data` folder; it is ignored by Git. |
 | `KITE_SESSION_TTL` | Maximum lifetime requested for a Passport session | Defaults to `20m`; the user approves the actual session in Passport. |
-| `PASSPORT_SESSION_ONLY_VERIFIED` | Operator gate for enabling paid Sirenic queries | Keep `false` until a live approval and explicitly selected session have been verified, including wrong/expired session rejection. Veyra requests a separate session with `--separate --no-reuse` and always passes the approved `--session-id` to execution. |
-| `PASSPORT_LIVE_ENABLED` | Master switch for live Sirenic x402 requests | Leave `false` until the worker is signed in, funded, and the session-only checks have passed. Then set `true`. |
+| `PASSPORT_SESSION_ONLY_VERIFIED` | Operator gate for enabling paid Sirenic queries | This local environment is `true` after a mismatched ID was rejected and an explicitly approved session completed a paid request with confirmed settlement. A new environment must verify those controls before setting it. |
+| `PASSPORT_LIVE_ENABLED` | Master switch for live Sirenic x402 requests | This local environment is `true`. Each paid operation still requires a fresh Passport session approval; keep the switch `false` where the worker is unavailable or unverified. |
 | `PUBLIC_APP_URL` | Public or local URL shown in links | Local default is `http://localhost:3000`; set a deployed HTTPS address when needed. |
 
 The legacy `SERV_API_KEY` is accepted as a fallback for `SERV_REASONING_API_KEY`. Do not use `SIRENIC_API_KEY`: the live company adapter intentionally uses x402 through Kite Passport, not Sirenic account-credit billing.
@@ -81,7 +81,7 @@ API-key requests use `Authorization: Bearer <VYERA_API_KEY>`. Browser mutations 
 
 ## Deployment
 
-Vercel serves the public fixture demo. Its Supabase project URL and requested app/provider settings are configured, but the database secret is missing. Add it to enable durable cases there. Keep paid Passport flows disabled until an HTTPS-hosted Kite worker is deployed and session-only behavior is verified. Vercel serverless files under `/tmp` are not durable storage.
+Vercel serves the public fixture demo and the authenticated case API uses the dedicated Supabase project for durable storage. Passport live flows remain disabled in Vercel because the local worker is bound to loopback; an authenticated HTTPS worker must be deployed before Vercel can reach it.
 
 ## Build checks
 
@@ -93,4 +93,4 @@ There is no automated test suite in this edition. A successful build does not pr
 
 ## Submission materials
 
-[SUBMISSION.md](SUBMISSION.md) and [MARKETING.md](MARKETING.md) are drafts. Do not state a live request or payment happened until you have evidence from the real provider and Passport activity. The X post and hackathon form have not been published or submitted.
+[SUBMISSION.md](SUBMISSION.md) and [MARKETING.md](MARKETING.md) are drafts. The one verified Sirenic request and payment are documented in [integration status](docs/INTEGRATION_STATUS.md). The X post and hackathon form have not been published or submitted.
