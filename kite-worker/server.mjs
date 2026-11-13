@@ -48,6 +48,14 @@ async function runCli(args, timeout = 60_000) {
   }
 }
 
+async function ensureAgentRegistered() {
+  const status = await runCli(["status"]);
+  if (status?.agent?.registered === true) return;
+  if (status?.user?.logged_in !== true) throw new Error("Sign in to Kite Passport on the hosted worker before requesting sessions.");
+  await runCli(["agent", "register", "--type", "veyra-buyer"]);
+  const confirmed = await runCli(["status"]);
+  if (confirmed?.agent?.registered !== true) throw new Error("The hosted Veyra buyer agent could not be registered.");
+}
 function normalizeStatus(result) {
   const session = result?.session && typeof result.session === "object" ? result.session : {};
   const request = result?.request && typeof result.request === "object" ? result.request : {};
@@ -204,6 +212,7 @@ async function handle(request, response) {
           payment_policy: { currency: "USD", max_amount_per_tx: String(maxPer), max_total_amount: String(maxTotal), ttl_seconds: ttlSeconds(process.env.KITE_SESSION_TTL) },
           routing_enabled: false
         };
+        await ensureAgentRegistered();
         const raw = await runCli(["session", "create", "--delegation", JSON.stringify(delegation), "--separate", "--no-reuse", "--no-browser"]);
         const info = sessionInfo(raw);
         const requestId = info.requestId;
