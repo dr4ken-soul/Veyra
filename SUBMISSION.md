@@ -2,13 +2,13 @@
 
 These materials are drafts. Describe only the path that has actually run by the time you publish.
 
-**Timing:** The [official OpenServ Hackathon page](https://www.openserv.ai/hackathon) lists Edition 01 as 14–28 September 2026 and shows its winners. That window has passed as of 13 November 2026; check the official page for a new edition before submitting these materials.
+**Target:** SERV Hackathon Edition 02, Kite track. The [official Edition 02 page](https://www.openserv.ai/hackathon-2) says every track must use SERV Reasoning and submissions close 15 November 2026 at 23:59 UTC (16 November at 00:59 in Lagos). The page requests a public repository, a demo link or video, a short write-up and an X post link.
 
 ## Project description
 
 Veyra is an evidence procurement workflow for business decisions. A user submits one of three bounded scenarios, reviews a structured evidence plan, receives a source-aware receipt and records a human review. The supplier-change path keeps the invoice on hold because a company record does not establish bank-account ownership.
 
-The repository includes SERV structured-output planning, Sirenic x402 company-profile routes, EasyPost shipment tracking in test and production modes, an isolated Kite Passport CLI worker, and a Supabase Postgres case store with server-role-only access. A live SERV structured-output request and an EasyPost test-mode USPS tracker both completed locally. One $0.005 Sirenic company-profile request completed through the local Passport worker after approval of a separate one-call session; a mismatched session ID was rejected before a request, and Kite activity plus a Base receipt confirmed settlement. The hosted Vercel case API uses the dedicated Supabase project; production create, idempotent replay, fetch, and list succeeded in fixture mode. The public demo remains synthetic, and Vercel Passport payments remain disabled because the worker is local. The full Veyra case UI/API flow has not yet been exercised with a second approved session.
+The repository includes SERV structured-output planning, Sirenic x402 company-profile routes, EasyPost shipment tracking in test and production modes, an isolated Kite Passport CLI worker, and a Supabase Postgres case store with server-role-only access. A live SERV structured-output request and an EasyPost test-mode USPS tracker both completed locally. One $0.005 Sirenic company-profile request completed through the local Passport worker after approval of a separate one-call session; a mismatched session ID was rejected before a request, and Kite activity plus a Base receipt confirmed settlement. The hosted Vercel case API uses the dedicated Supabase project; production create, idempotent replay, fetch, and list succeeded in fixture mode. The public demo remains synthetic. Hosted Passport payments stay disabled until remote CLI login and a full Veyra case flow are verified with a new one-call approval.
 
 ## Short write-up draft
 
@@ -63,9 +63,9 @@ This post has not been published.
 - [x] Add `SUPABASE_SECRET_KEY` to local `.env` and Vercel and verify hosted case persistence in fixture mode.
 - [x] Verify one Sirenic response matched the requested company identifier and included provider provenance.
 - [x] Verify one separate-session approval, explicit session-ID execution, rejection of a mismatched session ID, Passport activity, and settlement in a Base receipt.
-- [ ] Exercise the full Veyra case UI/API flow through planning, approval and receipt; this needs a new paid session approval.
+- [ ] Configure and authenticate the named Vercel Passport sandbox; exercise the full Veyra case UI/API flow through planning, fresh approval and receipt.
 - [x] Confirm public GitHub repository and Vercel fixture demo URLs.
 - [ ] Publish an accurate X post and copy its URL into the submission form.
-- [ ] Submit the write-up and links through the [official hackathon form](https://openserv.typeform.com/submissions02) if a current submission window is open.
+- [ ] Submit the write-up and links through the [official Edition 02 hackathon form](https://openserv.typeform.com/submissions02) by 15 November 2026, 23:59 UTC.
 
-The X post and hackathon form have not been published or submitted. Edition 01 is closed; wait for a new official submission window.
+The X post and hackathon form have not been published or submitted. Edition 02 is live; publish the prepared post and submit the public repository, demo and write-up before its deadline.

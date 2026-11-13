@@ -3,6 +3,7 @@ export function servConfigured() {
 }
 
 export function kiteWorkerConfigured() {
+  if (process.env.VERCEL) return Boolean(process.env.KITE_SANDBOX_NAME?.trim());
   return Boolean(process.env.KITE_WORKER_URL && process.env.KITE_WORKER_TOKEN);
 }
 

@@ -4,7 +4,7 @@
   "private": true,
   "description": "An evidence procurement workflow for SERV and Kite Passport, with a clearly labelled fixture demo.",
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=22.19.0"
   },
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@vercel/sandbox": "^4.0.0",
     "next": "16.4.6",
     "react": "19.3.1",
     "react-dom": "19.3.1"

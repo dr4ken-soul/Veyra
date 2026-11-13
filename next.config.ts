@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  outputFileTracingIncludes: {
+    "/api/v1/cases/**": ["./kite-worker/server.mjs"]
+  },
   async headers() {
     return [
       {

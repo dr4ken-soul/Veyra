@@ -11,7 +11,7 @@ Draft positioning only. Update it with verified outcomes before publication.
 
 ## Current demonstration
 
-The public Vercel app is a clearly labelled synthetic demo for supplier change, shipment status and business registration. The local project contains code for SERV planning, Sirenic company profiles, EasyPost shipment tracking and a Kite Passport worker. It has not made an authenticated SERV request, real EasyPost request, Passport session or paid call here. Passport execution remains gated until the separate-session and explicit-session-ID flow is tested.
+The public Vercel app is a clearly labelled synthetic demo for supplier change, shipment status and business registration. The project includes verified local SERV planning, EasyPost test tracking and one separately approved Passport payment, plus a private Vercel Sandbox adapter for hosted Kite CLI execution. The remote CLI is authenticated; the full hosted case payment flow remains gated until it is verified with a new one-call approval.
 
 ## Suggested demo narrative
 

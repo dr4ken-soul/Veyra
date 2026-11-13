@@ -1,6 +1,6 @@
 # Veyra | Build and release guide
 
-Status as of 13 November 2026: the Vercel app and Supabase case store are deployed and verified. SERV and EasyPost test calls succeeded locally. One $0.005 Sirenic request completed through a separately approved Passport session; a mismatched session ID was rejected, Kite activity recorded completion, and a Base receipt confirmed settlement. Local Passport live mode is enabled. Vercel's Passport gate stays closed because the Kite worker is local rather than HTTPS-hosted.
+Status as of 13 November 2026: the Vercel app and Supabase case store are deployed and verified. SERV and EasyPost test calls succeeded locally. One $0.005 Sirenic request completed through a separately approved Passport session; a mismatched session ID was rejected, Kite activity recorded completion, and a Base receipt confirmed settlement. Local Passport live mode is enabled. Edition 02 is the target. A hosted Vercel Sandbox worker is being configured; keep the production payment gate closed until its account login and a full hosted case flow are verified.
 
 ## Implemented
 
@@ -13,15 +13,16 @@ Status as of 13 November 2026: the Vercel app and Supabase case store are deploy
 - Separate loopback-first Kite worker with bearer authentication, official CLI commands, session refresh, fixed endpoint allowlist and idempotency cache.
 - `.env` is created locally and ignored by Git. Provider and app secrets remain server-side; never copy their values into source or documentation.
 - Kite CLI is installed under `.kpass` on `S:` without adding it to the Windows user PATH. The local account and buyer agent are set up; one approved explicit-session paid provider call is verified. A fresh approval is required for every future paid operation.
+- Production uses a named, persistent Vercel Sandbox for the Kite CLI because Vercel Functions cannot access a developer's loopback worker. The sandbox has no public ports; it snapshots the CLI login between short sessions. Keep its snapshots protected and its session timeout short.
 - The worker returns a confirmed payment reference when Kite activity reports a completed x402 payment tied to the same session. Rejected asynchronous operations return a bounded error and leave the worker available.
 
 ## Remaining release work
 
 1. Exercise the full Veyra case UI/API flow through planning, session approval, execution and receipt. The verified paid request in this build was run through the worker, and its one-call session is consumed.
 2. A further paid end-to-end test needs a fresh task-specific Passport approval capped to Sirenic's current quote; do not reuse the consumed session.
-3. Keep Passport payments disabled on Vercel until an authenticated HTTPS worker is deployed and configured. The loopback worker cannot serve Vercel functions.
+3. Keep Passport payments disabled on Vercel until the named Sandbox has a verified Kite login and the complete hosted case flow succeeds with a fresh one-call approval.
 4. Review source licensing and run an independent security/privacy review before any production claim. No EasyPost production tracker was run.
-5. OpenServ Hackathon Edition 01 ended on 28 September 2026. Check the official page for a new edition before publishing a submission.
+5. Edition 02 submissions close 15 November 2026 at 23:59 UTC. Confirm status and submit the required public repository, demo, write-up and X post link on the [official Edition 02 page](https://www.openserv.ai/hackathon-2).
 
 ## Local commands
 

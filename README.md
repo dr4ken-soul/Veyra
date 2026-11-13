@@ -8,7 +8,7 @@ Veyra turns a business evidence gap into a narrow case, a validated SERV plan, a
 
 The private local `.env` is real and ignored by Git. SERV reasoning and an EasyPost **test** tracker request have succeeded locally; the EasyPost test fixture returned `delivered` without payment. The dedicated Veyra Supabase project is configured. One $0.005 Sirenic registry lookup completed through the Kite worker with a separately approved Passport session; a mismatched session was rejected before any request, and Kite activity plus the Base receipt confirmed settlement. Local Passport live mode is enabled after these checks.
 
-The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) is a fixture demo, and its authenticated case API uses the dedicated Supabase project. Vercel cannot reach the local Kite worker, so Passport live payments remain disabled there until an authenticated HTTPS worker is deployed. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
+The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) is a fixture demo, and its authenticated case API uses the dedicated Supabase project. Vercel runs the Kite CLI in a private, persistent Vercel Sandbox; it never tries to reach the local loopback worker. Keep hosted payment gates off until the remote Passport login and full hosted case flow have been verified. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
 
 ## Run locally on S:
 
@@ -44,6 +44,7 @@ The private `.env` already exists in the project root. It has locally generated 
 | `KITE_CLI_PATH` | Path to the Kite `kpass` executable | Already points to `.kpass\bin\kpass.exe` under this project. |
 | `KITE_WORKER_HOST`, `KITE_WORKER_PORT` | Local worker bind address and port | Defaults are loopback-only and `8787`; keep the worker off public interfaces. |
 | `KITE_WORKER_DATA_DIR` | Local idempotency result cache | Keep the default `.kite-worker-data` folder; it is ignored by Git. |
+| `KITE_SANDBOX_NAME` | Named persistent Passport CLI sandbox used by Vercel | Set to `veyra-passport-worker` only in Vercel Production. It stores the CLI sign-in in its protected filesystem snapshots. It does not need a public port or a worker URL/token. |
 | `KITE_SESSION_TTL` | Maximum lifetime requested for a Passport session | Defaults to `20m`; the user approves the actual session in Passport. |
 | `PASSPORT_SESSION_ONLY_VERIFIED` | Operator gate for enabling paid Sirenic queries | This local environment is `true` after a mismatched ID was rejected and an explicitly approved session completed a paid request with confirmed settlement. A new environment must verify those controls before setting it. |
 | `PASSPORT_LIVE_ENABLED` | Master switch for live Sirenic x402 requests | This local environment is `true`. Each paid operation still requires a fresh Passport session approval; keep the switch `false` where the worker is unavailable or unverified. |
@@ -81,7 +82,7 @@ API-key requests use `Authorization: Bearer <VYERA_API_KEY>`. Browser mutations 
 
 ## Deployment
 
-Vercel serves the public fixture demo and the authenticated case API uses the dedicated Supabase project for durable storage. Passport live flows remain disabled in Vercel because the local worker is bound to loopback; an authenticated HTTPS worker must be deployed before Vercel can reach it.
+Vercel serves the public fixture demo and the authenticated case API uses the dedicated Supabase project for durable storage. In Production the server-side API invokes the Kite CLI inside the named persistent Vercel Sandbox. The sandbox has no public ingress; each operation uses a new, narrowly capped Passport session and passes its approved session ID explicitly. The master production payment gate remains off until the remote CLI account and full hosted case UI/API path are verified.
 
 ## Build checks
 

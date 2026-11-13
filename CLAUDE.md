@@ -1,6 +1,6 @@
 # Veyra | Project context
 
-Status: hackathon integration code implemented; the user authorized the build, GitHub push and Vercel fixture deployment. SERV, EasyPost test, Supabase, and one local Passport paid lookup have been verified. Vercel Passport payments remain disabled until an authenticated HTTPS worker is available. Do not call the implementation production-ready.
+Status: SERV, EasyPost test, Supabase, and one local Passport paid lookup have been verified. Edition 02 is the target. Vercel's production Passport adapter uses a private persistent Vercel Sandbox for the Kite CLI; the hosted account login and full Veyra case flow must be verified before opening the production payment gate. Do not call the implementation production-ready.
 
 ## Product
 
@@ -16,7 +16,7 @@ Veyra helps a workflow identify missing evidence for a specific decision. A case
 - Sirenic company-profile x402 adapter for Great Britain and France, gated by a fresh quote and Passport session.
 - EasyPost shipment adapter for test and production modes, gated by environment-specific API keys.
 - Kite Passport CLI worker installed under `.kpass` in this project and signed in. One separately approved, explicit-session-ID Sirenic request and its Base USDC settlement were verified; local live gates are enabled. Each new paid request still requires a fresh user approval.
-- Vercel serves the fixture demo and Supabase-backed case API. Passport live gates remain false there because the local Kite worker is loopback-only; do not expose that worker on a public interface.
+- Vercel serves the fixture demo and Supabase-backed case API. Its production Passport adapter runs in a private named Sandbox without public ports; keep live payment gates closed until the hosted Passport login and app flow are verified.
 - The current build is not multi-tenant production auth. See docs/SECURITY.md.
 
 ## Non-negotiable product rules
