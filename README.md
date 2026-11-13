@@ -6,9 +6,9 @@ Veyra turns a business evidence gap into a narrow case, a validated SERV plan, a
 
 ## Integration status
 
-The private local `.env` is real and ignored by Git. SERV reasoning and an EasyPost **test** tracker request have succeeded locally; the EasyPost test fixture returned `delivered` without payment. The dedicated Veyra Supabase project is configured. One $0.005 Sirenic registry lookup completed through the Kite worker with a separately approved Passport session; a mismatched session was rejected before any request, and Kite activity plus the Base receipt confirmed settlement. Local Passport live mode is enabled after these checks.
+The private local `.env` is real and ignored by Git. SERV reasoning and an EasyPost **test** tracker request have succeeded locally; the EasyPost test fixture returned `delivered` without payment. The dedicated Veyra Supabase project is configured. One local and one hosted $0.005 Sirenic registry lookup completed through Kite Passport with separately approved sessions; a mismatched session was rejected before any request, and Passport activity plus Base receipts confirmed settlement. The Vercel Production Passport gates are enabled after the hosted case UI/API path was verified.
 
-The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) is a fixture demo, and its authenticated case API uses the dedicated Supabase project. Vercel runs the Kite CLI in a private, persistent Vercel Sandbox; it never tries to reach the local loopback worker. Keep hosted payment gates off until the remote Passport login and full hosted case flow have been verified. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
+The public [Vercel demo](https://veyra-tau-mauve.vercel.app/demo) is a fixture demo, and its authenticated case API uses the dedicated Supabase project. Vercel runs the Kite CLI in a private, persistent Vercel Sandbox; it never tries to reach the local loopback worker. One hosted live case completed SERV planning, task-specific approval, explicit-session execution and confirmed receipt; each future payment still needs its own approval. See [integration status](docs/INTEGRATION_STATUS.md) and [security limits](docs/SECURITY.md).
 
 ## Run locally on S:
 
@@ -82,7 +82,7 @@ API-key requests use `Authorization: Bearer <VYERA_API_KEY>`. Browser mutations 
 
 ## Deployment
 
-Vercel serves the public fixture demo and the authenticated case API uses the dedicated Supabase project for durable storage. In Production the server-side API invokes the Kite CLI inside the named persistent Vercel Sandbox. The sandbox has no public ingress; each operation uses a new, narrowly capped Passport session and passes its approved session ID explicitly. The master production payment gate remains off until the remote CLI account and full hosted case UI/API path are verified.
+Vercel serves the public fixture demo and the authenticated case API uses the dedicated Supabase project for durable storage. In Production the server-side API invokes the Kite CLI inside the named persistent Vercel Sandbox. The sandbox has no public ingress; each operation uses a new, narrowly capped Passport session and passes its approved session ID explicitly. The Production payment gate is enabled after the hosted case UI/API flow and confirmed receipt were verified. The public demo stays simulated, and each future live operation needs its own passkey approval.
 
 ## Build checks
 

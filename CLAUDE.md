@@ -1,6 +1,6 @@
 # Veyra | Project context
 
-Status: SERV, EasyPost test, Supabase, and one local Passport paid lookup have been verified. Edition 02 is the target. Vercel's production Passport adapter uses a private persistent Vercel Sandbox for the Kite CLI; the hosted account login and full Veyra case flow must be verified before opening the production payment gate. Do not call the implementation production-ready.
+Status: SERV, EasyPost test, Supabase, and one local plus one hosted Passport paid lookup have been verified. Edition 02 is the target. Vercel's Production Passport adapter uses a private persistent Sandbox with a signed-in, registered Veyra buyer agent; the hosted UI/API flow and Base receipt succeeded, so the Production per-call gate is enabled. The public demo remains synthetic. This hackathon build has not had an independent security/privacy audit and is not general-purpose production auth.
 
 ## Product
 
@@ -16,7 +16,7 @@ Veyra helps a workflow identify missing evidence for a specific decision. A case
 - Sirenic company-profile x402 adapter for Great Britain and France, gated by a fresh quote and Passport session.
 - EasyPost shipment adapter for test and production modes, gated by environment-specific API keys.
 - Kite Passport CLI worker installed under `.kpass` in this project and signed in. One separately approved, explicit-session-ID Sirenic request and its Base USDC settlement were verified; local live gates are enabled. Each new paid request still requires a fresh user approval.
-- Vercel serves the fixture demo and Supabase-backed case API. Its production Passport adapter runs in a private named Sandbox without public ports; keep live payment gates closed until the hosted Passport login and app flow are verified.
+- Vercel serves the fixture demo and Supabase-backed case API. Its production Passport adapter runs in a private named Sandbox without public ports; the authenticated hosted payment path has been verified, and every paid operation still needs its own fresh Passport approval.
 - The current build is not multi-tenant production auth. See docs/SECURITY.md.
 
 ## Non-negotiable product rules

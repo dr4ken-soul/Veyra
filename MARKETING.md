@@ -11,7 +11,7 @@ Draft positioning only. Update it with verified outcomes before publication.
 
 ## Current demonstration
 
-The public Vercel app is a clearly labelled synthetic demo for supplier change, shipment status and business registration. The project includes verified local SERV planning, EasyPost test tracking and one separately approved Passport payment, plus a private Vercel Sandbox adapter for hosted Kite CLI execution. The remote CLI is authenticated; the full hosted case payment flow remains gated until it is verified with a new one-call approval.
+The public Vercel app is a clearly labelled synthetic demo for supplier change, shipment status and business registration. The project includes verified local SERV planning, EasyPost test tracking, and separate local and hosted Passport payments. The hosted Vercel Sandbox runs the authenticated, registered Veyra buyer agent; a live hosted case completed SERV planning, fresh session approval, one Sirenic request and a confirmed Base receipt. The public demo remains simulated, and every future live query needs its own one-call approval.
 
 ## Suggested demo narrative
 
@@ -26,7 +26,7 @@ The public Vercel app is a clearly labelled synthetic demo for supplier change, 
 - Problem and user: evidence gaps in business workflows.
 - Product: a case-to-evidence flow with a receipt and human review.
 - SERV: describe the request and validation path that actually ran.
-- Kite: describe the exact user-approved session flow that actually ran; until separate-session and explicit-session-ID behavior is verified, state live execution remains gated.
+- Kite: describe the exact user-approved hosted session flow that actually ran; each new paid operation still requires a separate capped approval and an explicit approved session ID.
 - Integration: name a provider only after an actual request, with operator, upstream source and limitations.
 - Repository, demo or video, limitations and X post link.
 

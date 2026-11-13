@@ -1,6 +1,6 @@
 # Veyra | Build and release guide
 
-Status as of 13 November 2026: the Vercel app and Supabase case store are deployed and verified. SERV and EasyPost test calls succeeded locally. One $0.005 Sirenic request completed through a separately approved Passport session; a mismatched session ID was rejected, Kite activity recorded completion, and a Base receipt confirmed settlement. Local Passport live mode is enabled. Edition 02 is the target. A hosted Vercel Sandbox worker is being configured; keep the production payment gate closed until its account login and a full hosted case flow are verified.
+Status as of 13 November 2026: the Vercel app and Supabase case store are deployed and verified. SERV and EasyPost test calls succeeded locally. Local and hosted Veyra flows each completed one $0.005 Sirenic request through a separately approved Passport session; both were confirmed in Passport activity and Base receipts, and a mismatched session ID was rejected before a provider request. Production Vercel's named Sandbox is signed in as the registered Veyra buyer agent; the Production live gates are enabled after the full hosted UI/API case flow succeeded. The public demo remains synthetic. Edition 02 is the target.
 
 ## Implemented
 
@@ -16,13 +16,10 @@ Status as of 13 November 2026: the Vercel app and Supabase case store are deploy
 - Production uses a named, persistent Vercel Sandbox for the Kite CLI because Vercel Functions cannot access a developer's loopback worker. The sandbox has no public ports; it snapshots the CLI login between short sessions. Keep its snapshots protected and its session timeout short.
 - The worker returns a confirmed payment reference when Kite activity reports a completed x402 payment tied to the same session. Rejected asynchronous operations return a bounded error and leave the worker available.
 
-## Remaining release work
+## Remaining submission work
 
-1. Exercise the full Veyra case UI/API flow through planning, session approval, execution and receipt. The verified paid request in this build was run through the worker, and its one-call session is consumed.
-2. A further paid end-to-end test needs a fresh task-specific Passport approval capped to Sirenic's current quote; do not reuse the consumed session.
-3. Keep Passport payments disabled on Vercel until the named Sandbox has a verified Kite login and the complete hosted case flow succeeds with a fresh one-call approval.
-4. Review source licensing and run an independent security/privacy review before any production claim. No EasyPost production tracker was run.
-5. Edition 02 submissions close 15 November 2026 at 23:59 UTC. Confirm status and submit the required public repository, demo, write-up and X post link on the [official Edition 02 page](https://www.openserv.ai/hackathon-2).
+1. Review source licensing and complete an independent security/privacy review before making general public-production claims. No EasyPost production tracker was run.
+2. Publish the prepared X post and submit the repository, demo and write-up through the [official Edition 02 page](https://www.openserv.ai/hackathon-2) by 15 November 2026 at 23:59 UTC.
 
 ## Local commands
 
@@ -51,7 +48,7 @@ There is no automated test suite in this edition. Type checking and building do 
 - No full bank details are accepted for a registry lookup.
 - Fixture results remain synthetic and label payment as simulated.
 - EasyPost test, production and fixture modes remain visibly distinct.
-- Passport live execution stays off until the exact active request/session pair is verified and an explicit session ID is passed to execute.
+- Production Passport execution is enabled only with the private named Sandbox, quote checks, exact active request/session verification and explicit approved session ID. Every new paid operation still requires a fresh user approval.
 - A SERV failure, refusal, truncation or invalid schema prevents evidence execution.
 - An uncertain provider operation is blocked against automatic retry.
 - Company registration is not treated as bank-account ownership.
