@@ -325,7 +325,8 @@ export default function LiveCompanyLookup({ enabled }: { enabled: boolean }) {
 
   async function payForLookup() {
     if (!quote || !walletAddress) return;
-    let paymentMayHaveSettled = false;
+    let paymentAuthorizationSigned = false;
+    let paidRequestAttempted = false;
     setBusy("pay");
     setError(null);
     setResult(null);
@@ -357,8 +358,11 @@ export default function LiveCompanyLookup({ enabled }: { enabled: boolean }) {
       });
       const signer = {
         address: walletAddress as `0x${string}`,
-        signTypedData: (typedData: { domain: Record<string, unknown>; types: Record<string, unknown>; primaryType: string; message: Record<string, unknown> }) =>
-          walletClient.signTypedData({ account: walletAddress as `0x${string}`, ...typedData } as never)
+        signTypedData: async (typedData: { domain: Record<string, unknown>; types: Record<string, unknown>; primaryType: string; message: Record<string, unknown> }) => {
+          const signature = await walletClient.signTypedData({ account: walletAddress as `0x${string}`, ...typedData } as never);
+          paymentAuthorizationSigned = true;
+          return signature;
+        }
       };
       const sameQuote = (item: { scheme: string; network: string; amount: string; asset: string; payTo: string; maxTimeoutSeconds: number; extra?: Record<string, unknown> | null }) =>
         item.scheme === quote.requirement.scheme &&
@@ -379,8 +383,23 @@ export default function LiveCompanyLookup({ enabled }: { enabled: boolean }) {
         networks: ["eip155:8453"],
         policies: [(_version, requirements) => requirements.filter(sameQuote)]
       });
-      const fetchWithPayment = wrapFetchWithPayment(fetch, client);
-      paymentMayHaveSettled = true;
+      // @x402/fetch 2.31 adds Access-Control-Expose-Headers to the outgoing
+      // paid Request. That is a response-only CORS header, and Sirenic's
+      // preflight correctly does not allow it as a request header. Strip it
+      // before the browser sends either x402 request; Sirenic exposes
+      // PAYMENT-RESPONSE on its actual response already.
+      const sirenicFetch: typeof fetch = async (input, init) => {
+        const request = new Request(input, init);
+        const requestUrl = new URL(request.url);
+        if (requestUrl.protocol === "https:" && requestUrl.hostname === SIRENIC_HOST) {
+          if (request.headers.has("PAYMENT-SIGNATURE") || request.headers.has("X-PAYMENT")) {
+            paidRequestAttempted = true;
+          }
+          request.headers.delete("Access-Control-Expose-Headers");
+        }
+        return fetch(request);
+      };
+      const fetchWithPayment = wrapFetchWithPayment(sirenicFetch, client);
       const response = await fetchWithPayment(quote.url, {
         method: "GET",
         headers: { Accept: "application/json" },
@@ -420,10 +439,15 @@ export default function LiveCompanyLookup({ enabled }: { enabled: boolean }) {
       setQuote(null);
     } catch (caught) {
       const message = caught instanceof Error ? caught.message : "The paid lookup did not complete.";
-      setError(paymentMayHaveSettled
-        ? `${message} A payment may have settled; check your wallet and Sirenic activity before requesting another quote.`
-        : message);
-      if (paymentMayHaveSettled) setQuote(null);
+      if (paidRequestAttempted) {
+        setError(`${message} Veyra did not receive a confirmed provider response. Check your wallet activity before trying again.`);
+        setQuote(null);
+      } else if (paymentAuthorizationSigned) {
+        setError(`${message} The wallet authorization was signed, but Veyra did not send a paid request. Check wallet activity before trying again.`);
+        setQuote(null);
+      } else {
+        setError(message);
+      }
     } finally {
       setBusy(null);
     }
