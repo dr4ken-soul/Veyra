@@ -39,7 +39,7 @@ The repository includes SERV structured-output planning, Sirenic x402 company-pr
 
 Do not record the local access password, API key, `.env`, real customer records, passkeys or unverified payment activity.
 
-## Two-post X thread draft
+## Two-post X thread
 
 Publish these as one connected thread and use the first post's link in the hackathon form. Each post has deliberate paragraph spacing.
 
@@ -55,11 +55,11 @@ SERV plans checks; Kite Passport gates operator payments. Visitors fund French S
 
 We verified Sirenic's signature; Base confirmed $0.005 USDC settlement. Registry data can't prove account ownership. Demo: https://veyra-tau-mauve.vercel.app/demo
 
-The thread reflects the tested visitor-funded lookup for SIREN `632012100`: Veyra verified the Sirenic-signed record, and Base RPC confirmed the successful $0.005 USDC settlement. The demo's other evidence scenarios remain labeled synthetic. EasyPost is test-only and is not presented as live tracking. Add the [public repository](https://github.com/dr4ken-soul/Veyra) and [motion film](video-production/final/Veyra_Edition02_Motion_Film.mp4) in the submission form.
+The published thread is [on X](https://x.com/xoxo_psychoo/status/2122055580802068562); its reply includes the live demo, public repository and Base receipt. The attached video makes the post a shareable demo-video link as well. The thread reflects the tested visitor-funded lookup for SIREN `632012100`: Veyra verified the Sirenic-signed record, and Base RPC confirmed the successful $0.005 USDC settlement. The demo's other evidence scenarios remain labeled synthetic. EasyPost is test-only and is not presented as live tracking. Add the [public repository](https://github.com/dr4ken-soul/Veyra), [live demo](https://veyra-tau-mauve.vercel.app/demo) and [motion film](video-production/final/Veyra_Edition02_Motion_Film.mp4) in the submission form.
 
 **Motion-design film.** [Download the completed 109.75-second 1080p Edition 02 video](video-production/final/Veyra_Edition02_Motion_Film.mp4). It uses the live Veyra quote and provider-result screenshots plus the redacted successful BaseScan receipt. The Sirenic response signature and the independently verified 0.005 USDC Base settlement appear as separate evidence. Word-timed captions and the production source files are included under video-production/. The original payment proof with wallet details is excluded.
 
-This thread draft has not been published.
+The X thread is published. Submit its link through the official form below; the form itself has not been submitted.
 
 ## Submission checklist
 
@@ -76,7 +76,7 @@ This thread draft has not been published.
 - [x] Complete a visitor-funded lookup, verify the Sirenic response signature in the browser, and independently confirm its successful Base receipt and exact $0.005 USDC transfer.
 - [x] Confirm public GitHub repository and Vercel demo URLs; clearly separate the live French lookup from illustrative synthetic scenarios.
 - [x] Complete and review the 109.75-second 1080p motion-design film, captions, narration, soundtrack and rebuild sources; show the real Sirenic signature evidence and independently confirmed successful Base receipt.
-- [ ] Publish the single prepared X post and copy its URL into the submission form.
+- [x] Publish the X thread with the motion film attached and include the demo, repository and Base receipt in its reply: [x.com/xoxo_psychoo/status/2122055580802068562](https://x.com/xoxo_psychoo/status/2122055580802068562).
 - [ ] Submit the write-up and links through the [official Edition 02 hackathon form](https://openserv.typeform.com/submissions02) by 15 November 2026, 23:59 UTC.
 
-The motion-design video is complete at video-production/final/Veyra_Edition02_Motion_Film.mp4; rebuild instructions, captions and sources are in video-production/README.md. The X post and hackathon form have not been published or submitted. Edition 02 requires one X post; progress updates are optional. Publish the prepared post and submit the public repository, demo and write-up before the deadline.
+The motion-design video is complete at video-production/final/Veyra_Edition02_Motion_Film.mp4; rebuild instructions, captions and sources are in video-production/README.md. The X thread is published; the hackathon form is not submitted. Edition 02 requires one X post link; progress updates are optional. Submit the public repository, demo/video and write-up through the official form before the deadline.
