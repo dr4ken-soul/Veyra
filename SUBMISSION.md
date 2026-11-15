@@ -71,7 +71,7 @@ The published thread is [on X](https://x.com/xoxo_psychoo/status/212205558080206
 
 **Motion-design film.** [Download the completed 109.75-second 1080p Edition 02 video](video-production/final/Veyra_Edition02_Motion_Film.mp4). It uses the live Veyra quote and provider-result screenshots plus the redacted successful BaseScan receipt. The Sirenic response signature and the independently verified 0.005 USDC Base settlement appear as separate evidence. Word-timed captions and the production source files are included under video-production/. The original payment proof with wallet details is excluded.
 
-The X thread is published. Submit its link through the official form below; the form itself has not been submitted.
+The X thread is published, and the Edition 02 form was submitted on 15 November 2026. The Typeform confirmation screen states that OpenServ received the submission.
 
 ## Submission checklist
 
@@ -89,6 +89,6 @@ The X thread is published. Submit its link through the official form below; the 
 - [x] Confirm public GitHub repository and Vercel demo URLs; clearly separate the live French lookup from illustrative synthetic scenarios.
 - [x] Complete and review the 109.75-second 1080p motion-design film, captions, narration, soundtrack and rebuild sources; show the real Sirenic signature evidence and independently confirmed successful Base receipt.
 - [x] Publish the X thread with the motion film attached and include the demo, repository and Base receipt in its reply: [x.com/xoxo_psychoo/status/2122055580802068562](https://x.com/xoxo_psychoo/status/2122055580802068562).
-- [ ] Submit the write-up and links through the [official Edition 02 hackathon form](https://openserv.typeform.com/submissions02) by 15 November 2026, 23:59 UTC.
+- [x] Submit the write-up and links through the [official Edition 02 hackathon form](https://openserv.typeform.com/submissions02); Typeform confirmed receipt on 15 November 2026.
 
-The motion-design video is complete at video-production/final/Veyra_Edition02_Motion_Film.mp4; rebuild instructions, captions and sources are in video-production/README.md. The X thread is published; the hackathon form is not submitted. Edition 02 requires one X post link; progress updates are optional. Submit the public repository, demo/video and write-up through the official form before the deadline.
+The motion-design video is complete at video-production/final/Veyra_Edition02_Motion_Film.mp4; rebuild instructions, captions and sources are in video-production/README.md. The X thread is published and the submission form has been submitted; Typeform confirmed receipt. This confirms submission receipt, not judging outcome.
