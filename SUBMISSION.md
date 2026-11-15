@@ -4,6 +4,8 @@ These materials are drafts. Describe only the path that has actually run by the 
 
 **Target:** SERV Hackathon Edition 02, Kite track. Every track must use SERV Reasoning. The submission needs a public repository, a demo link or video, a short write-up and one X post link. Progress posts are optional; one final post is required. Submissions close 15 November 2026 at 23:59 UTC (16 November at 00:59 in Lagos), according to the [official Edition 02 page](https://www.openserv.ai/hackathon-2).
 
+**Track choice:** Kite. Veyra uses Kite Passport for the buyer agent's identity and task-specific spending approvals. Open Track is for projects that do not enter one of the partner tracks.
+
 ## Project description
 
 Veyra is an evidence procurement workflow for business decisions. A user submits one of three bounded scenarios, reviews a structured evidence plan, receives a source-aware receipt and records a human review. The supplier-change path keeps the invoice on hold because a company record does not establish bank-account ownership.
@@ -27,6 +29,16 @@ The repository includes SERV structured-output planning, Sirenic x402 company-pr
 **Repository.** [github.com/dr4ken-soul/Veyra](https://github.com/dr4ken-soul/Veyra)
 
 **Demo.** [Veyra public demo on Vercel](https://veyra-tau-mauve.vercel.app/demo). The live French profile lookup is paid directly by each visitor's own Base wallet; other scenario cards are clearly identified as synthetic examples. The authenticated operator workspace uses SERV planning and a separately approved Passport session.
+
+**Demo video.** [Veyra: Evidence for Safer Business Decisions | OpenServ Hackathon Edition 02](https://youtu.be/UJHbuS7zflk).
+
+## Form response — project description
+
+Veyra is an evidence-review workflow for procurement and finance teams evaluating suppliers and business records. It focuses on a risky gap: when a supplier asks to change bank details, a company registry can confirm the business exists, but cannot prove that the new bank account belongs to it. Teams need evidence they can inspect and audit before deciding whether to release an invoice.
+
+Veyra turns a case into a specific evidence question, a structured plan, source-backed results and a human review record. SERV Reasoning produces a structured plan that Veyra validates before execution. For the Kite track, Veyra's registered buyer agent uses Kite Passport's fresh, task-specific approval before operator-paid provider calls.
+
+The public demo also supports visitor-funded French company lookups: each visitor connects their own Base wallet and pays Sirenic directly, capped at $0.005 per lookup. Veyra verifies Sirenic's Ed25519 response signature, and Base transaction receipts separately prove settlement. In the tested lookup for French SIREN `632012100`, the company profile signature verified and Base confirmed the matching $0.005 USDC payment. These checks do not prove bank-account ownership; Veyra leaves the decision to a person. The shipment example uses EasyPost test data, and other illustrative scenarios are labeled synthetic.
 
 ## Demo outline
 

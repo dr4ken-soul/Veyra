@@ -94,4 +94,4 @@ There is no automated test suite in this edition. A successful build does not pr
 
 ## Submission materials
 
-[SUBMISSION.md](SUBMISSION.md) and [MARKETING.md](MARKETING.md) contain the submission materials. The one verified Sirenic request and payment are documented in [integration status](docs/INTEGRATION_STATUS.md). The X thread is published at [x.com/xoxo_psychoo/status/2122055580802068562](https://x.com/xoxo_psychoo/status/2122055580802068562); the Edition 02 submission form is not yet submitted.
+[SUBMISSION.md](SUBMISSION.md) and [MARKETING.md](MARKETING.md) contain the submission materials. The one verified Sirenic request and payment are documented in [integration status](docs/INTEGRATION_STATUS.md). The demo video is [on YouTube](https://youtu.be/UJHbuS7zflk). The X thread is published at [x.com/xoxo_psychoo/status/2122055580802068562](https://x.com/xoxo_psychoo/status/2122055580802068562); the Edition 02 submission form is not yet submitted.
