@@ -1,0 +1,8 @@
+__pycache__/
+.tmp/
+tools/
+reference-analysis/
+assets/evidence/*raw*
+# Rendered final film is retained with the submission. Private originals in paid proof are outside this folder and excluded at repository level.
+audio/*.wav
+audio/voiceover_take_*.mp3

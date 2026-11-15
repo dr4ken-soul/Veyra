@@ -1,0 +1,28 @@
+# Storyboard — Veyra: evidence for decisions
+
+**Deliverable:** 16:9, 1920×1080, 24 fps, approximately 110 seconds.
+**Visual language:** evidence dossier / verification terminal. Warm paper, charcoal ink, restrained copper highlight, fine rules, small mono source labels. Actual product captures sit inside clean editorial frames. Motion reveals state changes: file assembly, quote lock, signature check, receipt confirmation.
+**Narrative arc:** question → evidence system → real paid example → two independent proofs → limits → human decision.
+
+| Time | Beat | Visual composition and motion | On-screen proof / copy | Voice |
+|---|---|---|---|---|
+| 00–07 | The disputed invoice | Dark graphite field. Invoice-like sheet slides in; one supplier field is underlined in copper. The line resolves into a question mark, then a small Veyra mark. Slow camera drift. | IS THIS THE RIGHT COMPANY? / Decision evidence, made inspectable. | “One disputed invoice can begin with a simple question: is this the right company?” |
+| 07–20 | Build an evidence case | A dossier opens into four aligned cards: request, source, timestamp, confidence. Thin connector draws from claim to evidence. No fictional data presented as a completed case. | REQUEST · SOURCE · TIME · CONFIDENCE / Unknowns remain visible. | “Veyra turns that question into an evidence case. It keeps the request, source, timestamp and confidence together, so a reviewer can see what is known, what remains uncertain, and why.” |
+| 20–36 | Live quote | The real Veyra quote screenshot enters with a gentle parallax crop. Copper brackets isolate SIREN 632012100 and the quoted amount/network. The address line is not shown. | LIVE PROVIDER QUOTE · 0.005 USDC · BASE MAINNET · FRENCH SIREN 632012100 | “The live demonstration is a French company lookup. A visitor enters SIREN 632012100 and sees a quote before paying: zero point zero zero five USDC on Base.” |
+| 36–42 | Visitor authorises | Evidence screenshot stays inside Veyra card; a separate wallet-signature panel animates as a schematic overlay, never fabricated as a real wallet capture. A key icon remains outside Veyra’s boundary. | Exact amount · Exact recipient · Visitor wallet / Veyra never receives the key. | “The visitor approves the exact amount from their own wallet. Veyra never receives the wallet key.” |
+| 42–59 | Provider response | Actual result screenshot grows from the quote, with detail focus on L’ORÉAL, active status, and Verified signature row. A line links to the public Sirenic receipt. | LIVE PROVIDER RESPONSE / Ed25519 signature: VERIFIED / Sirenic verification receipt | “Sirenic returns the company profile for L’Oréal, with active registry status. Veyra verifies the provider’s Ed25519 response signature in the browser, and links the result to the public verification receipt.” |
+| 59–78 | Settlement receipt | The redacted BaseScan receipt crops in. Status badge gets a restrained confirmation pulse; transfer and block number are called out. Full transaction hash appears as exact mono text; payer address is redacted. | BASE RECEIPT · SUCCESS · BLOCK 57,501,654 · TRANSFER 0.005 USDC · TX 0x08af3cf3120fbf221b725f760749dccb05896c1f8d9aaa65a9d44d8c52375bc7 | “Payment is a separate fact. Base confirms the transaction succeeded in block 57,501,654: precisely 0.005 USDC to the quoted recipient.” |
+| 78–94 | What the evidence proves | Split-screen proof ledger: signed response → provider record integrity; Base receipt → settled transfer. A third row lists what neither proves. Clear hold; no celebratory green wash. | PROVES: provider-signed response; payment settlement. DOES NOT PROVE: bank ownership, payment instructions, sanctions status or solvency. | “The signature proves the response came from the provider. The Base receipt proves that payment settled. Neither proves bank account ownership, payment instructions, sanctions status, or solvency.” |
+| 94–100 | Human review | Dossier slides to a review state; a human decision marker stays visible above source lines. Synthetic scenario cards appear with visible SIMULATED labels; shipment card carries TEST DATA. | HUMAN REVIEW · REQUIRED / Other scenarios: SIMULATED / Shipment: TEST MODE | “A person still makes the decision. Other scenarios are clearly marked synthetic; shipment data is test mode.” |
+| 100–110 | Close | Warm off-white end card. Veyra wordmark drawn by a single copper line; small proof marks settle below. | VEYRA / Evidence for decisions. / Human judgement stays in control. / Edition 02 · 2026 | “Veyra. Evidence for decisions. Human judgement stays in control.” |
+
+## Accuracy and privacy guardrails
+
+- Use only the user-provided Veyra UI captures for the live quote and response.
+- Use the provided BaseScan page image for the settlement exhibit. Mask the sender wallet label/address; keep status, block, timestamp, transfer amount, recipient match, and transaction hash readable.
+- The visitor payment is independently confirmed: Base RPC receipt status 0x1, block 57,501,654, one Base USDC Transfer log for 5,000 base units to Sirenic’s quoted recipient.
+- The Sirenic Ed25519 signature establishes integrity/origin of the returned provider response; it does not certify the underlying company facts beyond what the registry record states.
+- Base receipt establishes settlement of this transfer; it does not prove an unrelated commercial claim.
+- Do not show private keys, recovery phrases, login codes, or a full payer wallet address.
+- Do not depict allowance payments, shared spending, or a Passport interaction in this public visitor-wallet flow.
+- Supplier-change, shipment, and registration examples stay visibly synthetic. The shipment integration is EasyPost test mode.

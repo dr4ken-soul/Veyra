@@ -1,0 +1,1074 @@
+{
+  "cut_start": 23.95,
+  "duration": 106.221083,
+  "scene_starts": [
+    0,
+    6.967000000000002,
+    20.319,
+    35.748999999999995,
+    42.482,
+    58.852999999999994,
+    77.741,
+    94.13499999999999,
+    100.219
+  ],
+  "words": [
+    {
+      "text": "One",
+      "start": 0.129,
+      "end": 0.408
+    },
+    {
+      "text": "disputed",
+      "start": 0.466,
+      "end": 1.046
+    },
+    {
+      "text": "invoice",
+      "start": 1.104,
+      "end": 1.569
+    },
+    {
+      "text": "can",
+      "start": 1.604,
+      "end": 1.754
+    },
+    {
+      "text": "begin",
+      "start": 1.813,
+      "end": 2.114
+    },
+    {
+      "text": "with",
+      "start": 2.161,
+      "end": 2.289
+    },
+    {
+      "text": "a",
+      "start": 2.323,
+      "end": 2.358
+    },
+    {
+      "text": "simple",
+      "start": 2.463,
+      "end": 2.892
+    },
+    {
+      "text": "question:",
+      "start": 2.939,
+      "end": 3.566
+    },
+    {
+      "text": "is",
+      "start": 3.995,
+      "end": 4.227
+    },
+    {
+      "text": "this",
+      "start": 4.32,
+      "end": 4.645
+    },
+    {
+      "text": "the",
+      "start": 4.82,
+      "end": 4.947
+    },
+    {
+      "text": "right",
+      "start": 5.052,
+      "end": 5.377
+    },
+    {
+      "text": "company?",
+      "start": 5.586,
+      "end": 6.294
+    },
+    {
+      "text": "Veyra",
+      "start": 6.967,
+      "end": 7.316
+    },
+    {
+      "text": "turns",
+      "start": 7.374,
+      "end": 7.745
+    },
+    {
+      "text": "that",
+      "start": 7.815,
+      "end": 7.966
+    },
+    {
+      "text": "question",
+      "start": 8.035,
+      "end": 8.477
+    },
+    {
+      "text": "into",
+      "start": 8.535,
+      "end": 8.744
+    },
+    {
+      "text": "an",
+      "start": 8.837,
+      "end": 8.871
+    },
+    {
+      "text": "evidence",
+      "start": 8.929,
+      "end": 9.347
+    },
+    {
+      "text": "case.",
+      "start": 9.394,
+      "end": 9.928
+    },
+    {
+      "text": "It",
+      "start": 10.241,
+      "end": 10.381
+    },
+    {
+      "text": "keeps",
+      "start": 10.439,
+      "end": 10.752
+    },
+    {
+      "text": "the",
+      "start": 10.81,
+      "end": 10.88
+    },
+    {
+      "text": "request,",
+      "start": 10.938,
+      "end": 11.623
+    },
+    {
+      "text": "source,",
+      "start": 11.855,
+      "end": 12.529
+    },
+    {
+      "text": "timestamp",
+      "start": 12.703,
+      "end": 13.481
+    },
+    {
+      "text": "and",
+      "start": 13.55,
+      "end": 13.852
+    },
+    {
+      "text": "confidence",
+      "start": 13.957,
+      "end": 14.491
+    },
+    {
+      "text": "together,",
+      "start": 14.514,
+      "end": 15.036
+    },
+    {
+      "text": "so",
+      "start": 15.187,
+      "end": 15.35
+    },
+    {
+      "text": "a",
+      "start": 15.431,
+      "end": 15.466
+    },
+    {
+      "text": "reviewer",
+      "start": 15.536,
+      "end": 15.942
+    },
+    {
+      "text": "can",
+      "start": 15.988,
+      "end": 16.128
+    },
+    {
+      "text": "see",
+      "start": 16.209,
+      "end": 16.395
+    },
+    {
+      "text": "what",
+      "start": 16.43,
+      "end": 16.569
+    },
+    {
+      "text": "is",
+      "start": 16.615,
+      "end": 16.697
+    },
+    {
+      "text": "known,",
+      "start": 16.766,
+      "end": 17.207
+    },
+    {
+      "text": "what",
+      "start": 17.358,
+      "end": 17.544
+    },
+    {
+      "text": "remains",
+      "start": 17.591,
+      "end": 18.009
+    },
+    {
+      "text": "uncertain,",
+      "start": 18.101,
+      "end": 18.961
+    },
+    {
+      "text": "and",
+      "start": 19.135,
+      "end": 19.332
+    },
+    {
+      "text": "why.",
+      "start": 19.402,
+      "end": 19.889
+    },
+    {
+      "text": "The",
+      "start": 20.319,
+      "end": 20.423
+    },
+    {
+      "text": "live",
+      "start": 20.481,
+      "end": 20.702
+    },
+    {
+      "text": "demonstration",
+      "start": 20.737,
+      "end": 21.399
+    },
+    {
+      "text": "is",
+      "start": 21.445,
+      "end": 21.503
+    },
+    {
+      "text": "a",
+      "start": 21.561,
+      "end": 21.573
+    },
+    {
+      "text": "French",
+      "start": 21.654,
+      "end": 21.933
+    },
+    {
+      "text": "company",
+      "start": 21.979,
+      "end": 22.327
+    },
+    {
+      "text": "lookup.",
+      "start": 22.385,
+      "end": 22.873
+    },
+    {
+      "text": "A",
+      "start": 23.152,
+      "end": 23.21
+    },
+    {
+      "text": "visitor",
+      "start": 23.291,
+      "end": 23.651
+    },
+    {
+      "text": "enters",
+      "start": 23.709,
+      "end": 23.988
+    },
+    {
+      "text": "SIREN",
+      "start": 24.034,
+      "end": 24.394
+    },
+    {
+      "text": "632012100",
+      "start": 24.498,
+      "end": 25.079
+    },
+    {
+      "text": "and",
+      "start": 25.137,
+      "end": 27.842
+    },
+    {
+      "text": "sees",
+      "start": 27.912,
+      "end": 28.144
+    },
+    {
+      "text": "a",
+      "start": 28.191,
+      "end": 28.202
+    },
+    {
+      "text": "quote",
+      "start": 28.272,
+      "end": 28.539
+    },
+    {
+      "text": "before",
+      "start": 28.574,
+      "end": 28.852
+    },
+    {
+      "text": "paying:",
+      "start": 28.887,
+      "end": 29.375
+    },
+    {
+      "text": "zero",
+      "start": 29.665,
+      "end": 30.083
+    },
+    {
+      "text": "point",
+      "start": 30.164,
+      "end": 30.489
+    },
+    {
+      "text": "zero",
+      "start": 30.826,
+      "end": 31.302
+    },
+    {
+      "text": "zero",
+      "start": 31.465,
+      "end": 31.859
+    },
+    {
+      "text": "five",
+      "start": 31.929,
+      "end": 32.393
+    },
+    {
+      "text": "USDC",
+      "start": 32.73,
+      "end": 34.03
+    },
+    {
+      "text": "on",
+      "start": 34.193,
+      "end": 34.356
+    },
+    {
+      "text": "Base.",
+      "start": 34.46,
+      "end": 35.017
+    },
+    {
+      "text": "The",
+      "start": 35.749,
+      "end": 35.842
+    },
+    {
+      "text": "visitor",
+      "start": 35.888,
+      "end": 36.236
+    },
+    {
+      "text": "approves",
+      "start": 36.294,
+      "end": 36.759
+    },
+    {
+      "text": "the",
+      "start": 36.794,
+      "end": 36.863
+    },
+    {
+      "text": "exact",
+      "start": 36.921,
+      "end": 37.479
+    },
+    {
+      "text": "amount",
+      "start": 37.571,
+      "end": 38.082
+    },
+    {
+      "text": "from",
+      "start": 38.419,
+      "end": 38.593
+    },
+    {
+      "text": "their",
+      "start": 38.628,
+      "end": 38.802
+    },
+    {
+      "text": "own",
+      "start": 38.849,
+      "end": 38.988
+    },
+    {
+      "text": "wallet.",
+      "start": 39.058,
+      "end": 39.58
+    },
+    {
+      "text": "Veyra",
+      "start": 39.986,
+      "end": 40.323
+    },
+    {
+      "text": "never",
+      "start": 40.428,
+      "end": 40.636
+    },
+    {
+      "text": "receives",
+      "start": 40.695,
+      "end": 41.147
+    },
+    {
+      "text": "the",
+      "start": 41.194,
+      "end": 41.252
+    },
+    {
+      "text": "wallet",
+      "start": 41.298,
+      "end": 41.554
+    },
+    {
+      "text": "key.",
+      "start": 41.612,
+      "end": 42.088
+    },
+    {
+      "text": "Sirenic",
+      "start": 42.482,
+      "end": 42.982
+    },
+    {
+      "text": "returns",
+      "start": 43.04,
+      "end": 43.458
+    },
+    {
+      "text": "the",
+      "start": 43.504,
+      "end": 43.562
+    },
+    {
+      "text": "company",
+      "start": 43.62,
+      "end": 43.969
+    },
+    {
+      "text": "profile",
+      "start": 44.027,
+      "end": 44.537
+    },
+    {
+      "text": "for",
+      "start": 44.572,
+      "end": 44.677
+    },
+    {
+      "text": "L’Oréal,",
+      "start": 44.712,
+      "end": 45.315
+    },
+    {
+      "text": "with",
+      "start": 45.42,
+      "end": 45.582
+    },
+    {
+      "text": "active",
+      "start": 45.652,
+      "end": 46.151
+    },
+    {
+      "text": "registry",
+      "start": 46.256,
+      "end": 46.709
+    },
+    {
+      "text": "status.",
+      "start": 46.767,
+      "end": 47.417
+    },
+    {
+      "text": "Veyra",
+      "start": 47.753,
+      "end": 48.137
+    },
+    {
+      "text": "verifies",
+      "start": 48.195,
+      "end": 48.717
+    },
+    {
+      "text": "the",
+      "start": 48.763,
+      "end": 48.833
+    },
+    {
+      "text": "provider’s",
+      "start": 48.88,
+      "end": 49.379
+    },
+    {
+      "text": "Ed25519",
+      "start": 49.472,
+      "end": 50.4
+    },
+    {
+      "text": "response",
+      "start": 50.482,
+      "end": 53.396
+    },
+    {
+      "text": "signature",
+      "start": 53.431,
+      "end": 53.895
+    },
+    {
+      "text": "in",
+      "start": 53.93,
+      "end": 54
+    },
+    {
+      "text": "the",
+      "start": 54.046,
+      "end": 54.116
+    },
+    {
+      "text": "browser,",
+      "start": 54.151,
+      "end": 54.789
+    },
+    {
+      "text": "and",
+      "start": 54.975,
+      "end": 55.149
+    },
+    {
+      "text": "links",
+      "start": 55.265,
+      "end": 55.567
+    },
+    {
+      "text": "the",
+      "start": 55.613,
+      "end": 55.683
+    },
+    {
+      "text": "result",
+      "start": 55.753,
+      "end": 56.136
+    },
+    {
+      "text": "to",
+      "start": 56.171,
+      "end": 56.229
+    },
+    {
+      "text": "the",
+      "start": 56.287,
+      "end": 56.356
+    },
+    {
+      "text": "public",
+      "start": 56.414,
+      "end": 56.763
+    },
+    {
+      "text": "verification",
+      "start": 56.821,
+      "end": 57.529
+    },
+    {
+      "text": "receipt.",
+      "start": 57.599,
+      "end": 58.226
+    },
+    {
+      "text": "Payment",
+      "start": 58.853,
+      "end": 59.421
+    },
+    {
+      "text": "is",
+      "start": 59.886,
+      "end": 60.095
+    },
+    {
+      "text": "a",
+      "start": 60.141,
+      "end": 60.176
+    },
+    {
+      "text": "separate",
+      "start": 60.257,
+      "end": 60.687
+    },
+    {
+      "text": "fact.",
+      "start": 60.733,
+      "end": 61.279
+    },
+    {
+      "text": "Base",
+      "start": 61.743,
+      "end": 62.057
+    },
+    {
+      "text": "confirms",
+      "start": 62.103,
+      "end": 62.661
+    },
+    {
+      "text": "the",
+      "start": 62.707,
+      "end": 62.776
+    },
+    {
+      "text": "transaction",
+      "start": 62.834,
+      "end": 63.519
+    },
+    {
+      "text": "succeeded",
+      "start": 63.589,
+      "end": 64.158
+    },
+    {
+      "text": "in",
+      "start": 64.227,
+      "end": 64.32
+    },
+    {
+      "text": "block",
+      "start": 64.39,
+      "end": 64.657
+    },
+    {
+      "text": "57,501,654:",
+      "start": 64.738,
+      "end": 68.895
+    },
+    {
+      "text": "precisely",
+      "start": 69.231,
+      "end": 69.974
+    },
+    {
+      "text": "0.005",
+      "start": 70.265,
+      "end": 71.205
+    },
+    {
+      "text": "USDC",
+      "start": 71.53,
+      "end": 74.897
+    },
+    {
+      "text": "to",
+      "start": 75.524,
+      "end": 75.64
+    },
+    {
+      "text": "the",
+      "start": 75.698,
+      "end": 75.768
+    },
+    {
+      "text": "quoted",
+      "start": 75.826,
+      "end": 76.267
+    },
+    {
+      "text": "recipient.",
+      "start": 76.337,
+      "end": 77.115
+    },
+    {
+      "text": "The",
+      "start": 77.741,
+      "end": 77.858
+    },
+    {
+      "text": "signature",
+      "start": 77.916,
+      "end": 78.392
+    },
+    {
+      "text": "proves",
+      "start": 78.438,
+      "end": 78.868
+    },
+    {
+      "text": "the",
+      "start": 78.914,
+      "end": 78.984
+    },
+    {
+      "text": "response",
+      "start": 79.053,
+      "end": 79.541
+    },
+    {
+      "text": "came",
+      "start": 79.587,
+      "end": 79.959
+    },
+    {
+      "text": "from",
+      "start": 80.017,
+      "end": 80.203
+    },
+    {
+      "text": "the",
+      "start": 80.249,
+      "end": 80.319
+    },
+    {
+      "text": "provider.",
+      "start": 80.365,
+      "end": 81.19
+    },
+    {
+      "text": "The",
+      "start": 81.527,
+      "end": 81.643
+    },
+    {
+      "text": "Base",
+      "start": 81.701,
+      "end": 82.003
+    },
+    {
+      "text": "receipt",
+      "start": 82.049,
+      "end": 82.444
+    },
+    {
+      "text": "proves",
+      "start": 82.537,
+      "end": 82.955
+    },
+    {
+      "text": "that",
+      "start": 83.001,
+      "end": 83.129
+    },
+    {
+      "text": "payment",
+      "start": 83.187,
+      "end": 83.593
+    },
+    {
+      "text": "settled.",
+      "start": 83.675,
+      "end": 84.243
+    },
+    {
+      "text": "Neither",
+      "start": 84.615,
+      "end": 84.963
+    },
+    {
+      "text": "proves",
+      "start": 85.021,
+      "end": 85.404
+    },
+    {
+      "text": "bank",
+      "start": 85.462,
+      "end": 85.671
+    },
+    {
+      "text": "account",
+      "start": 85.706,
+      "end": 86.043
+    },
+    {
+      "text": "ownership,",
+      "start": 86.089,
+      "end": 86.763
+    },
+    {
+      "text": "payment",
+      "start": 86.937,
+      "end": 87.355
+    },
+    {
+      "text": "instructions,",
+      "start": 87.413,
+      "end": 88.295
+    },
+    {
+      "text": "sanctions",
+      "start": 88.469,
+      "end": 89.085
+    },
+    {
+      "text": "status,",
+      "start": 89.154,
+      "end": 89.886
+    },
+    {
+      "text": "or",
+      "start": 90.06,
+      "end": 90.269
+    },
+    {
+      "text": "solvency.",
+      "start": 90.362,
+      "end": 91.244
+    },
+    {
+      "text": "A",
+      "start": 91.685,
+      "end": 91.767
+    },
+    {
+      "text": "person",
+      "start": 91.836,
+      "end": 92.243
+    },
+    {
+      "text": "still",
+      "start": 92.336,
+      "end": 92.637
+    },
+    {
+      "text": "makes",
+      "start": 92.719,
+      "end": 92.974
+    },
+    {
+      "text": "the",
+      "start": 93.032,
+      "end": 93.102
+    },
+    {
+      "text": "decision.",
+      "start": 93.148,
+      "end": 93.764
+    },
+    {
+      "text": "Other",
+      "start": 94.135,
+      "end": 94.379
+    },
+    {
+      "text": "scenarios",
+      "start": 94.425,
+      "end": 95.017
+    },
+    {
+      "text": "are",
+      "start": 95.076,
+      "end": 95.168
+    },
+    {
+      "text": "clearly",
+      "start": 95.215,
+      "end": 95.586
+    },
+    {
+      "text": "marked",
+      "start": 95.656,
+      "end": 96.039
+    },
+    {
+      "text": "synthetic;",
+      "start": 96.144,
+      "end": 97.038
+    },
+    {
+      "text": "shipment",
+      "start": 97.351,
+      "end": 97.781
+    },
+    {
+      "text": "data",
+      "start": 97.827,
+      "end": 98.257
+    },
+    {
+      "text": "is",
+      "start": 98.57,
+      "end": 98.768
+    },
+    {
+      "text": "test",
+      "start": 98.837,
+      "end": 99.151
+    },
+    {
+      "text": "mode.",
+      "start": 99.232,
+      "end": 99.708
+    },
+    {
+      "text": "Veyra.",
+      "start": 100.219,
+      "end": 100.846
+    },
+    {
+      "text": "Evidence",
+      "start": 101.287,
+      "end": 101.821
+    },
+    {
+      "text": "for",
+      "start": 101.868,
+      "end": 101.972
+    },
+    {
+      "text": "decisions.",
+      "start": 102.03,
+      "end": 102.866
+    },
+    {
+      "text": "Human",
+      "start": 103.087,
+      "end": 103.505
+    },
+    {
+      "text": "judgement",
+      "start": 103.586,
+      "end": 104.155
+    },
+    {
+      "text": "stays",
+      "start": 104.491,
+      "end": 104.944
+    },
+    {
+      "text": "in",
+      "start": 105.014,
+      "end": 105.118
+    },
+    {
+      "text": "control.",
+      "start": 105.2,
+      "end": 106.221
+    }
+  ],
+  "caption_cues": [
+    {
+      "start": 0.069,
+      "end": 6.444,
+      "text": "One disputed invoice can begin with a simple question: is this the right company?"
+    },
+    {
+      "start": 6.907,
+      "end": 10.078,
+      "text": "Veyra turns that question into an evidence case."
+    },
+    {
+      "start": 10.181,
+      "end": 15.092,
+      "text": "It keeps the request, source, timestamp and confidence together,"
+    },
+    {
+      "start": 15.127,
+      "end": 19.04,
+      "text": "so a reviewer can see what is known, what remains uncertain,"
+    },
+    {
+      "start": 19.075,
+      "end": 23.023,
+      "text": "and why. The live demonstration is a French company lookup."
+    },
+    {
+      "start": 23.092,
+      "end": 29.525,
+      "text": "A visitor enters SIREN 632012100 and sees a quote before paying:"
+    },
+    {
+      "start": 29.605,
+      "end": 35.167,
+      "text": "zero point zero zero five USDC on Base."
+    },
+    {
+      "start": 35.689,
+      "end": 39.73,
+      "text": "The visitor approves the exact amount from their own wallet."
+    },
+    {
+      "start": 39.926,
+      "end": 42.238,
+      "text": "Veyra never receives the wallet key."
+    },
+    {
+      "start": 42.422,
+      "end": 47.567,
+      "text": "Sirenic returns the company profile for L’Oréal, with active registry status."
+    },
+    {
+      "start": 47.693,
+      "end": 54.88,
+      "text": "Veyra verifies the provider’s Ed25519 response signature in the browser,"
+    },
+    {
+      "start": 54.915,
+      "end": 58.376,
+      "text": "and links the result to the public verification receipt."
+    },
+    {
+      "start": 58.793,
+      "end": 61.429,
+      "text": "Payment is a separate fact."
+    },
+    {
+      "start": 61.683,
+      "end": 69.045,
+      "text": "Base confirms the transaction succeeded in block 57,501,654:"
+    },
+    {
+      "start": 69.171,
+      "end": 77.265,
+      "text": "precisely 0.005 USDC to the quoted recipient."
+    },
+    {
+      "start": 77.681,
+      "end": 81.34,
+      "text": "The signature proves the response came from the provider."
+    },
+    {
+      "start": 81.467,
+      "end": 84.393,
+      "text": "The Base receipt proves that payment settled."
+    },
+    {
+      "start": 84.555,
+      "end": 89.965,
+      "text": "Neither proves bank account ownership, payment instructions, sanctions status,"
+    },
+    {
+      "start": 90.0,
+      "end": 93.914,
+      "text": "or solvency. A person still makes the decision."
+    },
+    {
+      "start": 94.075,
+      "end": 99.858,
+      "text": "Other scenarios are clearly marked synthetic; shipment data is test mode."
+    },
+    {
+      "start": 100.159,
+      "end": 106.371,
+      "text": "Veyra. Evidence for decisions. Human judgement stays in control."
+    }
+  ]
+}

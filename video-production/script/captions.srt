@@ -1,0 +1,83 @@
+1
+00:00:00,069 --> 00:00:06,444
+One disputed invoice can begin with a simple question: is this the right company?
+
+2
+00:00:06,907 --> 00:00:10,078
+Veyra turns that question into an evidence case.
+
+3
+00:00:10,181 --> 00:00:15,092
+It keeps the request, source, timestamp and confidence together,
+
+4
+00:00:15,127 --> 00:00:19,040
+so a reviewer can see what is known, what remains uncertain,
+
+5
+00:00:19,075 --> 00:00:23,023
+and why. The live demonstration is a French company lookup.
+
+6
+00:00:23,092 --> 00:00:29,525
+A visitor enters SIREN 632012100 and sees a quote before paying:
+
+7
+00:00:29,605 --> 00:00:35,167
+zero point zero zero five USDC on Base.
+
+8
+00:00:35,689 --> 00:00:39,730
+The visitor approves the exact amount from their own wallet.
+
+9
+00:00:39,926 --> 00:00:42,238
+Veyra never receives the wallet key.
+
+10
+00:00:42,422 --> 00:00:47,567
+Sirenic returns the company profile for L’Oréal, with active registry status.
+
+11
+00:00:47,693 --> 00:00:54,880
+Veyra verifies the provider’s Ed25519 response signature in the browser,
+
+12
+00:00:54,915 --> 00:00:58,376
+and links the result to the public verification receipt.
+
+13
+00:00:58,793 --> 00:01:01,429
+Payment is a separate fact.
+
+14
+00:01:01,683 --> 00:01:09,045
+Base confirms the transaction succeeded in block 57,501,654:
+
+15
+00:01:09,171 --> 00:01:17,265
+precisely 0.005 USDC to the quoted recipient.
+
+16
+00:01:17,681 --> 00:01:21,340
+The signature proves the response came from the provider.
+
+17
+00:01:21,467 --> 00:01:24,393
+The Base receipt proves that payment settled.
+
+18
+00:01:24,555 --> 00:01:29,965
+Neither proves bank account ownership, payment instructions, sanctions status,
+
+19
+00:01:30,000 --> 00:01:33,914
+or solvency. A person still makes the decision.
+
+20
+00:01:34,075 --> 00:01:39,858
+Other scenarios are clearly marked synthetic; shipment data is test mode.
+
+21
+00:01:40,159 --> 00:01:46,371
+Veyra. Evidence for decisions. Human judgement stays in control.

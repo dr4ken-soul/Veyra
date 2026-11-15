@@ -20,3 +20,6 @@ Thumbs.db
 
 .vercel
 .env*
+
+# User-provided screenshots and payment proof contain private wallet context
+paid proof/
