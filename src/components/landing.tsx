@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import BrandLockup from "@/components/brand-lockup";
 
 const tabs = [
   {
@@ -38,7 +39,7 @@ function MobileDialog({ open, onClose }: { open: boolean; onClose: () => void })
   return (
     <dialog ref={ref} className="mobile-nav-dialog" aria-label="Site navigation" onClose={onClose}>
       <div className="dialog-head">
-        <span className="brand-word">Veyra</span>
+        <BrandLockup />
         <button className="icon-button" type="button" aria-label="Close navigation" onClick={onClose}>Close</button>
       </div>
       <nav className="mobile-nav-links">
@@ -64,7 +65,7 @@ function SiteNav() {
     <>
       <div className="site-nav-wrap">
         <div className={"site-nav " + (compact ? "is-compact" : "")}>
-          <Link className="brand-word" href="/" aria-label="Veyra home">Veyra</Link>
+          <BrandLockup href="/" />
           <nav className="desktop-nav" aria-label="Main navigation">
             <a href="#journey">How it works</a>
             <a href="#integration">Integration</a>
@@ -282,7 +283,7 @@ export default function Landing() {
       <footer className="site-footer">
         <div className="container footer-inner">
           <div>
-            <p className="brand-word">Veyra</p>
+            <BrandLockup href="/" className="footer-brand" />
             <p className="footer-copy">Built for SERV Hackathon Edition 02</p>
           </div>
           <nav aria-label="Footer">

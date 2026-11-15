@@ -1,6 +1,12 @@
+<p align="center">
+  <img src="public/brand/veyra-emblem-badge.png" alt="Veyra emblem" width="88" height="88" />
+</p>
+
 # Veyra
 
 **Buy the proof before you decide.**
+
+The site mark uses the transparent emblem in `logo/` on a dark teal tile. The browser favicon and Apple touch icon use the alternate dark-background emblem. The GitHub repository displays the Veyra mark above.
 
 Veyra turns a business evidence gap into a narrow case, a validated SERV plan, a source-aware receipt and a human review. It supports company registration lookups through Sirenic and carrier tracking through EasyPost. A company registry record never proves bank-account ownership, and Veyra never releases an invoice.
 

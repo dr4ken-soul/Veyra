@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import BrandLockup from "@/components/brand-lockup";
 import LoginForm from "@/components/login-form";
 import { requirePageSession } from "@/lib/auth";
 
@@ -19,7 +20,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   return (
     <main className="login-page">
       <div className="login-card">
-        <Link className="brand-word" href="/">Veyra</Link>
+        <BrandLockup href="/" className="login-brand" />
         <p className="eyebrow">Local workspace</p>
         <h1>Sign in</h1>
         <p className="body-copy">Use the access code configured for this local Veyra workspace.</p>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import BrandLockup from "@/components/brand-lockup";
 import { DEMO_SCENARIOS } from "@/lib/demo-data";
 import { SCENARIOS, SCENARIO_LABELS, type Scenario } from "@/lib/domain";
 import LiveCompanyLookup from "@/components/live-company-lookup";
@@ -19,7 +20,7 @@ export default function DemoPlayground({ liveWalletPaymentsEnabled }: { liveWall
   return (
     <main className="demo-page">
       <div className="demo-topbar">
-        <Link className="brand-word" href="/">Veyra</Link>
+        <BrandLockup href="/" />
         <span className="mode-label">Live lookup + examples</span>
       </div>
       <section className="demo-heading">

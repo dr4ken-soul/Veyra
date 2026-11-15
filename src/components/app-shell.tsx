@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import BrandLockup from "@/components/brand-lockup";
 
 const navItems = [
   { href: "/app/cases", label: "Cases" },
@@ -44,7 +45,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     <div className="app-root">
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <aside className="app-sidebar">
-        <Link className="brand-word sidebar-brand" href="/app/cases">Veyra</Link>
+        <BrandLockup href="/app/cases" className="sidebar-brand" />
         <p className="workspace-label">LOCAL WORKSPACE</p>
         <nav className="sidebar-nav" aria-label="Workspace">
           {navItems.map((item) => (
@@ -65,7 +66,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <div className="app-main">
         <header className="app-topbar">
           <div className="topbar-title">
-            <span className="brand-word mobile-brand">Veyra</span>
+            <BrandLockup href="/app/cases" className="mobile-brand" />
             <span className="topbar-divider" aria-hidden="true">/</span>
             <span>Local workspace</span>
           </div>
@@ -81,7 +82,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       <dialog ref={dialogRef} className="app-menu-dialog" aria-label="Workspace navigation" onClose={() => setMenuOpen(false)}>
         <div className="dialog-head">
-          <span className="brand-word">Veyra</span>
+          <BrandLockup />
           <button className="icon-button" type="button" aria-label="Close workspace menu" onClick={() => setMenuOpen(false)}>Close</button>
         </div>
         <nav className="mobile-app-nav" aria-label="Workspace">
