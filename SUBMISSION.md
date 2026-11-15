@@ -39,17 +39,27 @@ The repository includes SERV structured-output planning, Sirenic x402 company-pr
 
 Do not record the local access password, API key, `.env`, real customer records, passkeys or unverified payment activity.
 
-## Single X post draft
+## Two-post X thread draft
 
-Veyra for @openservai Hackathon 02 (Kite): SERV plans checks; operators use Passport. Visitors pay Sirenic from their own Base wallet, max $0.005 per French lookup. Veyra checks the signed record; registries can't prove bank ownership. https://veyra-tau-mauve.vercel.app/demo
+Publish these as one connected thread and use the first post's link in the hackathon form. Each post has deliberate paragraph spacing.
 
-This combines the project introduction and motivation with the build summary. It is 259 X characters after X's 23-character link conversion. The live wallet flow should be paid and signature-checked once after deployment before publishing this claim. The public post keeps the $0.005 cap and French-only scope clear. Add the [public repository](https://github.com/dr4ken-soul/Veyra) in the submission form.
+**Post 1 — introduction and problem**
 
-The X draft does not claim live shipment tracking, so it does not need an EasyPost sentence. The submission write-up identifies EasyPost as test-only and records that no $20 top-up was made.
+I'm building Veyra for @openservai Hackathon Edition 02 (Kite).
+
+When supplier bank details change, a registry lookup confirms the business exists, but cannot prove the new account belongs to them. Teams need a clear way to review this gap before paying an invoice.
+
+**Post 2 — solution and verified proof**
+
+SERV plans checks; Kite Passport gates operator payments. Visitors fund French Sirenic lookups from their Base wallet, max $0.005.
+
+We verified Sirenic's signature; Base confirmed $0.005 USDC settlement. Registry data can't prove account ownership. Demo: https://veyra-tau-mauve.vercel.app/demo
+
+The thread reflects the tested visitor-funded lookup for SIREN `632012100`: Veyra verified the Sirenic-signed record, and Base RPC confirmed the successful $0.005 USDC settlement. The demo's other evidence scenarios remain labeled synthetic. EasyPost is test-only and is not presented as live tracking. Add the [public repository](https://github.com/dr4ken-soul/Veyra) and [motion film](video-production/final/Veyra_Edition02_Motion_Film.mp4) in the submission form.
 
 **Motion-design film.** [Download the completed 109.75-second 1080p Edition 02 video](video-production/final/Veyra_Edition02_Motion_Film.mp4). It uses the live Veyra quote and provider-result screenshots plus the redacted successful BaseScan receipt. The Sirenic response signature and the independently verified 0.005 USDC Base settlement appear as separate evidence. Word-timed captions and the production source files are included under video-production/. The original payment proof with wallet details is excluded.
 
-This post has not been published.
+This thread draft has not been published.
 
 ## Submission checklist
 
